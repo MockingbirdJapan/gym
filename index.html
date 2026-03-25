@@ -111,6 +111,9 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .sc-rpe{font-size:6px;color:#2a5000;line-height:1}
 .sc-ghost{font-size:6px;color:#1e1e1e;line-height:1}
 
+/* DSEG7 SEGMENT FONT */
+@font-face{font-family:'DSEG7';src:url('https://cdn.jsdelivr.net/npm/dseg@0.46.0/fonts/DSEG7-Classic/DSEG7Classic-Regular.woff2') format('woff2');font-weight:normal;font-display:block}
+
 /* WARMUP CARD */
 .warmup-card{margin:8px 10px 6px;background:var(--gold4);border:0.5px solid var(--gold3);border-radius:7px;overflow:hidden}
 .warmup-card.dismissed{background:var(--bg2);border-color:var(--border)}
@@ -122,7 +125,40 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .warmup-opt.won{border-color:var(--gold);background:#1a1400;color:var(--gold)}
 .warmup-strip{display:flex;align-items:center;justify-content:space-between;padding:6px 12px}
 .warmup-strip-lbl{font-size:8px;color:var(--gold);letter-spacing:1px}
-.warmup-strip-time{font-size:8px;color:var(--gold2);letter-spacing:1px;font-variant-numeric:tabular-nums}
+.warmup-strip-time{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;color:var(--gold2);letter-spacing:2px;font-variant-numeric:tabular-nums}
+
+/* WARMUP FULL-SCREEN TIMER */
+.wt-screen{flex:1;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+.wt-hdr{padding:12px 18px 8px;border-bottom:0.5px solid #141414;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.wt-gym{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;color:var(--gold);letter-spacing:6px;opacity:0.45}
+.wt-meta{font-family:'Courier New',monospace;font-size:8px;color:#252525;letter-spacing:1px;text-align:right}
+.wt-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px}
+.wt-type{font-family:'Courier New',monospace;font-size:10px;color:var(--gold2);letter-spacing:5px;margin-bottom:24px}
+.wt-digit-wrap{position:relative;width:100%;text-align:center;margin-bottom:6px}
+.wt-ghost{font-family:'DSEG7',monospace;color:#1c1400;letter-spacing:4px;line-height:1;display:block;font-variant-numeric:tabular-nums;user-select:none;pointer-events:none;font-size:clamp(60px,18vw,90px)}
+.wt-live{font-family:'DSEG7',monospace;color:var(--gold);letter-spacing:4px;line-height:1;display:block;font-variant-numeric:tabular-nums;position:absolute;top:0;left:0;right:0;text-align:center;font-size:clamp(60px,18vw,90px)}
+.wt-unit{font-family:'Courier New',monospace;font-size:9px;color:#2a2000;letter-spacing:3px;text-align:center;margin-bottom:6px}
+.wt-target{font-family:'Courier New',monospace;font-size:9px;color:#1a1a1a;letter-spacing:2px;text-align:center;margin-bottom:20px;transition:color 0.5s}
+.wt-target.past{color:#1a3a1a}
+.wt-prog-wrap{width:100%;max-width:320px;height:1px;background:#141414;border-radius:1px;overflow:hidden;margin-bottom:0}
+.wt-prog-bar{height:100%;background:var(--gold3);border-radius:1px;transition:width 1s linear,background 0.5s}
+.wt-prog-bar.done{background:#1a3a1a}
+.wt-footer{padding:14px 20px 24px;flex-shrink:0}
+.wt-stop{width:100%;background:var(--gold4);border:0.5px solid var(--gold);color:var(--gold);font-family:'Courier New',monospace;font-size:11px;letter-spacing:4px;padding:16px;text-align:center;border-radius:7px;cursor:pointer;-webkit-appearance:none}
+.wt-stop:active{background:var(--gold3)}
+
+/* LANDSCAPE OVERRIDES for warmup timer */
+@media (orientation:landscape){
+  .wt-body{flex-direction:row;align-items:center;justify-content:space-around;padding:0 28px;gap:24px}
+  .wt-left{display:flex;flex-direction:column;align-items:center;flex:1}
+  .wt-right{display:flex;flex-direction:column;align-items:center;gap:14px;flex-shrink:0}
+  .wt-ghost{font-size:clamp(48px,12vw,72px)}
+  .wt-live{font-size:clamp(48px,12vw,72px)}
+  .wt-type{margin-bottom:0;letter-spacing:4px;font-size:9px}
+  .wt-footer{display:none}
+  .wt-stop-land{display:flex!important}
+  .wt-prog-wrap{max-width:260px}
+}
 
 /* MID NOTES */
 .mid-notes{margin:6px 10px 4px;background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:6px 9px;display:flex;align-items:flex-start;gap:6px}
@@ -427,6 +463,33 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   </div>
 </div>
 
+
+<div class="screen" id="screen-warmup-timer">
+  <div class="wt-screen">
+    <div class="wt-hdr">
+      <div class="wt-gym">GYM</div>
+      <div class="wt-meta" id="wt-meta"></div>
+    </div>
+    <div class="wt-body">
+      <div class="wt-left" id="wt-left">
+        <div class="wt-type" id="wt-type-lbl">TREADMILL</div>
+        <div class="wt-digit-wrap" id="wt-digit-wrap">
+          <span class="wt-ghost" id="wt-ghost">88:88</span>
+          <span class="wt-live" id="wt-live">00:00</span>
+        </div>
+        <div class="wt-unit">min · sec</div>
+        <div class="wt-target" id="wt-target">target · 05:00</div>
+        <div class="wt-prog-wrap"><div class="wt-prog-bar" id="wt-prog-bar" style="width:0%"></div></div>
+      </div>
+      <div class="wt-right" id="wt-right" style="display:none">
+        <div class="wt-type" id="wt-type-lbl-land" style="margin-bottom:8px"></div>
+        <button class="wt-stop wt-stop-land" id="wt-stop-land" style="display:none;width:130px;font-size:9px;padding:12px;letter-spacing:3px" onclick="stopWarmup()">STOP</button>
+      </div>
+    </div>
+    <div class="wt-footer"><button class="wt-stop" onclick="stopWarmup()">STOP</button></div>
+  </div>
+</div>
+
 <div class="screen" id="screen-history">
   <div class="hdr"><div><div class="gym-title" style="font-size:18px;letter-spacing:4px">HISTORY</div><div class="hdr-sub">tap exercise to view</div></div></div>
   <div class="scroll-body">
@@ -682,11 +745,12 @@ function tickSession(){
   const s=Math.floor((Date.now()-S.sessionStart)/1000),m=Math.floor(s/60),sec=s%60;
   const txt=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
   if(el)el.textContent=txt;if(rel)rel.textContent=txt;
-  if(S.warmupStart&&!S.warmupDismissed){
+  if(S.warmupStart){
     const ws=Math.floor((Date.now()-S.warmupStart)/1000),wm=Math.floor(ws/60),wsec=ws%60;
     const wt=document.getElementById('warmup-strip-time');
     if(wt)wt.textContent=String(wm).padStart(2,'0')+':'+String(wsec).padStart(2,'0');
   }
+  tickWarmupTimer();
 }
 
 function renderSession(){
@@ -698,9 +762,10 @@ function renderSession(){
     html+=`<div class="warmup-card"><div class="warmup-inner">
       <div class="warmup-lbl">WARMUP</div>
       <div class="warmup-opts">
-        <button class="warmup-opt ${S.warmupType==='TREADMILL'?'won':'woff'}" onclick="selectWarmup('TREADMILL')">${S.warmupType==='TREADMILL'?'TREADMILL ✓':'TREADMILL'}</button>
-        <button class="warmup-opt ${S.warmupType==='CYCLE'?'won':'woff'}" onclick="selectWarmup('CYCLE')">${S.warmupType==='CYCLE'?'CYCLE ✓':'CYCLE'}</button>
+        <button class="warmup-opt ${S.warmupType==='TREADMILL'?'won':'woff'}" onclick="selectWarmup('TREADMILL')">${S.warmupType==='TREADMILL'?'TREADMILL \u25b6 running':'TREADMILL'}</button>
+        <button class="warmup-opt ${S.warmupType==='CYCLE'?'won':'woff'}" onclick="selectWarmup('CYCLE')">${S.warmupType==='CYCLE'?'CYCLE \u25b6 running':'CYCLE'}</button>
       </div>
+      ${S.warmupType?`<div style="font-size:7px;color:var(--gold3);text-align:center;margin-top:5px;letter-spacing:0.5px">tap to return to timer</div>`:''}
     </div></div>`;
   }else{
     const ws=S.warmupStart?Math.floor((Date.now()-S.warmupStart)/1000):0;
@@ -856,9 +921,53 @@ function toggleAccPerSet(ei,acc,si){
 function setRotStage(ei,stage){S.exercises[ei].rotStage=stage;renderSession();}
 function setFtAtt(ei,att){S.exercises[ei].ftAtt=S.exercises[ei].ftAtt===att?null:att;renderSession();}
 function selectWarmup(type){
-  if(S.warmupType===type){S.warmupDismissed=true;}
-  else{S.warmupType=type;if(!S.warmupStart)S.warmupStart=Date.now();}
+  S.warmupType=type;
+  if(!S.warmupStart)S.warmupStart=Date.now();
+  openWarmupTimer();
+}
+
+function openWarmupTimer(){
+  const el=document.getElementById('wt-type-lbl');
+  const elL=document.getElementById('wt-type-lbl-land');
+  const meta=document.getElementById('wt-meta');
+  if(el)el.textContent=S.warmupType||'WARMUP';
+  if(elL)elL.textContent=S.warmupType||'WARMUP';
+  if(meta)meta.textContent=(S.day||'')+' · '+fmtShort(new Date()).toUpperCase();
+  updateWarmupTimerUI();
+  show('warmup-timer');
+}
+
+function updateWarmupTimerUI(){
+  if(!S.warmupStart)return;
+  const elapsed=Math.floor((Date.now()-S.warmupStart)/1000);
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  const txt=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  const liveEl=document.getElementById('wt-live');
+  const targetEl=document.getElementById('wt-target');
+  const progEl=document.getElementById('wt-prog-bar');
+  if(liveEl)liveEl.textContent=txt;
+  const TARGET=300;
+  const pct=Math.min(100,Math.round((elapsed/TARGET)*100));
+  if(progEl){progEl.style.width=pct+'%';if(elapsed>=TARGET)progEl.classList.add('done');else progEl.classList.remove('done');}
+  if(targetEl){
+    if(elapsed>=TARGET){targetEl.textContent='05:00 \u2713 \u00b7 keep going';targetEl.classList.add('past');}
+    else{targetEl.textContent='target \u00b7 05:00';targetEl.classList.remove('past');}
+  }
+  // update strip time if visible
+  const stripEl=document.getElementById('warmup-strip-time');
+  if(stripEl)stripEl.textContent=txt;
+}
+
+function stopWarmup(){
+  S.warmupDismissed=true;
+  show('session');
   renderSession();
+}
+
+function tickWarmupTimer(){
+  if(document.getElementById('screen-warmup-timer').classList.contains('active')){
+    updateWarmupTimerUI();
+  }
 }
 
 // DRAG TO REORDER
