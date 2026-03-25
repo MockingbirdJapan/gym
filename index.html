@@ -11,8 +11,8 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --gold:#FFD700;--gold2:#b89a00;--gold3:#2a2000;--gold4:#0f0c00;
-  --bg:#0a0a0a;--bg2:#111;--bg3:#161616;--bg4:#1e1e1e;
-  --border:#1e1e1e;--border2:#2a2a2a;--border3:#333;
+  --bg:#0a0a0a;--bg2:#111;--bg3:#161616;
+  --border:#1e1e1e;--border2:#2a2a2a;
   --txt:#e0e0e0;--txt2:#888;--txt3:#3a3a3a;--txt4:#555;
   --green:#1a8a3a;--green2:#0a1a0a;--green3:#0f2a0f;
   --red:#8a2020;--red2:#1a0808
@@ -30,27 +30,37 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .ndot{width:5px;height:5px;border-radius:50%;background:var(--green)}
 .nlbl{font-size:9px;color:var(--green);letter-spacing:0.5px}
 .timer-disp{font-size:9px;color:var(--txt2);letter-spacing:1px;font-variant-numeric:tabular-nums}
-.scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:20px}
+.scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px}
 .nav-bar{flex-shrink:0;display:flex;border-top:0.5px solid var(--border);background:var(--bg)}
 .nav-btn{flex:1;padding:10px 4px 8px;font-family:'Courier New',monospace;font-size:7px;color:var(--txt3);letter-spacing:1px;text-align:center;cursor:pointer;border:none;background:none;-webkit-appearance:none}
 .nav-btn.nav-active{color:var(--gold)}
 .nav-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);margin:3px auto 0;display:none}
 .nav-btn.nav-active .nav-dot{display:block}
 .sec-hdr{padding:7px 14px 3px;font-size:8px;letter-spacing:3px;color:var(--gold2)}
-.ex-card{margin:0 10px 4px;background:var(--bg2);border:0.5px solid var(--border);border-radius:7px;overflow:hidden;transition:opacity 0.2s}
+
+/* EXERCISE CARDS */
+.ex-card{margin:0 10px 4px;background:var(--bg2);border:0.5px solid var(--border);border-radius:7px;overflow:hidden;transition:opacity 0.2s,transform 0.15s,border-color 0.15s}
 .ex-card.skipped{opacity:0.25}
 .ex-card.skipped .ex-body{display:none}
+.ex-card.drag-over{border-color:var(--gold3)}
+.ex-card.dragging{opacity:0.5;transform:scale(0.98);border-color:var(--gold);background:var(--gold4)}
 .ex-top{display:flex;align-items:center;padding:7px 10px;gap:6px}
+.drag-handle{font-size:10px;color:var(--txt3);cursor:grab;padding:0 2px;user-select:none;flex-shrink:0;letter-spacing:-1px}
+.drag-handle:active{cursor:grabbing;color:var(--gold2)}
 .ex-nm{font-size:10px;color:var(--txt);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
 .ex-nm.struck{text-decoration:line-through;color:var(--txt3)}
 .ol-arrow{font-size:9px;color:var(--green);margin-left:2px}
 .alt-chevron{font-size:9px;color:var(--txt3);background:none;border:none;cursor:pointer;font-family:'Courier New',monospace;padding:2px 3px;border-radius:2px;margin-left:1px}
 .skip-btn{width:20px;height:20px;border-radius:50%;border:0.5px solid var(--border2);background:none;color:var(--txt3);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding:0;-webkit-appearance:none}
+
+/* ALT PANEL */
 .alt-panel{display:none;background:var(--bg3);border-top:0.5px solid var(--border);padding:6px 10px 8px}
 .alt-panel.open{display:block}
 .alt-title{font-size:7px;color:var(--txt3);letter-spacing:1.5px;margin-bottom:5px}
 .alt-opt{font-size:9px;color:var(--txt2);padding:5px 8px;border-radius:3px;cursor:pointer;border:0.5px solid transparent;margin-bottom:2px}
 .alt-opt.selected{border-color:var(--gold);color:var(--gold);background:var(--gold3)}
+
+/* ACCESSORIES */
 .acc-row{display:flex;align-items:center;padding:0 10px 4px;gap:4px;flex-wrap:wrap}
 .acc-chip{display:flex;align-items:center;gap:3px;border-radius:3px;padding:3px 6px;border:0.5px solid;cursor:pointer;font-size:7px;letter-spacing:0.3px;-webkit-appearance:none}
 .acc-chip.off{border-color:#141414;background:var(--bg);color:#1e1e1e}
@@ -62,6 +72,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .psa-chip{border-radius:2px;padding:2px 5px;font-size:6px;border:0.5px solid;cursor:pointer;font-family:'Courier New',monospace;-webkit-appearance:none}
 .psa-chip.pon{border-color:var(--gold3);background:var(--gold4);color:#554400}
 .psa-chip.poff{border-color:#141414;background:var(--bg);color:#1a1a1a;text-decoration:line-through}
+
+/* RO-T8 */
 .rot-row{display:flex;align-items:center;padding:0 10px 3px;gap:4px}
 .rot-lbl{font-size:6px;color:#252525;letter-spacing:0.5px;flex-shrink:0}
 .rot-stages{display:flex;gap:2px;flex:1}
@@ -69,15 +81,19 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .rot-stage.soff{border-color:#141414;background:var(--bg);color:#1e1e1e}
 .rot-stage.son{border-color:var(--gold);background:var(--gold4);color:var(--gold)}
 .rot-bar-wrap{display:flex;align-items:flex-end;gap:2px;padding:0 10px 5px}
-.rot-bar-wide-lbl{font-size:5.5px;color:#141414;margin-right:2px;flex-shrink:0}
-.rot-bar-narrow-lbl{font-size:5.5px;color:#141414;margin-left:2px;flex-shrink:0}
+.rot-wl{font-size:5.5px;color:#141414;margin-right:2px;flex-shrink:0}
+.rot-nl{font-size:5.5px;color:#141414;margin-left:2px;flex-shrink:0}
 .rot-seg{border-radius:1px 1px 0 0;background:#141414;border-top:0.5px solid #1e1e1e}
 .rot-seg.seg-on{background:var(--gold3);border-top-color:var(--gold2)}
+
+/* FT ATTACHMENTS */
 .ft-att-row{display:flex;align-items:center;padding:0 10px 5px;gap:3px;flex-wrap:wrap}
 .ft-att-lbl{font-size:6px;color:#252525;letter-spacing:0.5px;margin-right:2px}
 .ft-att-chip{border-radius:2px;padding:3px 6px;font-size:7px;border:0.5px solid;cursor:pointer;font-family:'Courier New',monospace;-webkit-appearance:none}
 .ft-att-chip.foff{border-color:#141414;background:var(--bg);color:#1e1e1e}
 .ft-att-chip.fon{border-color:var(--gold3);background:var(--gold4);color:var(--gold2)}
+
+/* SET CHIPS */
 .sets-row{display:flex;padding:0 9px 5px;gap:4px}
 .adj-row{display:flex;align-items:center;gap:5px;padding:0 9px 6px}
 .adj-btn{width:18px;height:18px;border-radius:3px;border:0.5px solid var(--border2);background:none;color:var(--txt2);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;padding:0;-webkit-appearance:none}
@@ -94,10 +110,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .sc-pr-ring{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--gold)}
 .sc-rpe{font-size:6px;color:#2a5000;line-height:1}
 .sc-ghost{font-size:6px;color:#1e1e1e;line-height:1}
-.mid-notes{margin:6px 10px 4px;background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:6px 9px;display:flex;align-items:flex-start;gap:6px}
-.mid-notes-txt{flex:1;background:none;border:none;font-family:'Courier New',monospace;font-size:8px;color:var(--txt2);resize:none;min-height:18px;max-height:60px;line-height:1.5;padding:0;outline:none}
-.mid-notes-txt::placeholder{color:#1e1e1e;font-style:italic}
-.mid-notes-mic{font-size:7px;color:#2a2000;border:0.5px solid var(--gold3);background:var(--gold4);border-radius:2px;padding:2px 5px;cursor:pointer;flex-shrink:0;font-family:'Courier New',monospace;-webkit-appearance:none}
+
+/* WARMUP CARD */
 .warmup-card{margin:8px 10px 6px;background:var(--gold4);border:0.5px solid var(--gold3);border-radius:7px;overflow:hidden}
 .warmup-card.dismissed{background:var(--bg2);border-color:var(--border)}
 .warmup-inner{padding:8px 12px}
@@ -109,6 +123,14 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .warmup-strip{display:flex;align-items:center;justify-content:space-between;padding:6px 12px}
 .warmup-strip-lbl{font-size:8px;color:var(--gold);letter-spacing:1px}
 .warmup-strip-time{font-size:8px;color:var(--gold2);letter-spacing:1px;font-variant-numeric:tabular-nums}
+
+/* MID NOTES */
+.mid-notes{margin:6px 10px 4px;background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:6px 9px;display:flex;align-items:flex-start;gap:6px}
+.mid-notes-txt{flex:1;background:none;border:none;font-family:'Courier New',monospace;font-size:8px;color:var(--txt2);resize:none;min-height:18px;max-height:60px;line-height:1.5;padding:0;outline:none}
+.mid-notes-txt::placeholder{color:#1e1e1e;font-style:italic}
+.mid-notes-mic{font-size:7px;color:#2a2000;border:0.5px solid var(--gold3);background:var(--gold4);border-radius:2px;padding:2px 5px;cursor:pointer;flex-shrink:0;font-family:'Courier New',monospace;-webkit-appearance:none}
+
+/* MODAL */
 .modal-bg{flex:1;overflow-y:auto;background:rgba(0,0,0,0.92);padding:12px}
 .modal{background:#141414;border:0.5px solid var(--border2);border-radius:9px;padding:14px}
 .m-ex{font-size:8px;color:var(--txt3);letter-spacing:2px;margin-bottom:2px}
@@ -146,6 +168,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .rpe-scale{font-size:7px;color:#252525;text-align:center;margin-bottom:10px;line-height:1.6}
 .m-log{background:var(--gold4);border:0.5px solid var(--gold);color:var(--gold);font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;padding:10px;width:100%;text-align:center;border-radius:5px;cursor:pointer;-webkit-appearance:none}
 .m-cancel{font-size:8px;color:var(--txt3);text-align:center;margin-top:10px;cursor:pointer;letter-spacing:1px;padding:4px 0}
+
+/* REST */
 .rest-body{flex:1;padding:16px;overflow-y:auto}
 .rest-ex{font-size:8px;color:#444;letter-spacing:2px;margin-bottom:2px}
 .rest-logged{font-size:9px;color:var(--green);margin-bottom:14px;letter-spacing:0.5px}
@@ -162,6 +186,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .rest-pre{font-size:8px;color:var(--txt3);border:0.5px solid var(--border);background:var(--bg2);border-radius:3px;padding:5px 10px;cursor:pointer;font-family:'Courier New',monospace;-webkit-appearance:none}
 .rest-pre.pre-active{color:var(--gold2);border-color:var(--gold3);background:var(--gold4)}
 .rest-toggle{font-size:8px;color:#1a4a1a;text-align:center;cursor:pointer;letter-spacing:0.5px;padding:4px 0}
+
+/* HISTORY */
 .hist-body{padding:12px 14px}
 .hist-ex-list{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
 .hist-ex-btn{font-size:8px;color:var(--txt3);border:0.5px solid var(--border);background:var(--bg2);border-radius:3px;padding:4px 7px;cursor:pointer;font-family:'Courier New',monospace;-webkit-appearance:none}
@@ -176,6 +202,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .hist-chip{background:var(--gold4);border:0.5px solid var(--gold3);border-radius:3px;padding:2px 7px;font-size:7px;color:#554400}
 .hist-chip.wu-h{background:#060500;border-color:#1a1200;color:#2a2000}
 .hist-empty{font-size:9px;color:var(--txt3);text-align:center;padding:24px 0}
+
+/* DONE */
 .done-body{padding:12px 14px}
 .done-title{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:100;color:var(--gold);letter-spacing:5px}
 .done-saved{font-size:8px;color:var(--green);margin-top:3px;letter-spacing:0.5px}
@@ -204,6 +232,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .done-btns{display:flex;gap:6px;margin-top:10px}
 .done-btn{flex:1;background:var(--bg2);border:0.5px solid var(--border);color:var(--txt2);font-family:'Courier New',monospace;font-size:8px;letter-spacing:1px;padding:9px;text-align:center;border-radius:4px;cursor:pointer;-webkit-appearance:none}
 .done-btn.primary{background:var(--gold4);border-color:var(--gold);color:var(--gold)}
+
+/* SETUP */
 .setup-body{padding:18px 16px;overflow-y:auto;flex:1}
 .setup-icon{width:36px;height:36px;border-radius:50%;border:0.5px solid var(--gold3);background:var(--gold4);display:flex;align-items:center;justify-content:center;margin-bottom:11px}
 .setup-n{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;color:var(--gold)}
@@ -226,6 +256,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .setup-skip{font-size:8px;color:var(--txt3);text-align:center;cursor:pointer;letter-spacing:0.5px;padding:5px 0}
 .setup-err{font-size:8px;color:var(--red);margin-bottom:8px;display:none;padding:4px 0}
 .setup-note{font-size:7px;color:#1e1e1e;text-align:center;margin-top:10px;line-height:1.7}
+
+/* HOME */
 .day-cards{padding:10px 14px;display:flex;flex-direction:column;gap:7px}
 .dc{border-radius:7px;padding:10px 12px;cursor:pointer;border:0.5px solid var(--border);background:var(--bg2)}
 .dc-tag{font-size:13px;letter-spacing:3px;font-weight:700}
@@ -233,6 +265,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .dc-muscles{font-size:8px;color:var(--txt3);margin-top:2px;letter-spacing:0.5px}
 .dc-last{font-size:8px;color:#252525;margin-top:3px}
 .home-tip{font-size:7px;color:#1e1e1e;text-align:center;padding:8px 0;letter-spacing:1px}
+
+/* SETTINGS */
 .settings-body{padding:16px;overflow-y:auto;flex:1}
 .settings-sec-lbl{font-size:7px;color:#444;letter-spacing:2px;margin-bottom:8px;margin-top:14px}
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:0.5px solid var(--border)}
@@ -258,7 +292,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
     <div class="guide-body" id="guide-body">
       <div class="guide-step"><b>Step 1 — Create integration</b><br>Go to <span class="guide-code">notion.so/my-integrations</span> → New integration → name it "Gym App" → copy the <span class="guide-code">Internal Integration Secret</span></div>
       <div class="guide-div"></div>
-      <div class="guide-step"><b>Step 2 — Share your database</b><br>Open your <span class="guide-code">Session Log</span> database → ··· → Connections → find your integration → Connect</div>
+      <div class="guide-step"><b>Step 2 — Share your database</b><br>Open <span class="guide-code">Session Log</span> database → ··· → Connections → find your integration → Connect</div>
       <div class="guide-div"></div>
       <div class="guide-step"><b>Step 3 — Get Database ID</b><br>Open Session Log in browser → copy URL. ID is the 32-char string after the last <span class="guide-code">/</span> and before any <span class="guide-code">?</span></div>
     </div>
@@ -292,21 +326,9 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   </div>
   <div class="scroll-body">
     <div class="day-cards">
-      <div class="dc" id="dc-push" onclick="startSession('PUSH')">
-        <div class="dc-tag push-tag">PUSH</div>
-        <div class="dc-muscles">CHEST · SHOULDERS · TRICEPS</div>
-        <div class="dc-last" id="last-push">last: —</div>
-      </div>
-      <div class="dc" onclick="startSession('PULL')">
-        <div class="dc-tag pull-tag">PULL</div>
-        <div class="dc-muscles">BACK · BICEPS</div>
-        <div class="dc-last" id="last-pull">last: —</div>
-      </div>
-      <div class="dc" onclick="startSession('LEGS')">
-        <div class="dc-tag legs-tag">LEGS</div>
-        <div class="dc-muscles">QUADS · HAMSTRINGS · GLUTES</div>
-        <div class="dc-last" id="last-legs">last: —</div>
-      </div>
+      <div class="dc" onclick="startSession('PUSH')"><div class="dc-tag push-tag">PUSH</div><div class="dc-muscles">CHEST · SHOULDERS · TRICEPS</div><div class="dc-last" id="last-push">last: —</div></div>
+      <div class="dc" onclick="startSession('PULL')"><div class="dc-tag pull-tag">PULL</div><div class="dc-muscles">BACK · BICEPS</div><div class="dc-last" id="last-pull">last: —</div></div>
+      <div class="dc" onclick="startSession('LEGS')"><div class="dc-tag legs-tag">LEGS</div><div class="dc-muscles">QUADS · HAMSTRINGS · GLUTES</div><div class="dc-last" id="last-legs">last: —</div></div>
     </div>
     <div class="home-tip">tap day to begin session</div>
   </div>
@@ -327,7 +349,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   </div>
   <div class="scroll-body" id="session-body"></div>
   <div class="nav-bar">
-    <button class="nav-btn" id="end-session-btn" onclick="confirmEnd()" style="color:#886600">END SESSION</button>
+    <button class="nav-btn" onclick="confirmEnd()" style="color:#886600">END SESSION</button>
     <button class="nav-btn" onclick="goHistory()">HISTORY</button>
     <button class="nav-btn nav-active">SESSION<div class="nav-dot"></div></button>
   </div>
@@ -460,7 +482,6 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 </div>
 
 </div>
-
 <script>
 const DB_WEIGHTS=[1,2,3,4,5,6,7,8,9,10,12.5,15,17.5,20,22.5,25,27.5];
 const SMITH_PLATES=[1.25,2.5,5,10,15,20];
@@ -468,54 +489,71 @@ const EZBAR_PLATES=[1.25,2.5,5,10,15,20];
 const REST_PRESETS=[60,90,120,180];
 const QUICK_TAGS=['good session','felt strong','tired','joint pain','new PR day','cut session short','go up next week','tried new weight'];
 
-const EXERCISES={
+const BASE_EXERCISES={
   PUSH:[
-    {name:'Smith Incline Press',alts:['Smith Flat Press'],section:'CHEST',wt:'smith',acc:['wraps']},
-    {name:'Smith OH Press',alts:[],section:'SHOULDERS',wt:'smith',acc:['wraps']},
-    {name:'Chest Fly (FT)',alts:[],section:'CHEST',wt:'ft',acc:['wraps'],ftAtts:['Kaz bar','Neoprene rope']},
-    {name:'DB Lateral Raise',alts:['FT Lateral Raise'],section:'SHOULDERS',wt:'db',acc:[]},
-    {name:'Tricep Pushdown (Lat)',alts:['OH Tricep Ext (FT)'],section:'TRICEPS',wt:'stack',acc:['wraps']}
+    {name:'Smith Incline Press',alt:'Smith Flat Press',sec:'CHEST',wt:'smith',acc:['wraps']},
+    {name:'Smith OH Press',alt:'DB Shoulder Press',sec:'SHOULDERS',wt:'smith',acc:['wraps']},
+    {name:'Chest Fly (FT)',alt:'Cable Crossover (FT)',sec:'CHEST',wt:'ft',acc:['wraps'],ftAtts:['Kaz bar','Neoprene rope']},
+    {name:'DB Lateral Raise',alt:'FT Lateral Raise',sec:'SHOULDERS',wt:'db',acc:[]},
+    {name:'Tricep Pushdown (Lat)',alt:'OH Tricep Ext (FT)',sec:'TRICEPS',wt:'stack',acc:['wraps']}
   ],
   PULL:[
-    {name:'Lat Pulldown Wide',alts:[],section:'BACK',wt:'stack',acc:['hooks'],rot:'lat'},
-    {name:'Lat Row Medium',alts:[],section:'BACK',wt:'stack',acc:['hooks'],rot:'row'},
-    {name:'Lat Pulldown Close',alts:[],section:'BACK',wt:'stack',acc:['hooks'],rot:'lat'},
-    {name:'EZ Bar Curl',alts:['Bar Curl (FT)'],section:'BICEPS',wt:'ezbar',acc:[]},
-    {name:'DB Hammer Curl',alts:[],section:'BICEPS',wt:'db',acc:[]}
+    {name:'Lat Pulldown Wide',alt:'Lat Pulldown Underhand',sec:'BACK',wt:'stack',acc:['hooks'],rot:'lat'},
+    {name:'Lat Pulldown Close',alt:'Straight Arm Pulldown (Lat)',sec:'BACK',wt:'stack',acc:['hooks'],rot:'lat'},
+    {name:'Lat Row Medium',alt:'Lat Row Wide',sec:'BACK',wt:'stack',acc:['hooks'],rot:'row'},
+    {name:'EZ Bar Curl',alt:'Bar Curl (FT)',sec:'BICEPS',wt:'ezbar',acc:[]},
+    {name:'DB Hammer Curl',alt:'Incline DB Curl',sec:'BICEPS',wt:'db',acc:[]}
   ],
   LEGS:[
-    {name:'Smith Machine Squat',alts:['Straight Bar Squat (needs rack)'],section:'QUADS',wt:'smith',acc:['belt']},
-    {name:'Prone Machine Curl',alts:[],section:'HAMSTRINGS',wt:'stack',acc:[]},
-    {name:'Leg Extension',alts:[],section:'QUADS',wt:'stack',acc:[]},
-    {name:'Hip Thrust Machine',alts:[],section:'GLUTES',wt:'smith',acc:['belt']}
+    {name:'Smith Machine Squat',alt:'Straight Bar Squat (needs rack)',sec:'QUADS',wt:'smith',acc:['belt']},
+    {name:'Prone Machine Curl',alt:'Single Leg Prone Curl',sec:'HAMSTRINGS',wt:'stack',acc:[]},
+    {name:'Leg Extension',alt:'Single Leg Extension',sec:'QUADS',wt:'stack',acc:[]},
+    {name:'Hip Thrust Machine',alt:'Smith Machine Hip Thrust',sec:'GLUTES',wt:'smith',acc:['belt']}
   ]
 };
 
-const FT_ATTS_FOR={
+// Per-alt overrides for wt type and accessories
+const ALT_META={
+  'Smith Flat Press':{wt:'smith',acc:['wraps']},
+  'DB Shoulder Press':{wt:'db',acc:[]},
+  'Cable Crossover (FT)':{wt:'ft',acc:['wraps'],ftAtts:['Kaz bar','Neoprene rope']},
+  'FT Lateral Raise':{wt:'ft',acc:[]},
+  'OH Tricep Ext (FT)':{wt:'ft',acc:['wraps'],ftAtts:['Neoprene rope']},
+  'Lat Pulldown Underhand':{wt:'stack',acc:['hooks'],rot:'lat'},
+  'Straight Arm Pulldown (Lat)':{wt:'stack',acc:['hooks']},
+  'Lat Row Wide':{wt:'stack',acc:['hooks'],rot:'row'},
+  'Bar Curl (FT)':{wt:'ft',acc:[],ftAtts:['Straight bar','Kaz bar']},
+  'Incline DB Curl':{wt:'db',acc:[]},
+  'Straight Bar Squat (needs rack)':{wt:'ezbar',acc:['belt']},
+  'Single Leg Prone Curl':{wt:'stack',acc:[]},
+  'Single Leg Extension':{wt:'stack',acc:[]},
+  'Smith Machine Hip Thrust':{wt:'smith',acc:['belt']}
+};
+
+const FT_ATTS_DEFAULT={
   'Chest Fly (FT)':['Kaz bar','Neoprene rope'],
+  'Cable Crossover (FT)':['Kaz bar','Neoprene rope'],
   'FT Lateral Raise':['Kaz bar'],
   'OH Tricep Ext (FT)':['Neoprene rope'],
   'Bar Curl (FT)':['Straight bar','Kaz bar']
 };
 
-const ALT_WT={'Smith Flat Press':'smith','FT Lateral Raise':'ft','OH Tricep Ext (FT)':'ft','Bar Curl (FT)':'ft','Straight Bar Squat (needs rack)':'ezbar'};
-const ALT_ACC={'Smith Flat Press':['wraps'],'OH Tricep Ext (FT)':['wraps'],'Bar Curl (FT)':[],'FT Lateral Raise':[],'Straight Bar Squat (needs rack)':['belt']};
-const ALT_ROT={'Bar Curl (FT)':null,'FT Lateral Raise':null};
-
 let prevScreen='home';
 let S={
   day:null,exercises:[],sessionStart:null,sessionTimerInt:null,
   restTimerInt:null,restRemaining:0,restTotal:90,restEnabled:true,restPreset:90,
-  warmupStart:null,warmupTimerInt:null,warmupType:null,warmupDismissed:false,
+  warmupStart:null,warmupType:null,warmupDismissed:false,
   modal:{ei:null,si:null,isWU:false},currentKg:0,currentRpe:null,
   holdInt:null,holdTO:null,
   prs:{},notionKey:'',notionDb:'',history:{},lastSessions:{},
-  accState:{},rotState:{},ftAttState:{},accPerSet:{},
-  midNotes:''
+  accState:{},rotState:{},ftAttState:{},
+  midNotes:'',
+  dragSrc:null
 };
 
 function ls(k,v){if(v!==undefined){try{localStorage.setItem(k,v);}catch(e){}return v;}try{return localStorage.getItem(k);}catch(e){return null;}}
 function saveData(){ls('gym_history',JSON.stringify(S.history));ls('gym_lasts',JSON.stringify(S.lastSessions));ls('gym_prs',JSON.stringify(S.prs));ls('gym_acc',JSON.stringify(S.accState));ls('gym_rot',JSON.stringify(S.rotState));ls('gym_ftatt',JSON.stringify(S.ftAttState));}
+function saveOrder(){ls('gym_order_PUSH',JSON.stringify(S.exercises.map(e=>e.name)));} // saved per session only
 
 function init(){
   S.notionKey=ls('gym_key')||'';S.notionDb=ls('gym_db')||'';
@@ -531,7 +569,7 @@ function init(){
   updateHomeDate();updateLastLabels();buildHistList();
 }
 
-function show(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+name).classList.add('active');}
+function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');}
 function goHome(){prevScreen='home';show('home');}
 function goHistory(){prevScreen='history';buildHistList();show('history');}
 function goSettings(){
@@ -575,10 +613,17 @@ function updateLastLabels(){['PUSH','PULL','LEGS'].forEach(day=>{const el=docume
 function fmt(n){return parseFloat(parseFloat(n).toFixed(2));}
 function fmtDisp(n){const v=parseFloat(parseFloat(n).toFixed(2));return v===Math.floor(v)?Math.floor(v).toString():v.toString();}
 
-function getWtType(ex){return ALT_WT[ex.currentName]||ex.wtType||'stack';}
-function getAcc(ex){return ALT_ACC[ex.currentName]!==undefined?ALT_ACC[ex.currentName]:(ex.accTypes||[]);}
-function getRot(ex){return ALT_ROT[ex.currentName]!==undefined?ALT_ROT[ex.currentName]:ex.rot;}
-function getFtAtts(ex){return FT_ATTS_FOR[ex.currentName]||ex.ftAtts||[];}
+function getMeta(ex){
+  if(ex.currentName!==ex.baseName){
+    const m=ALT_META[ex.currentName];
+    if(m)return m;
+  }
+  return{wt:ex.wt,acc:ex.acc||[],rot:ex.rot||null,ftAtts:ex.ftAtts||[]};
+}
+function getFtAtts(ex){
+  const m=getMeta(ex);if(m.ftAtts)return m.ftAtts;
+  return FT_ATTS_DEFAULT[ex.currentName]||[];
+}
 
 function getLastKg(exName,wIdx,isWU){
   const h=S.history[exName];if(!h||!h.length)return null;
@@ -593,39 +638,33 @@ function getOverloadReady(exName){
   const ws=last.sets.filter(s=>!s.wu&&s.rpe!==null&&s.kg!==null);
   return ws.length>=2&&ws.every(s=>s.rpe<=7);
 }
-function getDeload(exName,currentTopKg){
+function getDeload(exName,topKg){
   const h=S.history[exName];if(!h||!h.length)return false;
   const last=h[h.length-1];if(!last||!last.sets)return false;
-  const ws=last.sets.filter(s=>!s.wu&&s.kg!==null);
-  if(!ws.length)return false;
+  const ws=last.sets.filter(s=>!s.wu&&s.kg!==null);if(!ws.length)return false;
   const lastTop=Math.max(...ws.map(s=>s.kg));
-  return currentTopKg>0&&currentTopKg<lastTop*0.9;
+  return topKg>0&&topKg<lastTop*0.9;
 }
-
 function calcPlates(target,plates){
   let rem=parseFloat(target.toFixed(2));const used=[];
   const sorted=[...plates].sort((a,b)=>b-a);
   for(const p of sorted){while(rem>=p-0.001&&used.filter(x=>x===p).length<2){used.push(p);rem=parseFloat((rem-p).toFixed(2));}}
-  if(rem>0.001)return null;
-  return used.sort((a,b)=>b-a);
+  if(rem>0.001)return null;return used.sort((a,b)=>b-a);
 }
 
 function startSession(day){
   S.day=day;S.warmupType=null;S.warmupStart=null;S.warmupDismissed=false;S.midNotes='';
-  clearInterval(S.warmupTimerInt);
-  S.exercises=EXERCISES[day].map(ex=>{
+  S.exercises=BASE_EXERCISES[day].map(ex=>{
     const key=ex.name;
-    const lastAcc=S.accState[key]||{};
-    const lastRot=S.rotState[key]||{};
-    const lastFtAtt=S.ftAttState[key]||null;
-    return {
-      ...ex,currentName:ex.name,skipped:false,altOpen:false,
-      wtType:ex.wt,accTypes:ex.acc||[],rot:ex.rot||null,ftAtts:ex.ftAtts||[],
+    return{
+      baseName:ex.name,currentName:ex.name,alt:ex.alt,
+      wt:ex.wt,acc:ex.acc||[],rot:ex.rot||null,ftAtts:ex.ftAtts||[],sec:ex.sec,
+      skipped:false,altOpen:false,
       sets:[{wu:true,kg:null,rpe:null},...Array(3).fill(null).map(()=>({kg:null,rpe:null}))],
-      accOn:Object.fromEntries((ex.acc||[]).map(a=>[a,lastAcc[a]||false])),
+      accOn:Object.fromEntries((ex.acc||[]).map(a=>[a,(S.accState[key]||{})[a]||false])),
       accPerSet:Object.fromEntries((ex.acc||[]).map(a=>[a,[]])),
-      rotStage:lastRot.stage||null,
-      ftAtt:lastFtAtt
+      rotStage:(S.rotState[key]||{}).stage||null,
+      ftAtt:S.ftAttState[key]||null
     };
   });
   S.sessionStart=Date.now();
@@ -656,55 +695,51 @@ function renderSession(){
 
   // Warmup card
   if(!S.warmupDismissed){
-    html+=`<div class="warmup-card" id="warmup-card">
-      <div class="warmup-inner">
-        <div class="warmup-lbl">WARMUP</div>
-        <div class="warmup-opts">
-          <button class="warmup-opt ${S.warmupType==='TREADMILL'?'won':'woff'}" onclick="selectWarmup('TREADMILL')">
-            ${S.warmupType==='TREADMILL'?'TREADMILL ✓':'TREADMILL'}
-          </button>
-          <button class="warmup-opt ${S.warmupType==='CYCLE'?'won':'woff'}" onclick="selectWarmup('CYCLE')">
-            ${S.warmupType==='CYCLE'?'CYCLE ✓':'CYCLE'}
-          </button>
-        </div>
+    html+=`<div class="warmup-card"><div class="warmup-inner">
+      <div class="warmup-lbl">WARMUP</div>
+      <div class="warmup-opts">
+        <button class="warmup-opt ${S.warmupType==='TREADMILL'?'won':'woff'}" onclick="selectWarmup('TREADMILL')">${S.warmupType==='TREADMILL'?'TREADMILL ✓':'TREADMILL'}</button>
+        <button class="warmup-opt ${S.warmupType==='CYCLE'?'won':'woff'}" onclick="selectWarmup('CYCLE')">${S.warmupType==='CYCLE'?'CYCLE ✓':'CYCLE'}</button>
       </div>
-    </div>`;
-  } else {
+    </div></div>`;
+  }else{
     const ws=S.warmupStart?Math.floor((Date.now()-S.warmupStart)/1000):0;
     const wm=Math.floor(ws/60),wsec=ws%60;
-    html+=`<div class="warmup-card dismissed">
-      <div class="warmup-strip">
-        <div class="warmup-strip-lbl">${S.warmupType||'WARMUP'} ✓</div>
-        <div class="warmup-strip-time" id="warmup-strip-time">${String(wm).padStart(2,'0')+':'+String(wsec).padStart(2,'0')}</div>
-      </div>
-    </div>`;
+    html+=`<div class="warmup-card dismissed"><div class="warmup-strip">
+      <div class="warmup-strip-lbl">${S.warmupType||'WARMUP'} ✓</div>
+      <div class="warmup-strip-time" id="warmup-strip-time">${String(wm).padStart(2,'0')+':'+String(wsec).padStart(2,'0')}</div>
+    </div></div>`;
   }
 
+  // Group exercises by section to avoid duplicate section headers
   let lastSec='';
   S.exercises.forEach((ex,ei)=>{
-    if(ex.section!==lastSec){html+=`<div class="sec-hdr">${ex.section}</div>`;lastSec=ex.section;}
+    const meta=getMeta(ex);
+    if(ex.sec!==lastSec){html+=`<div class="sec-hdr">${ex.sec}</div>`;lastSec=ex.sec;}
     const ol=getOverloadReady(ex.currentName);
-    html+=`<div class="ex-card${ex.skipped?' skipped':''}" id="excard-${ei}">
+    html+=`<div class="ex-card${ex.skipped?' skipped':''}" id="excard-${ei}" draggable="true"
+      ondragstart="dragStart(event,${ei})" ondragover="dragOver(event,${ei})" ondrop="dragDrop(event,${ei})" ondragend="dragEnd(event)">
       <div class="ex-top">
+        <div class="drag-handle" title="hold to reorder">⠿</div>
         <div class="ex-nm${ex.skipped?' struck':''}" onclick="openHistFor('${esc(ex.currentName)}')">
           ${ex.currentName}
-          ${ex.alts&&ex.alts.length?`<span class="alt-chevron" onclick="event.stopPropagation();toggleAlt(${ei})">▾</span>`:''}
+          ${ex.alt?`<span class="alt-chevron" onclick="event.stopPropagation();toggleAlt(${ei})">▾</span>`:''}
           ${ol&&!ex.skipped?`<span class="ol-arrow">↑</span>`:''}
         </div>
         <button class="skip-btn" onclick="toggleSkip(${ei})">${ex.skipped?'+':'×'}</button>
       </div>`;
 
-    if(ex.alts&&ex.alts.length){
+    if(ex.alt){
       html+=`<div class="alt-panel${ex.altOpen?' open':''}" id="alt-${ei}">
         <div class="alt-title">SWAP FOR THIS SESSION</div>
-        <div class="alt-opt${ex.currentName===ex.name?' selected':''}" onclick="swapAlt(${ei},'${esc(ex.name)}')">${ex.name} <span style="font-size:7px;color:#252525">(default)</span></div>
-        ${ex.alts.map(a=>`<div class="alt-opt${ex.currentName===a?' selected':''}" onclick="swapAlt(${ei},'${esc(a)}')">${a}</div>`).join('')}
+        <div class="alt-opt${ex.currentName===ex.baseName?' selected':''}" onclick="swapAlt(${ei},'${esc(ex.baseName)}')">${ex.baseName} <span style="font-size:7px;color:#252525">(default)</span></div>
+        <div class="alt-opt${ex.currentName===ex.alt?' selected':''}" onclick="swapAlt(${ei},'${esc(ex.alt)}')">${ex.alt}</div>
       </div>`;
     }
 
     if(!ex.skipped){
       html+=`<div class="ex-body">`;
-      const accs=getAcc(ex);
+      const accs=meta.acc||[];
       if(accs.length){
         html+=`<div class="acc-row">`;
         accs.forEach(a=>{
@@ -714,47 +749,41 @@ function renderSession(){
         html+=`</div>`;
         accs.forEach(a=>{
           if(ex.accOn[a]){
-            const perSet=ex.accPerSet[a];
-            const allSets=ex.sets;
             html+=`<div class="per-set-acc"><div class="psa-lbl">${a} per set:</div>`;
-            allSets.forEach((_,si)=>{
-              const on=perSet&&perSet.includes(si);
-              const lbl=si===0?'WU':'S'+si;
-              html+=`<button class="psa-chip ${on?'pon':'poff'}" onclick="toggleAccPerSet(${ei},'${a}',${si})">${lbl}</button>`;
+            ex.sets.forEach((_,si)=>{
+              const on=(ex.accPerSet[a]||[]).includes(si);
+              html+=`<button class="psa-chip ${on?'pon':'poff'}" onclick="toggleAccPerSet(${ei},'${a}',${si})">${si===0?'WU':'S'+si}</button>`;
             });
             html+=`</div>`;
           }
         });
       }
 
-      const rot=getRot(ex);
+      const rot=meta.rot||null;
       if(rot){
-        const stages=rot==='lat'?7:6;
-        const curStage=ex.rotStage;
+        const stages=rot==='lat'?7:6;const cur=ex.rotStage;
         html+=`<div class="rot-row"><div class="rot-lbl">${rot==='lat'?'RO-T8 lat bar':'RO-T8 row'}</div><div class="rot-stages">`;
-        for(let i=1;i<=stages;i++){html+=`<div class="rot-stage ${curStage===i?'son':'soff'}" onclick="setRotStage(${ei},${i})">${i}</div>`;}
-        html+=`</div></div>`;
-        html+=`<div class="rot-bar-wrap"><div class="rot-bar-wide-lbl">wide</div>`;
+        for(let i=1;i<=stages;i++)html+=`<div class="rot-stage ${cur===i?'son':'soff'}" onclick="setRotStage(${ei},${i})">${i}</div>`;
+        html+=`</div></div><div class="rot-bar-wrap"><div class="rot-wl">wide</div>`;
         for(let i=1;i<=stages;i++){
           const h=Math.round(4+(stages-i)*(7/(stages-1)));
-          html+=`<div class="rot-seg${curStage===i?' seg-on':''}" style="flex:${stages-i+1};height:${h}px"></div>`;
+          html+=`<div class="rot-seg${cur===i?' seg-on':''}" style="flex:${stages-i+1};height:${h}px"></div>`;
         }
-        html+=`<div class="rot-bar-narrow-lbl">narrow</div></div>`;
+        html+=`<div class="rot-nl">narrow</div></div>`;
       }
 
       const ftAtts=getFtAtts(ex);
       if(ftAtts.length){
         html+=`<div class="ft-att-row"><div class="ft-att-lbl">attachment:</div>`;
-        ftAtts.forEach(a=>{
-          html+=`<button class="ft-att-chip ${ex.ftAtt===a?'fon':'foff'}" onclick="setFtAtt(${ei},'${esc(a)}')">${a}</button>`;
-        });
+        ftAtts.forEach(a=>html+=`<button class="ft-att-chip ${ex.ftAtt===a?'fon':'foff'}" onclick="setFtAtt(${ei},'${esc(a)}')">${a}</button>`);
         html+=`</div>`;
       }
 
       const wu=ex.sets[0];const working=ex.sets.slice(1);
-      const nextEmpty=[wu,...working].findIndex(s=>s.kg===null);
+      const allSets=[wu,...working];
+      const nextEmpty=allSets.findIndex(s=>s.kg===null);
       html+=`<div class="sets-row">`;
-      [wu,...working].forEach((set,si)=>{
+      allSets.forEach((set,si)=>{
         const isWU=si===0;const wIdx=isWU?0:si-1;
         const logged=set.kg!==null;
         const lastWt=getLastKg(ex.currentName,wIdx,isWU);
@@ -766,8 +795,8 @@ function renderSession(){
         html+=`<div class="${cls}" onclick="openModal(${ei},${si})">
           <div class="sc-lbl${isWU?' wu-lbl':''}">${isWU?'WU':'S'+si}</div>`;
         if(logged){
-          if(isPR){html+=`<div class="sc-wt"><div class="sc-pr-ring" style="font-size:8px">${fmtDisp(set.kg)}</div></div>`;}
-          else{html+=`<div class="sc-wt">${fmtDisp(set.kg)}</div>`;}
+          if(isPR)html+=`<div class="sc-wt"><div class="sc-pr-ring" style="font-size:8px">${fmtDisp(set.kg)}</div></div>`;
+          else html+=`<div class="sc-wt">${fmtDisp(set.kg)}</div>`;
           html+=`<div class="sc-rpe">${isWU?'—':'R'+set.rpe}</div>`;
         }else{
           html+=`<div class="sc-wt empty">·</div><div class="sc-ghost">${lastWt!==null?fmtDisp(lastWt):''}</div>`;
@@ -779,8 +808,7 @@ function renderSession(){
         <button class="adj-btn" onclick="adjSets(${ei},-1)">−</button>
         <div class="adj-lbl">${working.length} WORKING SETS</div>
         <button class="adj-btn" onclick="adjSets(${ei},1)">+</button>
-      </div>`;
-      html+=`</div>`;
+      </div></div>`;
     }
     html+=`</div>`;
   });
@@ -789,51 +817,79 @@ function renderSession(){
     <textarea class="mid-notes-txt" id="mid-notes-txt" placeholder="session note..." onchange="S.midNotes=this.value" oninput="S.midNotes=this.value">${S.midNotes}</textarea>
     <button class="mid-notes-mic" onclick="openMic('mid-notes-txt')">MIC</button>
   </div>`;
-
   body.innerHTML=html;
 }
 
 function esc(s){return s.replace(/'/g,"\\'").replace(/"/g,'&quot;');}
 function toggleAlt(ei){S.exercises[ei].altOpen=!S.exercises[ei].altOpen;renderSession();}
-function swapAlt(ei,name){S.exercises[ei].currentName=name;S.exercises[ei].altOpen=false;renderSession();}
+function swapAlt(ei,name){
+  const ex=S.exercises[ei];ex.currentName=name;ex.altOpen=false;
+  // sync accOn keys to new alt's acc list
+  const meta=ALT_META[name]||{acc:ex.acc||[]};
+  const newAcc=meta.acc||[];
+  ex.accOn=Object.fromEntries(newAcc.map(a=>[a,(S.accState[ex.baseName]||{})[a]||false]));
+  ex.accPerSet=Object.fromEntries(newAcc.map(a=>[a,[]]));
+  ex.rotStage=null;ex.ftAtt=null;
+  renderSession();
+}
 function toggleSkip(ei){S.exercises[ei].skipped=!S.exercises[ei].skipped;renderSession();}
 function adjSets(ei,d){
   const ex=S.exercises[ei];const wu=ex.sets[0];const ws=ex.sets.slice(1);
   const n=Math.max(1,Math.min(6,ws.length+d));
   ex.sets=[wu,...Array(n).fill(null).map((_,i)=>ws[i]||{kg:null,rpe:null})];
-  ex.accPerSet=Object.fromEntries(Object.keys(ex.accPerSet).map(a=>{
+  Object.keys(ex.accPerSet).forEach(a=>{
     const cur=ex.accPerSet[a]||[];
-    const newPs=Array.from({length:n+1},(_,i)=>cur.includes(i)?i:-1).filter(i=>i>=0);
-    return [a,newPs];
-  }));
+    ex.accPerSet[a]=Array.from({length:n+1},(_,i)=>cur.includes(i)?i:-1).filter(i=>i>=0);
+  });
   renderSession();
 }
 function toggleAcc(ei,acc){
   const ex=S.exercises[ei];ex.accOn[acc]=!ex.accOn[acc];
-  if(ex.accOn[acc]){ex.accPerSet[acc]=ex.sets.map((_,i)=>i);}
-  else{ex.accPerSet[acc]=[];}
+  ex.accPerSet[acc]=ex.accOn[acc]?ex.sets.map((_,i)=>i):[];
   renderSession();
 }
 function toggleAccPerSet(ei,acc,si){
   const ex=S.exercises[ei];const ps=ex.accPerSet[acc]||[];
-  const idx=ps.indexOf(si);
-  if(idx>=0)ps.splice(idx,1);else ps.push(si);
+  const idx=ps.indexOf(si);if(idx>=0)ps.splice(idx,1);else ps.push(si);
   ex.accPerSet[acc]=ps;renderSession();
 }
 function setRotStage(ei,stage){S.exercises[ei].rotStage=stage;renderSession();}
 function setFtAtt(ei,att){S.exercises[ei].ftAtt=S.exercises[ei].ftAtt===att?null:att;renderSession();}
 function selectWarmup(type){
   if(S.warmupType===type){S.warmupDismissed=true;}
-  else{
-    S.warmupType=type;
-    if(!S.warmupStart){S.warmupStart=Date.now();}
-  }
+  else{S.warmupType=type;if(!S.warmupStart)S.warmupStart=Date.now();}
   renderSession();
 }
+
+// DRAG TO REORDER
+function dragStart(e,ei){
+  S.dragSrc=ei;
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain',ei);
+}
+function dragOver(e,ei){
+  e.preventDefault();e.dataTransfer.dropEffect='move';
+  document.querySelectorAll('.ex-card').forEach(c=>c.classList.remove('drag-over'));
+  if(ei!==S.dragSrc)e.currentTarget.classList.add('drag-over');
+}
+function dragDrop(e,ei){
+  e.preventDefault();
+  if(S.dragSrc===null||S.dragSrc===ei)return;
+  const arr=S.exercises;
+  const moved=arr.splice(S.dragSrc,1)[0];
+  arr.splice(ei,0,moved);
+  S.exercises=arr;S.dragSrc=null;
+  document.querySelectorAll('.ex-card').forEach(c=>{c.classList.remove('drag-over');c.classList.remove('dragging');});
+  renderSession();
+}
+function dragEnd(e){
+  S.dragSrc=null;
+  document.querySelectorAll('.ex-card').forEach(c=>{c.classList.remove('drag-over');c.classList.remove('dragging');});
+}
+
 function openMic(id){
-  const el=document.getElementById(id);
-  if(!el)return;
-  el.focus();
+  const el=document.getElementById(id);if(!el)return;el.focus();
   if('webkitSpeechRecognition' in window||'SpeechRecognition' in window){
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
     const r=new SR();r.lang='en-US';r.interimResults=false;
@@ -845,7 +901,7 @@ function openMic(id){
 function openModal(ei,si){
   const ex=S.exercises[ei];const set=ex.sets[si];
   S.modal={ei,si,isWU:si===0};S.currentRpe=null;
-  const wtType=getWtType(ex);const isDB=wtType==='db';
+  const meta=getMeta(ex);const wtType=meta.wt||'stack';const isDB=wtType==='db';
   const working=ex.sets.slice(1).filter(s=>s.kg!==null);
   const topWt=working.length?Math.max(...working.map(s=>s.kg)):null;
   const lastWt=getLastKg(ex.currentName,si===0?0:si-1,si===0);
@@ -857,17 +913,17 @@ function openModal(ei,si){
   else if(si===1&&lastWt!==null){
     prefill=lastWt;
     if(getOverloadReady(ex.currentName)){
-      const bump=wtType==='smith'||wtType==='ezbar'?1.25:5;
+      const bump=(wtType==='smith'||wtType==='ezbar')?1.25:wtType==='ft'?5:2.5;
       prefill=lastWt+bump;
     }
   }
   else if(si===0){
-    if(isDB){prefill=lastWU||DB_WEIGHTS[0];}
-    else if(lastWU!==null){prefill=lastWU;}
-    else if(topWt){prefill=Math.round(topWt*0.5);}
-    else{prefill=wtType==='smith'||wtType==='ezbar'?20:wtType==='ft'?10:wtType==='db'?5:20;}
+    if(isDB)prefill=lastWU||DB_WEIGHTS[0];
+    else if(lastWU!==null)prefill=lastWU;
+    else if(topWt)prefill=Math.round(topWt*0.5);
+    else prefill=(wtType==='smith'||wtType==='ezbar')?20:wtType==='ft'?10:20;
   }
-  if(isDB){const closest=DB_WEIGHTS.reduce((a,b)=>Math.abs(b-prefill)<Math.abs(a-prefill)?b:a);prefill=closest;}
+  if(isDB){const c=DB_WEIGHTS.reduce((a,b)=>Math.abs(b-prefill)<Math.abs(a-prefill)?b:a);prefill=c;}
   S.currentKg=prefill;
 
   document.getElementById('modal-day').textContent=S.day;
@@ -879,48 +935,37 @@ function openModal(ei,si){
   const wuEl=document.getElementById('modal-wu');
   if(si===0){
     if(isDB&&lastWU){wuEl.textContent='WU suggestion: last week '+fmtDisp(lastWU)+' kg/hand';wuEl.style.display='block';}
-    else if(!isDB&&topWt){wuEl.textContent='WU suggestion: '+fmtDisp(Math.round(topWt*0.5))+' kg ('+(wtType==='ft'||wtType==='smith'?'per side':'total')+')';wuEl.style.display='block';}
-    else{wuEl.style.display='none';}
+    else if(!isDB&&topWt){const isPS=wtType==='smith'||wtType==='ft'||wtType==='ezbar';wuEl.textContent='WU suggestion: '+fmtDisp(Math.round(topWt*0.5))+' kg'+(isPS?' (per side)':'');wuEl.style.display='block';}
+    else wuEl.style.display='none';
   }else wuEl.style.display='none';
 
   const isPerSide=wtType==='smith'||wtType==='ft'||wtType==='ezbar';
-  const unitLbl=isDB?'kg per hand':isPerSide?'kg per side':'kg';
   document.getElementById('wt-lbl').textContent=isPerSide?'WEIGHT PER SIDE':isDB?'WEIGHT PER HAND':'WEIGHT';
-  document.getElementById('kg-unit').textContent=unitLbl;
+  document.getElementById('kg-unit').textContent=isDB?'kg per hand':isPerSide?'kg per side':'kg';
   document.getElementById('kg-display').textContent=fmtDisp(S.currentKg);
-
-  const totalEl=document.getElementById('kg-total');
-  if(isPerSide){totalEl.textContent=fmtDisp(S.currentKg*2)+' kg total';}
-  else if(isDB){totalEl.textContent=fmtDisp(S.currentKg*2)+' kg total';}
-  else{totalEl.textContent='';}
+  const totEl=document.getElementById('kg-total');
+  totEl.textContent=(isPerSide||isDB)?fmtDisp(S.currentKg*2)+' kg total':'';
 
   const ghostEl=document.getElementById('kg-ghost');
-  if(lastWt!==null){ghostEl.textContent=(si===0?'last WU — ':'S'+(si)+' last week — ')+fmtDisp(lastWt)+' kg'+(isPerSide||isDB?'/side':'')+' · carry badge from S'+(si-1>0?si-1:'—');}
-  else{ghostEl.textContent='no previous data';}
-  if(si>0&&ex.sets[si-1]&&ex.sets[si-1].kg!==null&&set.kg===null){ghostEl.textContent='carried from S'+(si-1>0?si-1:'WU');}
+  if(si>0&&ex.sets[si-1]&&ex.sets[si-1].kg!==null&&set.kg===null)ghostEl.textContent='carried from '+(si===1?'WU':'S'+(si-1));
+  else if(lastWt!==null)ghostEl.textContent=(si===0?'last WU — ':'S'+si+' last week — ')+fmtDisp(lastWt)+' kg'+(isPerSide||isDB?'/side':'');
+  else ghostEl.textContent='no previous data';
 
-  const plateWrap=document.getElementById('plate-calc-wrap');
+  const pcWrap=document.getElementById('plate-calc-wrap');
   const dbWrap=document.getElementById('db-grid-wrap');
-  const jumpRow=document.getElementById('jump-row');
+  const jRow=document.getElementById('jump-row');
 
   if(isDB){
-    plateWrap.style.display='none';
-    dbWrap.style.display='block';
-    jumpRow.innerHTML='';
-    renderDbGrid();
-  } else {
+    pcWrap.style.display='none';dbWrap.style.display='block';jRow.innerHTML='';renderDbGrid();
+  }else{
     dbWrap.style.display='none';
-    const plateInv=wtType==='smith'?SMITH_PLATES:(wtType==='ezbar'?EZBAR_PLATES:null);
-    if(plateInv&&isPerSide){
-      plateWrap.style.display='block';
-      renderPlateCalc(S.currentKg,plateInv);
-    } else {
-      plateWrap.style.display='none';
-    }
-    const jumps=wtType==='smith'||wtType==='ezbar'?[{l:'−2.5',v:-2.5,c:'jbm'},{l:'−1.25',v:-1.25,c:'jm'},{l:'+1.25',v:1.25,c:'jp'},{l:'+2.5',v:2.5,c:'jbp'}]:
-                wtType==='ft'?[{l:'−10',v:-10,c:'jbm'},{l:'−5',v:-5,c:'jm'},{l:'+5',v:5,c:'jp'},{l:'+10',v:10,c:'jbp'}]:
-                [{l:'−10',v:-10,c:'jbm'},{l:'−5',v:-5,c:'jm'},{l:'+5',v:5,c:'jp'},{l:'+10',v:10,c:'jbp'}];
-    jumpRow.innerHTML=jumps.map(j=>`<button class="jc ${j.c}" onclick="jumpKg(${j.v})">${j.l}</button>`).join('');
+    const inv=wtType==='smith'?SMITH_PLATES:(wtType==='ezbar'?EZBAR_PLATES:null);
+    if(inv&&isPerSide){pcWrap.style.display='block';renderPlateCalc(S.currentKg,inv);}
+    else pcWrap.style.display='none';
+    const jumps=(wtType==='smith'||wtType==='ezbar')?
+      [{l:'−2.5',v:-2.5,c:'jbm'},{l:'−1.25',v:-1.25,c:'jm'},{l:'+1.25',v:1.25,c:'jp'},{l:'+2.5',v:2.5,c:'jbp'}]:
+      [{l:'−10',v:-10,c:'jbm'},{l:'−5',v:-5,c:'jm'},{l:'+5',v:5,c:'jp'},{l:'+10',v:10,c:'jbp'}];
+    jRow.innerHTML=jumps.map(j=>`<button class="jc ${j.c}" onclick="jumpKg(${j.v})">${j.l}</button>`).join('');
   }
 
   const grid=document.getElementById('rpe-grid');grid.innerHTML='';
@@ -929,24 +974,23 @@ function openModal(ei,si){
     d.onclick=()=>{S.currentRpe=r;document.querySelectorAll('.rp').forEach(x=>x.classList.remove('rp-sel'));d.classList.add('rp-sel');};
     grid.appendChild(d);
   });
-  const rpeDisabled=si===0;
-  grid.style.opacity=rpeDisabled?'0.3':'1';grid.style.pointerEvents=rpeDisabled?'none':'auto';
-  document.getElementById('rpe-lbl').style.opacity=rpeDisabled?'0.3':'1';
-  document.getElementById('rpe-scale').style.opacity=rpeDisabled?'0.3':'1';
+  const dis=si===0;
+  grid.style.opacity=dis?'0.3':'1';grid.style.pointerEvents=dis?'none':'auto';
+  document.getElementById('rpe-lbl').style.opacity=dis?'0.3':'1';
+  document.getElementById('rpe-scale').style.opacity=dis?'0.3':'1';
   document.getElementById('modal-log').onclick=logSet;
   show('modal');
 }
 
 function renderDbGrid(){
-  const grid=document.getElementById('db-grid');grid.innerHTML='';
+  const g=document.getElementById('db-grid');g.innerHTML='';
   DB_WEIGHTS.forEach(w=>{
     const d=document.createElement('div');d.className='db-cell'+(S.currentKg===w?' db-sel':'');
-    d.textContent=w%1===0?w:w;
+    d.textContent=w;
     d.onclick=()=>{S.currentKg=w;updateKgDisplay();renderDbGrid();};
-    grid.appendChild(d);
+    g.appendChild(d);
   });
 }
-
 function renderPlateCalc(kg,inv){
   const plates=calcPlates(kg,inv);
   const txt=document.getElementById('plate-calc-txt');
@@ -955,37 +999,31 @@ function renderPlateCalc(kg,inv){
   txt.textContent=plates.join(' + ')+' kg per side';
   exp.innerHTML=plates.map(p=>`<div class="plate-chip">${p}</div>`).join('<div class="plate-plus">+</div>')+`<div class="plate-plus">= ${fmtDisp(kg)}</div>`;
 }
-
 function togglePlateCalc(){
-  const exp=document.getElementById('plate-calc-expanded');
-  const btn=document.getElementById('plate-calc-btn');
-  if(exp.classList.toggle('open')){btn.textContent='close';}else{btn.textContent='calc';}
+  const exp=document.getElementById('plate-calc-expanded');const btn=document.getElementById('plate-calc-btn');
+  if(exp.classList.toggle('open'))btn.textContent='close';else btn.textContent='calc';
 }
-
 function updateKgDisplay(){
-  const ex=S.exercises[S.modal.ei];const wtType=getWtType(ex);
-  const isPerSide=wtType==='smith'||wtType==='ft'||wtType==='ezbar';const isDB=wtType==='db';
+  const meta=getMeta(S.exercises[S.modal.ei]);const wt=meta.wt||'stack';
+  const isPS=wt==='smith'||wt==='ft'||wt==='ezbar';const isDB=wt==='db';
   document.getElementById('kg-display').textContent=fmtDisp(S.currentKg);
-  const totalEl=document.getElementById('kg-total');
-  if(isPerSide||isDB){totalEl.textContent=fmtDisp(S.currentKg*2)+' kg total';}
-  const plateWrap=document.getElementById('plate-calc-wrap');
-  if(plateWrap.style.display!=='none'){
-    const inv=wtType==='smith'?SMITH_PLATES:EZBAR_PLATES;
-    renderPlateCalc(S.currentKg,inv);
+  document.getElementById('kg-total').textContent=(isPS||isDB)?fmtDisp(S.currentKg*2)+' kg total':'';
+  const pcWrap=document.getElementById('plate-calc-wrap');
+  if(pcWrap.style.display!=='none'){
+    const inv=wt==='smith'?SMITH_PLATES:EZBAR_PLATES;renderPlateCalc(S.currentKg,inv);
   }
 }
-
 function startHold(dir){adjustKg(dir);S.holdTO=setTimeout(()=>{S.holdInt=setInterval(()=>adjustKg(dir),80);},400);}
 function stopHold(){clearTimeout(S.holdTO);clearInterval(S.holdInt);}
 function adjustKg(dir){
-  const ex=S.exercises[S.modal.ei];const wtType=getWtType(ex);const isDB=wtType==='db';
+  const meta=getMeta(S.exercises[S.modal.ei]);const wt=meta.wt||'stack';const isDB=wt==='db';
   if(isDB){
     const idx=DB_WEIGHTS.indexOf(S.currentKg);
     if(dir==='p'&&idx<DB_WEIGHTS.length-1)S.currentKg=DB_WEIGHTS[idx+1];
     else if(dir==='m'&&idx>0)S.currentKg=DB_WEIGHTS[idx-1];
     renderDbGrid();
-  } else {
-    const step=wtType==='smith'||wtType==='ezbar'?1.25:5;
+  }else{
+    const step=(wt==='smith'||wt==='ezbar')?1.25:5;
     S.currentKg=Math.max(0,fmt(S.currentKg+(dir==='p'?step:-step)));
   }
   updateKgDisplay();
@@ -997,12 +1035,9 @@ function logSet(){
   if(!isWU&&S.currentRpe===null){document.getElementById('modal-set').textContent='SELECT RPE FIRST ↑';return;}
   set.kg=S.currentKg;set.rpe=isWU?null:S.currentRpe;
   if(!isWU&&S.currentKg>0){if(!S.prs[ex.currentName]||S.currentKg>S.prs[ex.currentName])S.prs[ex.currentName]=S.currentKg;}
-
-  // Save accessory state
-  const key=ex.name;S.accState[key]=ex.accOn;S.rotState[key]={stage:ex.rotStage};S.ftAttState[key]=ex.ftAtt;
+  const key=ex.baseName;S.accState[key]=ex.accOn;S.rotState[key]={stage:ex.rotStage};S.ftAttState[key]=ex.ftAtt;
   saveData();
-
-  if(S.restEnabled&&!isWU){showRest(ex.currentName,S.currentKg,S.currentRpe);}else{closeModal();}
+  if(S.restEnabled&&!isWU)showRest(ex.currentName,S.currentKg,S.currentRpe);else closeModal();
 }
 function closeModal(){show('session');renderSession();}
 
@@ -1059,7 +1094,6 @@ function endSession(){
     if(S.history[ex.currentName].length>20)S.history[ex.currentName].shift();
   });
   saveData();
-
   const elapsed=S.sessionStart?Math.floor((Date.now()-S.sessionStart)/1000):0;
   const mins=Math.round(elapsed/60);
   const totalSets=S.exercises.filter(ex=>!ex.skipped).reduce((a,ex)=>a+ex.sets.slice(1).filter(s=>s.kg!==null).length,0);
@@ -1076,7 +1110,6 @@ function endSession(){
     <div class="stat-card"><div class="stat-val">${mins}m</div><div class="stat-lbl">duration</div></div>
     <div class="stat-card"><div class="stat-val">${avgRpe||'—'}</div><div class="stat-lbl">avg rpe</div></div>
   `;
-
   let exHtml='';
   S.exercises.forEach(ex=>{
     if(ex.skipped)return;const logged=ex.sets.filter(s=>s.kg!==null);if(!logged.length)return;
@@ -1094,8 +1127,7 @@ function endSession(){
   if(prCount>0)flagsHtml+=`<div class="done-flag fl-amber">★ ${prCount} new PR${prCount>1?'s':''} this session</div>`;
   S.exercises.forEach(ex=>{
     if(ex.skipped)return;
-    const ws=ex.sets.slice(1).filter(s=>s.kg!==null);
-    if(!ws.length)return;
+    const ws=ex.sets.slice(1).filter(s=>s.kg!==null);if(!ws.length)return;
     const topKg=Math.max(...ws.map(s=>s.kg));
     if(getDeload(ex.currentName,topKg))flagsHtml+=`<div class="done-flag fl-red">↓ ${ex.currentName} — lighter than last session</div>`;
     if(getOverloadReady(ex.currentName))flagsHtml+=`<div class="done-flag fl-green">↑ ${ex.currentName} — overload ready next session</div>`;
@@ -1104,9 +1136,9 @@ function endSession(){
 
   if(S.midNotes)document.getElementById('done-notes').value=S.midNotes;
   buildQuickTags();
-
   const saveBtn=document.getElementById('done-save-btn');
   saveBtn.textContent='SAVE TO NOTION';saveBtn.disabled=false;saveBtn.className='done-btn primary';
+  saveBtn.style.borderColor='';saveBtn.style.color='';saveBtn.style.background='';
   if(!S.notionKey||!S.notionDb){saveBtn.textContent='NOTION NOT CONNECTED';saveBtn.disabled=true;}
   updateLastLabels();buildHistList();show('done');
 }
@@ -1115,10 +1147,7 @@ function buildQuickTags(){
   const wrap=document.getElementById('quick-tags');wrap.innerHTML='';
   QUICK_TAGS.forEach(tag=>{
     const b=document.createElement('button');b.className='q-tag';b.textContent=tag;
-    b.onclick=()=>{
-      const n=document.getElementById('done-notes');
-      n.value+=(n.value?' · ':'')+tag;b.classList.add('q-used');
-    };
+    b.onclick=()=>{const n=document.getElementById('done-notes');n.value+=(n.value?' · ':'')+tag;b.classList.add('q-used');};
     wrap.appendChild(b);
   });
 }
@@ -1133,26 +1162,22 @@ async function saveToNotion(){
   const allRpe=S.exercises.filter(ex=>!ex.skipped).flatMap(ex=>ex.sets.slice(1).filter(s=>s.rpe!==null).map(s=>s.rpe));
   const avgRpe=allRpe.length?parseFloat((allRpe.reduce((a,b)=>a+b,0)/allRpe.length).toFixed(1)):0;
   const prCount=S.exercises.filter(ex=>!ex.skipped&&ex.sets.slice(1).some(s=>s.kg!==null&&S.prs[ex.currentName]&&s.kg>=S.prs[ex.currentName])).length;
-  const wtType_label={smith:'kg/side',ft:'kg/side',ezbar:'kg/side',db:'kg/hand',stack:'kg'};
+  const wlbl={smith:'kg/side',ft:'kg/side',ezbar:'kg/side',db:'kg/hand',stack:'kg'};
   const exSummary=S.exercises.filter(ex=>!ex.skipped&&ex.sets.some(s=>s.kg!==null)).map(ex=>{
-    const wt=getWtType(ex);const lbl=wtType_label[wt]||'kg';
+    const meta=getMeta(ex);const lbl=wlbl[meta.wt||'stack']||'kg';
     const sets=ex.sets.filter(s=>s.kg!==null).map(s=>s.wu?'WU:'+fmtDisp(s.kg)+lbl:fmtDisp(s.kg)+lbl+'/R'+s.rpe).join(' · ');
-    const accs=Object.entries(ex.accOn).filter(([,v])=>v).map(([k])=>k).join(', ');
+    const accs=Object.entries(ex.accOn||{}).filter(([,v])=>v).map(([k])=>k).join(', ');
     const rot=ex.rotStage?` · RO-T8 stage ${ex.rotStage}`:'';const ftA=ex.ftAtt?` · ${ex.ftAtt}`:'';const accStr=accs?` · ${accs}`:'';
     return `${ex.currentName}: ${sets}${accStr}${rot}${ftA}`;
   }).join('\n');
   const warmupStr=S.warmupType?`Warmup: ${S.warmupType}${S.warmupStart?' ('+Math.round((Date.now()-S.warmupStart)/60000)+'min)':''}\n`:'';
   const fullNotes=warmupStr+(notes?notes+'\n\n':'')+exSummary;
-
   const body={parent:{database_id:S.notionDb},properties:{
     Session:{title:[{text:{content:S.day+' · '+fmtShort(d)+' '+fmtTime(d)}}]},
     Date:{date:{start:d.toISOString().split('T')[0]}},
     Type:{select:{name:S.day}},
-    'Duration (min)':{number:mins},
-    Exercises:{number:exCount},
-    'Sets Completed':{number:totalSets},
-    'Avg RPE':{number:avgRpe},
-    PRs:{number:prCount},
+    'Duration (min)':{number:mins},Exercises:{number:exCount},
+    'Sets Completed':{number:totalSets},'Avg RPE':{number:avgRpe},PRs:{number:prCount},
     Notes:{rich_text:[{text:{content:fullNotes.slice(0,1900)}}]}
   }};
   try{
@@ -1164,7 +1189,7 @@ async function saveToNotion(){
 
 function buildHistList(){
   const list=document.getElementById('hist-ex-list');if(!list)return;
-  const allEx=[...EXERCISES.PUSH,...EXERCISES.PULL,...EXERCISES.LEGS].map(e=>e.name);
+  const allEx=[...BASE_EXERCISES.PUSH,...BASE_EXERCISES.PULL,...BASE_EXERCISES.LEGS].map(e=>e.name);
   list.innerHTML=allEx.map(n=>`<button class="hist-ex-btn" onclick="showHistEx('${esc(n)}',this)">${n}</button>`).join('');
 }
 function openHistFor(name){buildHistList();showHistEx(name,null);goHistory();}
