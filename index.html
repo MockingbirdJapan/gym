@@ -34,8 +34,11 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .nav-bar{flex-shrink:0;display:flex;border-top:0.5px solid var(--border);background:var(--bg)}
 .nav-btn{flex:1;padding:10px 4px 8px;font-family:'Courier New',monospace;font-size:7px;color:var(--txt3);letter-spacing:1px;text-align:center;cursor:pointer;border:none;background:none;-webkit-appearance:none}
 .nav-btn.nav-active{color:var(--gold)}
+.nav-btn.nav-session-back{color:var(--gold2)}
 .nav-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);margin:3px auto 0;display:none}
 .nav-btn.nav-active .nav-dot{display:block}
+.nav-btn.nav-session-back .nav-dot{background:var(--gold2);display:block}
+.swipe-hint{font-family:'Courier New',monospace;font-size:6px;color:#1a1a1a;text-align:center;padding:2px 0;letter-spacing:0.5px;flex-shrink:0}
 .sec-hdr{padding:7px 14px 3px;font-size:8px;letter-spacing:3px;color:var(--gold2)}
 
 /* EXERCISE CARDS */
@@ -171,7 +174,25 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   .wt-prog-wrap{max-width:240px}
 }
 
-/* MID NOTES */
+/* SESSION TYPE CHIPS */
+.session-type-row{margin:6px 0 8px}
+.session-type-lbl{font-size:7px;color:var(--txt3);letter-spacing:1.5px;margin-bottom:4px}
+.session-type-chips{display:flex;gap:5px}
+.st-chip{flex:1;border-radius:4px;padding:6px 4px;text-align:center;font-family:'Courier New',monospace;font-size:8px;letter-spacing:1px;border:0.5px solid;cursor:pointer;-webkit-appearance:none;transition:all 0.15s}
+.st-gym{border-color:var(--gold);background:var(--gold4);color:var(--gold)}
+.st-gym-off{border-color:var(--border);background:var(--bg2);color:var(--txt3)}
+.st-cardio{border-color:var(--green);background:var(--green2);color:var(--green)}
+.st-cardio-off{border-color:var(--border);background:var(--bg2);color:var(--txt3)}
+.st-mixed{border-color:var(--gold2);background:var(--gold4);color:var(--gold2)}
+.st-mixed-off{border-color:var(--border);background:var(--bg2);color:var(--txt3)}
+.cardio-info{font-size:8px;padding:4px 8px;border-radius:3px;margin-bottom:6px;letter-spacing:0.3px}
+.cardio-info.green{color:var(--green);background:var(--green2);border:0.5px solid var(--green3)}
+.cardio-info.amber{color:var(--gold2);background:var(--gold4);border:0.5px solid var(--gold3)}
+
+/* WARMUP STRIP TIME EDIT */
+.wu-edit-btn{font-family:'Courier New',monospace;font-size:6px;color:#3a3000;border:0.5px solid #2a2000;background:var(--gold4);border-radius:2px;padding:2px 6px;cursor:pointer;letter-spacing:0.5px;-webkit-appearance:none;margin-left:5px}
+.wu-time-input{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;font-weight:100;color:var(--gold);background:transparent;border:none;border-bottom:0.5px solid var(--gold);width:58px;text-align:center;letter-spacing:2px;outline:none;-webkit-appearance:none}
+.wu-done-btn{font-family:'Courier New',monospace;font-size:7px;color:var(--gold2);border:0.5px solid var(--gold);background:var(--gold4);border-radius:2px;padding:3px 7px;cursor:pointer;-webkit-appearance:none;margin-left:5px}
 .mid-notes{margin:6px 10px 4px;background:var(--bg);border:0.5px solid var(--border);border-radius:5px;padding:6px 9px;display:flex;align-items:flex-start;gap:6px}
 .mid-notes-txt{flex:1;background:none;border:none;font-family:'Courier New',monospace;font-size:8px;color:var(--txt2);resize:none;min-height:18px;max-height:60px;line-height:1.5;padding:0;outline:none}
 .mid-notes-txt::placeholder{color:#1e1e1e;font-style:italic}
@@ -502,7 +523,10 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 </div>
 
 <div class="screen" id="screen-history">
-  <div class="hdr"><div><div class="gym-title" style="font-size:18px;letter-spacing:4px">HISTORY</div><div class="hdr-sub">tap exercise to view</div></div></div>
+  <div class="hdr">
+    <div><div class="gym-title" style="font-size:18px;letter-spacing:4px">HISTORY</div><div class="hdr-sub">tap exercise to view</div></div>
+    <div id="hist-session-pill" style="display:none;font-family:'Courier New',monospace;font-size:7px;color:var(--gold2);background:var(--gold4);border:0.5px solid var(--gold3);border-radius:3px;padding:3px 8px;letter-spacing:0.5px;align-self:center;cursor:pointer" onclick="goBackToSession()"></div>
+  </div>
   <div class="scroll-body">
     <div class="hist-body">
       <div style="font-size:7px;color:var(--txt3);letter-spacing:1.5px;margin-bottom:7px">EXERCISE</div>
@@ -510,8 +534,9 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
       <div id="hist-content"><div class="hist-empty">select an exercise above</div></div>
     </div>
   </div>
-  <div class="nav-bar">
-    <button class="nav-btn" onclick="goHome()">HOME<div class="nav-dot"></div></button>
+  <div class="swipe-hint" id="hist-swipe-hint" style="display:none">← swipe right to return to session</div>
+  <div class="nav-bar" id="hist-nav">
+    <button class="nav-btn" id="hist-nav-home" onclick="goHome()">HOME<div class="nav-dot"></div></button>
     <button class="nav-btn nav-active" onclick="goHistory()">HISTORY<div class="nav-dot"></div></button>
     <button class="nav-btn" onclick="goSettings()">SETTINGS<div class="nav-dot"></div></button>
   </div>
@@ -524,6 +549,15 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   <div class="scroll-body">
     <div class="done-body">
       <div class="stat-row" id="done-stats"></div>
+      <div class="session-type-row">
+        <div class="session-type-lbl">SESSION TYPE</div>
+        <div class="session-type-chips">
+          <button class="st-chip st-gym" id="st-gym" onclick="setSessionType('GYM')">GYM</button>
+          <button class="st-chip st-cardio-off" id="st-cardio" onclick="setSessionType('CARDIO')">CARDIO</button>
+          <button class="st-chip st-mixed-off" id="st-mixed" onclick="setSessionType('MIXED')">MIXED</button>
+        </div>
+      </div>
+      <div class="cardio-info green" id="cardio-info" style="display:none"></div>
       <div id="done-exercises"></div>
       <div class="done-flags" id="done-flags"></div>
       <div class="notes-wrap">
@@ -627,12 +661,12 @@ let prevScreen='home';
 let S={
   day:null,exercises:[],sessionStart:null,sessionTimerInt:null,
   restTimerInt:null,restRemaining:0,restTotal:90,restEnabled:true,restPreset:90,
-  warmupStart:null,warmupType:null,warmupDismissed:false,
+  warmupStart:null,warmupType:null,warmupDismissed:false,warmupElapsed:0,warmupEditing:false,
   modal:{ei:null,si:null,isWU:false},currentKg:0,currentRpe:null,
   holdInt:null,holdTO:null,
   prs:{},notionKey:'',notionDb:'',history:{},lastSessions:{},
   accState:{},rotState:{},ftAttState:{},
-  midNotes:'',
+  midNotes:'',sessionType:'GYM',
   dragSrc:null
 };
 
@@ -652,6 +686,7 @@ function init(){
   S.restEnabled=ls('gym_rest_enabled')!=='false';
   if(S.notionKey&&S.notionDb){showNotionUI(true);show('home');}else{show('setup');}
   updateHomeDate();updateLastLabels();buildHistList();
+  setupSwipeGestures();
 }
 
 function gymConfirm(msg, onOk, onCancel){
@@ -668,7 +703,12 @@ function gymConfirm(msg, onOk, onCancel){
 
 function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+n).classList.add('active');}
 function goHome(){prevScreen='home';show('home');}
-function goHistory(){prevScreen='history';buildHistList();show('history');}
+function goHistory(){
+  prevScreen='history';
+  buildHistList();
+  updateHistoryNav();
+  show('history');
+}
 function goSettings(){
   const b=document.getElementById('s-notion-badge');
   b.className='notion-badge '+(S.notionKey&&S.notionDb?'notion-yes':'notion-no');
@@ -678,8 +718,104 @@ function goSettings(){
   prevScreen='settings';show('settings');
 }
 function goSetupFromSettings(){prevScreen='settings';show('setup');}
-function goBack(){show(prevScreen==='settings'?'home':prevScreen);}
+function goBack(){
+  if(prevScreen==='settings')show('home');
+  else if(S.day&&prevScreen==='history')goBackToSession();
+  else show(prevScreen);
+}
+function goBackToSession(){show('session');renderSession();}
+function updateHistoryNav(){
+  const pill=document.getElementById('hist-session-pill');
+  const homeBtn=document.getElementById('hist-nav-home');
+  const swipeHint=document.getElementById('hist-swipe-hint');
+  if(S.day){
+    if(pill){pill.style.display='flex';pill.textContent=S.day+' \u25cf';}
+    if(homeBtn){homeBtn.textContent='\u2190 SESSION';homeBtn.className='nav-btn nav-session-back';homeBtn.onclick=goBackToSession;homeBtn.innerHTML='\u2190 SESSION<div class="nav-dot"></div>';}
+    if(swipeHint)swipeHint.style.display='block';
+  }else{
+    if(pill)pill.style.display='none';
+    if(homeBtn){homeBtn.className='nav-btn';homeBtn.onclick=goHome;homeBtn.innerHTML='HOME<div class="nav-dot"></div>';}
+    if(swipeHint)swipeHint.style.display='none';
+  }
+}
 function showNotionUI(yes){['home-notion','session-notion'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=yes?'flex':'none';});}
+
+// SWIPE RIGHT TO GO BACK — registered once on init
+function setupSwipeGestures(){
+  const SWIPE_MAP={
+    'screen-modal':()=>closeModal(),
+    'screen-rest':()=>skipRest(),
+    'screen-warmup-timer':()=>{/* don't auto-stop, just go back */show('session');renderSession();},
+    'screen-history':()=>{if(S.day)goBackToSession();},
+    'screen-settings':()=>goBack()
+  };
+  let touchStartX=0,touchStartY=0;
+  document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-touchStartX;
+    const dy=Math.abs(e.changedTouches[0].clientY-touchStartY);
+    if(dx>60&&dy<40){
+      const active=document.querySelector('.screen.active');
+      if(active&&SWIPE_MAP[active.id])SWIPE_MAP[active.id]();
+    }
+  },{passive:true});
+}
+
+// WARMUP TIME EDIT
+function startWarmupEdit(){S.warmupEditing=true;renderSession();setTimeout(()=>{const el=document.getElementById('wu-time-input');if(el){el.focus();el.select();}},50);}
+function confirmWarmupEdit(){
+  const el=document.getElementById('wu-time-input');if(!el)return;
+  const val=el.value.trim();
+  const match=val.match(/^(\d{1,2}):(\d{2})$/);
+  if(match){
+    const m=parseInt(match[1]),s=parseInt(match[2]);
+    if(s<60){S.warmupElapsed=m*60+s;}
+  }
+  S.warmupEditing=false;renderSession();
+}
+
+// SESSION TYPE
+function setSessionType(type){
+  S.sessionType=type;
+  const chips={GYM:'st-gym',CARDIO:'st-cardio',MIXED:'st-mixed'};
+  const offs={GYM:'st-gym-off',CARDIO:'st-cardio-off',MIXED:'st-mixed-off'};
+  ['GYM','CARDIO','MIXED'].forEach(t=>{
+    const el=document.getElementById('st-'+t.toLowerCase());
+    if(!el)return;
+    el.className='st-chip '+(t===type?chips[t]:offs[t]);
+  });
+  // Update title colour and cardio info
+  const titleEl=document.getElementById('done-title');
+  const infoEl=document.getElementById('cardio-info');
+  const saveBtn=document.getElementById('done-save-btn');
+  if(type==='CARDIO'){
+    if(titleEl)titleEl.style.color='var(--green)';
+    if(infoEl){
+      const em=S.warmupElapsed||0;const wm=Math.floor(em/60),ws=em%60;
+      infoEl.textContent=(S.warmupType||'cardio')+' · '+String(wm).padStart(2,'0')+':'+String(ws).padStart(2,'0')+' · no weight training';
+      infoEl.className='cardio-info green';infoEl.style.display='block';
+    }
+    if(saveBtn){saveBtn.style.background='var(--green2)';saveBtn.style.borderColor='var(--green)';saveBtn.style.color='var(--green)';}
+    // Auto-fill notes with warmup info
+    const notesEl=document.getElementById('done-notes');
+    if(notesEl&&!notesEl.value){
+      const em=S.warmupElapsed||0;const wm=Math.floor(em/60),ws=em%60;
+      notesEl.value='Cardio only \u2014 '+(S.warmupType||'cardio')+' '+String(wm).padStart(2,'0')+':'+String(ws).padStart(2,'0');
+    }
+  }else if(type==='MIXED'){
+    if(titleEl)titleEl.style.color='var(--gold2)';
+    if(infoEl){
+      const em=S.warmupElapsed||0;const wm=Math.floor(em/60),ws=em%60;
+      infoEl.textContent=(S.warmupType||'cardio')+' '+String(wm).padStart(2,'0')+':'+String(ws).padStart(2,'0')+' + partial gym session';
+      infoEl.className='cardio-info amber';infoEl.style.display='block';
+    }
+    if(saveBtn){saveBtn.style.background='';saveBtn.style.borderColor='';saveBtn.style.color='';}
+  }else{
+    if(titleEl)titleEl.style.color='var(--gold)';
+    if(infoEl)infoEl.style.display='none';
+    if(saveBtn){saveBtn.style.background='';saveBtn.style.borderColor='';saveBtn.style.color='';}
+  }
+}
 
 function toggleGuide(){const b=document.getElementById('guide-body'),t=document.getElementById('guide-toggle');const o=b.classList.toggle('open');t.textContent='HOW TO GET CREDENTIALS '+(o?'▴':'▾');}
 function toggleShow(id,btn){const el=document.getElementById(id);el.type=el.type==='password'?'text':'password';btn.textContent=el.type==='password'?'show':'hide';}
@@ -750,7 +886,7 @@ function calcPlates(target,plates){
 }
 
 function startSession(day){
-  S.day=day;S.warmupType=null;S.warmupStart=null;S.warmupElapsed=0;S.warmupDismissed=false;S.midNotes='';
+  S.day=day;S.warmupType=null;S.warmupStart=null;S.warmupElapsed=0;S.warmupDismissed=false;S.warmupEditing=false;S.midNotes='';S.sessionType='GYM';
   S.exercises=BASE_EXERCISES[day].map(ex=>{
     const key=ex.name;
     return{
@@ -804,9 +940,17 @@ function renderSession(){
   }else{
     const elapsed=S.warmupElapsed||0;
     const wm=Math.floor(elapsed/60),wsec=elapsed%60;
+    const timeStr=String(wm).padStart(2,'0')+':'+String(wsec).padStart(2,'0');
     html+=`<div class="warmup-card dismissed"><div class="warmup-strip">
       <div class="warmup-strip-lbl">${S.warmupType||'WARMUP'} \u2713</div>
-      <div class="warmup-strip-time" id="warmup-strip-time">${String(wm).padStart(2,'0')+':'+String(wsec).padStart(2,'0')}</div>
+      <div style="display:flex;align-items:center">
+        ${S.warmupEditing
+          ?`<input class="wu-time-input" id="wu-time-input" type="text" inputmode="numeric" value="${timeStr}" maxlength="5" placeholder="MM:SS">
+             <button class="wu-done-btn" onclick="confirmWarmupEdit()">done</button>`
+          :`<div class="warmup-strip-time" id="warmup-strip-time">${timeStr}</div>
+             <button class="wu-edit-btn" onclick="startWarmupEdit()">edit</button>`
+        }
+      </div>
     </div></div>`;
   }
 
@@ -1288,6 +1432,9 @@ function endSession(){
 
   if(S.midNotes)document.getElementById('done-notes').value=S.midNotes;
   buildQuickTags();
+  // Reset session type to GYM default
+  S.sessionType='GYM';
+  setTimeout(()=>setSessionType('GYM'),0);
   const saveBtn=document.getElementById('done-save-btn');
   saveBtn.textContent='SAVE TO NOTION';saveBtn.disabled=false;saveBtn.className='done-btn primary';
   saveBtn.style.borderColor='';saveBtn.style.color='';saveBtn.style.background='';
@@ -1322,12 +1469,14 @@ async function saveToNotion(){
     const rot=ex.rotStage?` · RO-T8 stage ${ex.rotStage}`:'';const ftA=ex.ftAtt?` · ${ex.ftAtt}`:'';const accStr=accs?` · ${accs}`:'';
     return `${ex.currentName}: ${sets}${accStr}${rot}${ftA}`;
   }).join('\n');
-  const warmupStr=S.warmupType?`Warmup: ${S.warmupType}${S.warmupElapsed?' ('+Math.round(S.warmupElapsed/60)+'min)':''}\n`:'';
+  const warmupElapsed=S.warmupElapsed||0;
+  const warmupWm=Math.floor(warmupElapsed/60),warmupWs=warmupElapsed%60;
+  const warmupStr=S.warmupType?`Warmup: ${S.warmupType} ${String(warmupWm).padStart(2,'0')}:${String(warmupWs).padStart(2,'0')}\n`:'';
   const fullNotes=warmupStr+(notes?notes+'\n\n':'')+exSummary;
   const body={parent:{database_id:S.notionDb},properties:{
     Session:{title:[{text:{content:S.day+' · '+fmtShort(d)+' '+fmtTime(d)}}]},
     Date:{date:{start:d.toISOString().split('T')[0]}},
-    Type:{select:{name:S.day}},
+    Type:{select:{name:S.sessionType==='GYM'?S.day:S.sessionType}},
     'Duration (min)':{number:mins},Exercises:{number:exCount},
     'Sets Completed':{number:totalSets},'Avg RPE':{number:avgRpe},PRs:{number:prCount},
     Notes:{rich_text:[{text:{content:fullNotes.slice(0,1900)}}]}
