@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#0a0a0a">
@@ -17,9 +17,9 @@
   --green:#1a8a3a;--green2:#0a1a0a;--green3:#0f2a0f;
   --red:#8a2020;--red2:#1a0808
 }
-html,body{height:100%;overflow:hidden;background:var(--bg)}
+html,body{height:100%;height:100dvh;overflow:hidden;background:var(--bg)}
 body{font-family:'Courier New',monospace;color:var(--txt)}
-#app{height:100vh;max-width:440px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
+#app{height:100vh;height:100dvh;max-width:440px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
 .screen{display:none;flex-direction:column;height:100%;overflow:hidden}
 .screen.active{display:flex}
 .hdr{flex-shrink:0;padding:11px 16px 7px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;background:var(--bg)}
@@ -31,7 +31,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .nlbl{font-size:9px;color:var(--green);letter-spacing:0.5px}
 .timer-disp{font-size:9px;color:var(--txt2);letter-spacing:1px;font-variant-numeric:tabular-nums}
 .scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:24px}
-.nav-bar{flex-shrink:0;display:flex;border-top:0.5px solid var(--border);background:var(--bg)}
+.nav-bar{flex-shrink:0;display:flex;border-top:0.5px solid var(--border);background:var(--bg);padding-bottom:env(safe-area-inset-bottom,0px)}
 .nav-btn{flex:1;padding:10px 4px 8px;font-family:'Courier New',monospace;font-size:7px;color:var(--txt3);letter-spacing:1px;text-align:center;cursor:pointer;border:none;background:none;-webkit-appearance:none}
 .nav-btn.nav-active{color:var(--gold)}
 .nav-btn.nav-session-back{color:var(--gold2)}
@@ -158,7 +158,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .wt-prog-wrap{width:100%;max-width:320px;height:1px;background:#141414;border-radius:1px;overflow:hidden;flex-shrink:0}
 .wt-prog-bar{height:100%;background:var(--gold3);border-radius:1px;transition:width 1s linear,background 0.5s}
 .wt-prog-bar.done{background:#1a3a1a}
-.wt-footer{padding:14px 20px 28px;flex-shrink:0}
+.wt-footer{padding:14px 20px calc(28px + env(safe-area-inset-bottom,0px));flex-shrink:0}
 .wt-stop{width:100%;background:var(--gold4);border:0.5px solid var(--gold);color:var(--gold);font-family:'Courier New',monospace;font-size:11px;letter-spacing:4px;padding:16px;text-align:center;border-radius:7px;cursor:pointer;-webkit-appearance:none;display:block}
 .wt-stop:active{background:var(--gold3)}
 
@@ -589,6 +589,17 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
   </div>
 </div>
 
+<!-- ADD TO HOME SCREEN BANNER — shows in Safari browser only, not in standalone PWA -->
+<div id="a2hs-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:#111;border-top:0.5px solid var(--gold3);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none">
+  <div style="display:flex;align-items:center;gap:10px;max-width:440px;margin:0 auto">
+    <div style="flex:1">
+      <div style="font-family:'Courier New',monospace;font-size:8px;color:var(--gold2);letter-spacing:1px;margin-bottom:2px">FOR FULL SCREEN — ADD TO HOME SCREEN</div>
+      <div style="font-family:'Courier New',monospace;font-size:7px;color:#333;letter-spacing:0.5px">Tap <span style="color:#555">Share</span> → <span style="color:#555">Add to Home Screen</span> → removes browser bar</div>
+    </div>
+    <button onclick="dismissA2HS()" style="font-family:'Courier New',monospace;font-size:7px;color:#333;background:none;border:0.5px solid #1e1e1e;border-radius:3px;padding:4px 8px;cursor:pointer;-webkit-appearance:none;flex-shrink:0">✕</button>
+  </div>
+</div>
+
 <!-- CUSTOM CONFIRM DIALOG -->
 <div class="confirm-overlay" id="confirm-overlay">
   <div class="confirm-box">
@@ -687,6 +698,7 @@ function init(){
   if(S.notionKey&&S.notionDb){showNotionUI(true);show('home');}else{show('setup');}
   updateHomeDate();updateLastLabels();buildHistList();
   setupSwipeGestures();
+  initA2HSBanner();
 }
 
 function gymConfirm(msg, onOk, onCancel){
@@ -1526,6 +1538,27 @@ function showHistEx(name,btn){
 
 function clearHistory(){gymConfirm('Clear all local session history?\nThis cannot be undone.',()=>{S.history={};saveData();buildHistList();});}
 function clearPRs(){gymConfirm('Clear all personal records?',()=>{S.prs={};saveData();});}
+
+function initA2HSBanner(){
+  // Only show in Safari browser — not in standalone PWA mode, not in Chrome
+  const isStandalone=window.navigator.standalone===true;
+  const isSafari=/^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const dismissed=ls('gym_a2hs_dismissed')==='1';
+  if(!isStandalone&&isSafari&&!dismissed){
+    const banner=document.getElementById('a2hs-banner');
+    if(banner)banner.style.display='block';
+    // Nudge the app body up so banner doesn't cover nav bar
+    const app=document.getElementById('app');
+    if(app)app.style.paddingBottom='60px';
+  }
+}
+function dismissA2HS(){
+  ls('gym_a2hs_dismissed','1');
+  const banner=document.getElementById('a2hs-banner');
+  if(banner)banner.style.display='none';
+  const app=document.getElementById('app');
+  if(app)app.style.paddingBottom='';
+}
 
 init();
 </script>
