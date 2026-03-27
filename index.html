@@ -367,9 +367,9 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
     </div>
     <div class="field-block">
       <div class="field-lbl">NOTION API KEY</div>
-      <div class="field-hint">Starts with secret_ · from notion.so/my-integrations</div>
+      <div class="field-hint">Starts with ntn_ or secret_ · from notion.so/my-integrations</div>
       <div class="field-row">
-        <input class="setup-inp" id="setup-key" type="password" placeholder="secret_xxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+        <input class="setup-inp" id="setup-key" type="password" placeholder="ntn_xxxxxxxxxxxx" autocomplete="off" spellcheck="false">
         <button class="show-btn" onclick="toggleShow('setup-key',this)">show</button>
       </div>
     </div>
@@ -838,7 +838,7 @@ function connectNotion(){
   const err=document.getElementById('setup-err');err.style.display='none';
   if(!key){err.textContent='Please enter your Notion API key.';err.style.display='block';return;}
   if(!db){err.textContent='Please enter your Notion Database ID.';err.style.display='block';return;}
-  if(!key.startsWith('secret_')){err.textContent='API key should start with secret_';err.style.display='block';return;}
+  if(!key.startsWith('secret_')&&!key.startsWith('ntn_')){err.textContent='API key should start with secret_ or ntn_';err.style.display='block';return;}
   S.notionKey=key;S.notionDb=db.replace(/-/g,'');
   ls('gym_key',S.notionKey);ls('gym_db',S.notionDb);
   showNotionUI(true);show('home');
