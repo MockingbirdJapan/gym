@@ -727,7 +727,7 @@ let prevScreen='home';
 let S={
   day:null,exercises:[],sessionStart:null,sessionTimerInt:null,
   restTimerInt:null,restRemaining:0,restTotal:90,restEnabled:true,restPreset:90,
-  restCurrentExIdx:null, // track which exercise triggered rest
+  restCurrentExIdx:null,restCurrentSetIdx:null,
   warmupStart:null,warmupType:null,warmupDismissed:false,warmupElapsed:0,warmupEditing:false,
   modal:{ei:null,si:null,isWU:false},currentKg:0,currentRpe:null,
   holdInt:null,holdTO:null,
@@ -736,6 +736,38 @@ let S={
   midNotes:'',sessionType:'GYM',
   dragSrc:null
 };
+
+// ─── AUDIO ───────────────────────────────────────────────────────────────────
+let _audioCtx=null;
+function getAudioCtx(){
+  if(!_audioCtx){
+    try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+  }
+  return _audioCtx;
+}
+// Unlock AudioContext on first user tap (required by iOS Safari)
+document.addEventListener('touchstart',()=>{
+  const ctx=getAudioCtx();
+  if(ctx&&ctx.state==='suspended')ctx.resume();
+},{once:true,passive:true});
+
+function playRestEndBeep(){
+  const ctx=getAudioCtx();if(!ctx)return;
+  // Two short tones: high then slightly lower, clean and gym-appropriate
+  const now=ctx.currentTime;
+  [[880,0,0.12],[660,0.15,0.18]].forEach(([freq,delay,dur])=>{
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.type='sine';osc.frequency.value=freq;
+    gain.gain.setValueAtTime(0,now+delay);
+    gain.gain.linearRampToValueAtTime(0.35,now+delay+0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001,now+delay+dur);
+    osc.start(now+delay);osc.stop(now+delay+dur+0.05);
+  });
+  // Vibrate if available (Android / some browsers)
+  if(navigator.vibrate)navigator.vibrate([80,60,80]);
+}
 
 function ls(k,v){if(v!==undefined){try{localStorage.setItem(k,v);}catch(e){}return v;}try{return localStorage.getItem(k);}catch(e){return null;}}
 function saveData(){ls('gym_history',JSON.stringify(S.history));ls('gym_lasts',JSON.stringify(S.lastSessions));ls('gym_prs',JSON.stringify(S.prs));ls('gym_acc',JSON.stringify(S.accState));ls('gym_rot',JSON.stringify(S.rotState));ls('gym_ftatt',JSON.stringify(S.ftAttState));}
@@ -942,40 +974,40 @@ function calcPlates(target,plates){
 // ─── NEXT-UP HELPER ──────────────────────────────────────────────────────────
 // Given the exercise index that just triggered rest, find the next exercise
 // in the session that still has at least one unlogged working set.
-function getNextExercise(currentEi){
+// Returns info about what comes immediately after the set that just triggered rest.
+// Priority: next unlogged set on the SAME exercise first, then next exercise.
+// Returns: {ex, ei, setIdx, isNewExercise} or null if session is done.
+function getNextSetInfo(currentEi, currentSi){
+  const cur=S.exercises[currentEi];
+  // Look for the next unlogged working set on the SAME exercise
+  if(cur&&!cur.skipped){
+    const nextSi=cur.sets.findIndex((s,i)=>i>currentSi&&!s.wu&&s.kg===null);
+    if(nextSi!==-1)return{ex:cur,ei:currentEi,setIdx:nextSi,isNewExercise:false};
+  }
+  // Nothing left on current exercise — find the next exercise with unlogged sets
   for(let i=currentEi+1;i<S.exercises.length;i++){
     const ex=S.exercises[i];
     if(ex.skipped)continue;
-    const hasMore=ex.sets.slice(1).some(s=>s.kg===null);
-    if(hasMore)return{ex,ei:i};
-  }
-  // If nothing found ahead, check if current exercise still has more sets
-  const cur=S.exercises[currentEi];
-  if(cur&&!cur.skipped){
-    const more=cur.sets.slice(1).filter(s=>s.kg===null);
-    if(more.length>1){
-      // current exercise has 2+ more sets — the very next set IS on the same exercise
-      return{ex:cur,ei:currentEi,sameExercise:true};
-    }
+    const nextSi=ex.sets.findIndex((s,si)=>si>0&&s.kg===null);
+    if(nextSi!==-1)return{ex,ei:i,setIdx:nextSi,isNewExercise:true};
   }
   return null;
 }
 
-function getSuggestedWeight(ex){
+// Returns {kg, overload} for the specific next set index on an exercise.
+function getSetWeight(ex, setIdx){
   const meta=getMeta(ex);
   const wtType=meta.wt||'stack';
-  // Find the last logged working set's weight as baseline
-  const logged=ex.sets.slice(1).filter(s=>s.kg!==null);
-  if(logged.length){
-    const lastKg=logged[logged.length-1].kg;
-    if(getOverloadReady(ex.currentName)){
-      const bump=(wtType==='smith'||wtType==='ezbar')?1.25:wtType==='ft'?5:2.5;
-      return{kg:lastKg+bump,overload:true};
-    }
+  // If there's already a logged set on this exercise, carry that weight (± overload)
+  const loggedSets=ex.sets.slice(1).filter(s=>s.kg!==null);
+  if(loggedSets.length){
+    const lastKg=loggedSets[loggedSets.length-1].kg;
+    // Only apply overload bump on the FIRST set of a new exercise, not mid-exercise
     return{kg:lastKg,overload:false};
   }
-  // No sets logged yet — fall back to history
-  const histKg=getLastKg(ex.currentName,0,false);
+  // No sets logged yet on this exercise — use history for S1
+  const wIdx=setIdx-1; // setIdx is 1-based in sets[]
+  const histKg=getLastKg(ex.currentName,wIdx,false);
   if(histKg!==null){
     if(getOverloadReady(ex.currentName)){
       const bump=(wtType==='smith'||wtType==='ezbar')?1.25:wtType==='ft'?5:2.5;
@@ -986,42 +1018,48 @@ function getSuggestedWeight(ex){
   return null;
 }
 
-function renderNextUp(currentEi){
+function renderNextUp(currentEi, currentSi){
   const wrap=document.getElementById('rest-next-up');
   const content=document.getElementById('rest-next-content');
   if(!wrap||!content)return;
 
-  const next=getNextExercise(currentEi);
+  const next=getNextSetInfo(currentEi, currentSi);
   if(!next){wrap.style.display='none';return;}
 
-  const{ex,sameExercise}=next;
+  const{ex,setIdx,isNewExercise}=next;
   const meta=getMeta(ex);
   const wtType=meta.wt||'stack';
   const isPerSide=wtType==='smith'||wtType==='ft'||wtType==='ezbar';
   const isDB=wtType==='db';
   const wtLbl=isDB?'kg/hand':isPerSide?'kg/side':'kg';
+  const totalWorkingSets=ex.sets.slice(1).length;
+  const setLabel='S'+setIdx+' of '+totalWorkingSets;
 
-  const wt=getSuggestedWeight(ex);
-  const ol=getOverloadReady(ex.currentName);
+  const wt=getSetWeight(ex,setIdx);
+  const ol=isNewExercise&&getOverloadReady(ex.currentName);
 
   let html='';
-  if(sameExercise){
+  if(isNewExercise){
+    // Show exercise name prominently — user needs to change setup
+    html+=`<div style="font-size:6px;color:var(--txt3);letter-spacing:1.5px;margin-bottom:3px">NEXT EXERCISE · SET UP NOW</div>`;
     html+=`<div class="rest-next-name">${ex.currentName}</div>`;
-    html+=`<div style="font-size:7px;color:var(--txt3);letter-spacing:0.5px;margin-bottom:3px">continuing same exercise</div>`;
+    if(ol)html+=`<div class="rest-next-ol">↑ overload ready</div>`;
   }else{
-    html+=`<div class="rest-next-name">${ex.currentName}</div>`;
-  }
-  if(ol&&!sameExercise){
-    html+=`<div class="rest-next-ol">↑ overload ready</div>`;
+    // Same exercise, just next set — weight is primary info
+    html+=`<div style="font-size:6px;color:var(--txt3);letter-spacing:1.5px;margin-bottom:3px">SAME EXERCISE · ${setLabel}</div>`;
+    html+=`<div class="rest-next-name" style="font-size:9px;color:var(--txt2)">${ex.currentName}</div>`;
   }
   if(wt){
-    html+=`<div class="rest-next-row">
+    html+=`<div class="rest-next-row" style="margin-top:4px">
       <span class="rest-next-wt">${fmtDisp(wt.kg)}</span>
       <span class="rest-next-wt-lbl">${wtLbl}</span>
-      ${wt.overload?`<span class="rest-next-ghost">+bump applied</span>`:''}
+      ${wt.overload?`<span class="rest-next-ghost" style="color:var(--green);font-size:7px;margin-left:6px">+bump</span>`:''}
     </div>`;
+    if(isPerSide||isDB){
+      html+=`<div style="font-size:7px;color:#252525;margin-top:1px">${fmtDisp(wt.kg*2)} kg total</div>`;
+    }
   }else{
-    html+=`<div class="rest-next-done" style="color:var(--txt3);font-size:8px;margin-top:3px">no history — pick your weight</div>`;
+    html+=`<div style="color:var(--txt3);font-size:8px;margin-top:4px;letter-spacing:0.3px">no history · pick your weight</div>`;
   }
   content.innerHTML=html;
   wrap.style.display='block';
@@ -1445,6 +1483,7 @@ function logSet(){
   saveData();
   if(S.restEnabled&&!isWU){
     S.restCurrentExIdx=ei;
+    S.restCurrentSetIdx=si;
     showRest(ex.currentName,S.currentKg,S.currentRpe);
   }else{
     closeModal();
@@ -1461,11 +1500,11 @@ function showRest(exName,kg,rpe){
   clearInterval(S.restTimerInt);
   S.restTimerInt=setInterval(()=>{
     S.restRemaining=Math.max(0,S.restRemaining-1);updateRestUI();
-    if(S.restRemaining<=0){clearInterval(S.restTimerInt);closeModal();}
+    if(S.restRemaining<=0){clearInterval(S.restTimerInt);playRestEndBeep();closeModal();}
   },1000);
   buildRestPresets();updateRestUI();updateRestToggleLabel();
-  // Render next-up block
-  if(S.restCurrentExIdx!==null)renderNextUp(S.restCurrentExIdx);
+  // Render next-up block with set-level precision
+  if(S.restCurrentExIdx!==null)renderNextUp(S.restCurrentExIdx, S.restCurrentSetIdx||1);
   show('rest');
 }
 function updateRestUI(){
@@ -1514,6 +1553,11 @@ function endSession(){
   const avgRpe=allRpe.length?parseFloat((allRpe.reduce((a,b)=>a+b,0)/allRpe.length).toFixed(1)):0;
   const exCount=S.exercises.filter(ex=>!ex.skipped&&ex.sets.some(s=>s.kg!==null)).length;
   const prCount=S.exercises.filter(ex=>!ex.skipped&&ex.sets.slice(1).some(s=>s.kg!==null&&S.prs[ex.currentName]&&s.kg>=S.prs[ex.currentName])).length;
+  const tonnage=S.exercises.filter(ex=>!ex.skipped).reduce((total,ex)=>{
+    const meta=getMeta(ex);const isDouble=meta.wt==='smith'||meta.wt==='ft'||meta.wt==='ezbar'||meta.wt==='db';
+    return total+ex.sets.slice(1).filter(s=>s.kg!==null).reduce((a,s)=>a+s.kg*(isDouble?2:1),0);
+  },0);
+  const tonnageDisp=tonnage>=1000?(tonnage/1000).toFixed(1)+'t':Math.round(tonnage)+'kg';
 
   document.getElementById('done-title').textContent=S.day+' DONE';
   document.getElementById('done-saved').textContent=S.day.toLowerCase()+' · '+fmtShort(d)+' · '+fmtTime(d);
@@ -1522,6 +1566,7 @@ function endSession(){
     <div class="stat-card"><div class="stat-val">${totalSets}</div><div class="stat-lbl">sets</div></div>
     <div class="stat-card"><div class="stat-val">${mins}m</div><div class="stat-lbl">duration</div></div>
     <div class="stat-card"><div class="stat-val">${avgRpe||'—'}</div><div class="stat-lbl">avg rpe</div></div>
+    <div class="stat-card"><div class="stat-val" style="font-size:15px">${tonnageDisp}</div><div class="stat-lbl">volume</div></div>
   `;
   let exHtml='';
   S.exercises.forEach(ex=>{
