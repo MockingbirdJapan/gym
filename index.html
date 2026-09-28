@@ -830,7 +830,7 @@ const SSB_WEDGE_FROM='2026-09-18'; // SSB logs on/after this date were on the AT
 // ═══════════════════════════════════════════════════════════════════════════
 // GYM v4 — Winter 2026 · core + variation · home + warehouse · Zwift-aware
 // ═══════════════════════════════════════════════════════════════════════════
-const APP_VERSION='4.4';
+const APP_VERSION='4.5';
 const PROXY='https://notion-proxy.vic-prado.workers.dev';
 const RIDES_DB_DEFAULT='2419668731db4db9a6a5bfa8d06b74b4'; // Notion "Cycling Rides" database
 const REST_PRESETS=[60,90,120,180];
@@ -860,8 +860,8 @@ function setProfile(p){PROFILE=(p==='T')?'T':'V';try{localStorage.setItem('gym_p
 // ─── SETTINGS ───────────────────────────────────────────────────────────────
 // e1 keys: bench = BD bench (P1) · ssb_w = SSB on the wedge (P1) · ssb = SSB flat (history only)
 const DEFAULT_SETTINGS={
-  bars:{bd:20,ssb:31,trap:25,ezHome:10,camber:20},
-  barsVerified:{bd:true,ssb:false,trap:false,ezHome:false,camber:false},
+  bars:{bd:20,ssb:30,trap:34.5,ezHome:15.9,camber:20.2,gymway:15.6}, // weighed 28 Sep 2026 — exact, never rounded
+  barsVerified:{bd:true,ssb:true,trap:true,ezHome:true,camber:true,gymway:true},
   e1:{bench:87.5,ssb:133,ssb_w:null},
   hardIF:0.80,hardTSS:70,tsbLow:-15,
   targetMin:0,
@@ -892,7 +892,7 @@ function EQ(key){
     trap:   {label:'Open trap bar',loc:'home',type:'sleeve',bar:b.trap,plates:HOME_PLATES,barKey:'trap'},
     ezHome: {label:'REP EZ bar',loc:'home',type:'sleeve',bar:b.ezHome,plates:HOME_PLATES,barKey:'ezHome'},
     camber: {label:'REP Cambered Multi-Grip Bar',loc:'home',type:'sleeve',bar:b.camber,plates:HOME_PLATES,barKey:'camber'},
-    landmine:{label:'Landmine',loc:'home',type:'landmine',plates:dblInv(HOME_PLATES)},
+    landmine:{label:'Landmine (Gymway bar)',loc:'home',type:'landmine',plates:dblInv(HOME_PLATES)}, // logged as plates on the sleeve; the bar's weight is not added
     hexdb:  {label:`Hex DBs · home (${fmtKg(D.home[0])}–${fmtKg(D.home[D.home.length-1])} kg)`,loc:'home',type:'db',weights:D.home},
     hexdbW: {label:`Hex DBs · warehouse (${fmtKg(D.wh[0])}–${fmtKg(D.wh[D.wh.length-1])} kg)`,loc:'wh',type:'db',weights:D.wh},
     hexdbAll:{label:'Hex DB',loc:'home',type:'db',weights:HEX_DB},
@@ -1267,6 +1267,85 @@ function readiness(tmplKey){
 }
 
 
+
+// ─── v4.5: back-offs by stripping plates + bar-weight migration (28 Sep 2026) ──
+// Candidates = every per-sleeve load you get by only REMOVING plates from the top set's stack (fewest-plates
+// breakdown, heaviest first). Closest to the target wins; a tie goes to the lighter load. More than 1 kg per
+// sleeve from the target → null, and the caller falls back to normal rounding (snapW: nearest, halfway → down).
+const STRIP_MAX_KG=1;
+function stripBackoff(eq,topIn,targetIn){
+  if(!(eq.type==='sleeve'||eq.type==='perSide')||topIn==null||!(topIn>0))return null;
+  const stack=plateBreakdown(eq.plates,topIn);if(!stack||!stack.length)return null;
+  const n=stack.length;const cand=new Map(); // kept sum → plates removed (fewest removals kept)
+  for(let m=0;m<(1<<n);m++){
+    let s=0;const removed=[];
+    for(let i=0;i<n;i++){if(m&(1<<i))s+=stack[i];else removed.push(stack[i]);}
+    s=r2(s);if(!cand.has(s)||removed.length<cand.get(s).length)cand.set(s,removed);
+  }
+  let best=null;
+  for(const [v,removed] of cand){
+    const d=Math.abs(v-targetIn);
+    if(!best||d<best.d-1e-9||(Math.abs(d-best.d)<=1e-9&&v<best.v))best={v,d,removed};
+  }
+  if(!best||best.d>STRIP_MAX_KG+1e-9)return null;
+  return best;
+}
+// e1RM display: one decimal (stored and used at full precision)
+function fmtE1(v){return v==null||isNaN(v)?'—':(Math.round(v*10)/10).toFixed(1);}
+// Weighed bar weights (28 Sep): apply once per profile, then recalculate every stored sleeve total
+// (bar + 2 × per-sleeve), PRs and e1RMs from the corrected totals. Notion is corrected separately — nothing is re-sent.
+const BARS_0928={bd:20,ssb:30,trap:34.5,ezHome:15.9,camber:20.2,gymway:15.6};
+const E1_EX={bench:'bench_bd',ssb_w:'ssb_w',ssb:'ssb_flat'};
+function exEqKeyOf(key,entry){return (entry&&entry.eq)||(EX[key]&&EX[key].eq)||null;}
+function recalcSleeveSets(sets,eqKey){
+  let n=0;const eq=eqKey?EQ(eqKey):null;
+  if(!eq||eq.type!=='sleeve')return 0;
+  // only v3+ sets (per-sleeve `in` + `total`); v2 sets logged the total in `kg` and are left alone
+  (sets||[]).forEach(s=>{if(s.in==null||s.total==null)return;const t=toTotal(eq,s.in);if(Math.abs(s.total-t)>1e-9){s.total=t;n++;}});
+  return n;
+}
+function bestE1(entries){
+  const ests=[];entries.forEach(e=>e.sets.forEach(s=>{if(!sWU(s)&&s.reps&&s.reps<=10&&s.rpe!=null&&sTotal(s))ests.push(e1rmOf(sTotal(s),s.reps,s.rpe));}));
+  return ests.length?Math.max(...ests):null;
+}
+function migrateBars0928(){
+  if(ls('gym_bars_0928'))return null;
+  const rep={bars:{},sets:0,e1:{},prs:{}};
+  for(const [k,v] of Object.entries(BARS_0928)){if(SET.bars[k]!==v)rep.bars[k]=[SET.bars[k],v];SET.bars[k]=v;SET.barsVerified[k]=true;}
+  saveSettings();
+  // history: totals recalculated wherever the stored total ≠ bar + 2 × per-sleeve
+  const changed=new Set();
+  for(const [key,entries] of Object.entries(S.history)){
+    let c=0;(entries||[]).forEach(e=>{c+=recalcSleeveSets(e.sets,exEqKeyOf(key,e));});
+    if(c){changed.add(key);rep.sets+=c;}
+    if(c&&S.prs[key]!=null){
+      let best=null;(entries||[]).forEach(e=>e.sets.forEach(s=>{if(!sWU(s)&&sTotal(s)!=null)best=Math.max(best??0,sTotal(s));}));
+      if(best!=null&&best!==S.prs[key]){rep.prs[key]=[S.prs[key],best];S.prs[key]=best;}
+    }
+  }
+  // e1RM history: entries logged from a session are recalculated from that day's sets; settings seeds and manual entries stay
+  for(const [lift,exId] of Object.entries(E1_EX)){
+    const rec=S.e1[lift];if(!rec||!rec.hist||!rec.hist.length||!changed.has(exId))continue; // e.g. bench: BD bar unchanged → untouched
+    const H=S.history[exId]||[];const lastOld=rec.hist[rec.hist.length-1].v;
+    rec.hist.forEach(h=>{
+      if(h.src==='manual')return;
+      let v=null;
+      const day=H.filter(e=>String(e.day||e.date||'').slice(0,10)===h.date);
+      if(day.length)v=bestE1(day);
+      else if(h.src==='seed'&&lift==='ssb_w'){const upTo=H.filter(e=>String(e.day||e.date||'').slice(0,10)<=h.date);if(upTo.length)v=bestE1(upTo);}
+      if(v!=null&&Math.abs(v-h.v)>1e-9)h.v=v;
+    });
+    const lastNew=rec.hist[rec.hist.length-1].v;
+    if(rec.cur!=null&&Math.abs(rec.cur-lastOld)<0.01&&Math.abs(lastNew-lastOld)>1e-9){rep.e1[lift]=[rec.cur,lastNew];rec.cur=lastNew;}
+  }
+  // an unfinished session waiting to be resumed
+  const act=lsJSON('gym_active',null);
+  if(act&&Array.isArray(act.exercises)){act.exercises.forEach(ex=>{rep.sets+=recalcSleeveSets(ex.sets,ex.eqKey||exEqKeyOf(ex.exId,null));});ls('gym_active',JSON.stringify(act));}
+  for(const k in _vwCache)delete _vwCache[k];
+  saveData();ls('gym_bars_0928',JSON.stringify(Object.assign({at:new Date().toISOString()},rep)));
+  return rep;
+}
+
 // ─── v4.4 HELPERS ───────────────────────────────────────────────────────────
 // Rest timer default by tier (V). Simple mode keeps the single preset.
 function restForTier(ex){
@@ -1373,9 +1452,9 @@ function renderHome(){
     const fill=seed!=null&&g>seed?Math.max(0,Math.min(100,Math.round(((cur-seed)/(g-seed))*100))):0;
     const dl=seed!=null?r2(cur-seed):0;
     return `<div class="goal" onclick="openHistFor('${LIFT_EX[lift]}')"><div class="goal-lbl">${lbl} e1RM</div>
-      <div class="goal-val">${fmtDisp(cur)}<small> → ${g}</small></div>
+      <div class="goal-val">${fmtE1(cur)}<small> → ${g}</small></div>
       <div class="goal-bar"><div class="goal-fill" style="width:${fill}%"></div></div>
-      <div class="goal-delta${dl<0?' neg':''}">${dl>=0?'+':''}${fmtDisp(dl)} since start · ${fmtDisp(r2(g-cur))} to go</div></div>`;
+      <div class="goal-delta${dl<0?' neg':''}">${dl>=0?'+':''}${fmtE1(dl)} since start · ${fmtE1(g-cur)} to go</div></div>`;
   };
   document.getElementById('goals-wrap').innerHTML=`<div class="goal-row">${goal('bench','BENCH')}${goal('ssb_w','SSB WEDGE')}</div>`;
   // week strip
@@ -1689,8 +1768,10 @@ function suggestFor(ex,si){
     const e1=liftE1(ex);
     const top=ex.sets.find(s=>s.kind==='top');
     if(set.kind==='back'&&top&&top.total!=null){
-      const t=top.total*set.pct;
-      return{v:snapW(eq,Math.max(0,fromTotal(eq,t))),why:`${Math.round(set.pct*100)}% of top set (${fmtDisp(top.total)})${set.pause?' · paused':''}`};
+      const t=top.total*set.pct;const tgt=Math.max(0,fromTotal(eq,t));const lbl=`${Math.round(set.pct*100)}% of top set (${fmtDisp(top.total)})${set.pause?' · paused':''}`;
+      const sb=stripBackoff(eq,top.in,tgt);
+      if(sb)return{v:sb.v,why:`${lbl} · ${sb.removed.length?'take off '+sb.removed.join(' + '):'same plates'}`};
+      return{v:snapW(eq,tgt),why:lbl};
     }
     if(e1==null){
       if(prev.length)return{v:prev[prev.length-1].in,why:'same as previous set'};
@@ -1698,8 +1779,11 @@ function suggestFor(ex,si){
     }
     if(set.kind==='test'||set.kind==='pct'){const t=e1*set.pct;return{v:snapW(eq,Math.max(0,fromTotal(eq,t))),why:`${Math.round(set.pct*100)}% of e1RM ${fmtDisp(e1)}`};}
     if(set.kind==='back'){
-      const tt=loadFor(e1,top?top.r:5,top?top.rpe:7);const t=tt*set.pct;
-      return{v:snapW(eq,Math.max(0,fromTotal(eq,t))),why:`${Math.round(set.pct*100)}% of planned top (${fmtDisp(r2(tt))})`};
+      const tt=loadFor(e1,top?top.r:5,top?top.rpe:7);const t=tt*set.pct;const tgt=Math.max(0,fromTotal(eq,t));
+      const topIn=snapW(eq,Math.max(0,fromTotal(eq,tt)));const lbl=`${Math.round(set.pct*100)}% of planned top (${fmtDisp(toTotal(eq,topIn))})`;
+      const sb=stripBackoff(eq,topIn,tgt);
+      if(sb)return{v:sb.v,why:`${lbl} · ${sb.removed.length?'take off '+sb.removed.join(' + '):'same plates'}`};
+      return{v:snapW(eq,tgt),why:lbl};
     }
     const t=loadFor(e1,set.r,set.rpe);
     return{v:snapW(eq,Math.max(0,fromTotal(eq,t))),why:`${set.r} @ RPE ${set.rpe} from ${e1Fallback(ex)?'flat SSB ':''}e1RM ${fmtDisp(r2(e1))}${e1Fallback(ex)?' (no wedge e1RM yet — go by bar speed)':''}`};
@@ -2253,7 +2337,7 @@ function showRest(ex,set){
   document.getElementById('rest-sub').textContent=fmtShort(new Date()).toUpperCase();
   document.getElementById('rest-ex').textContent=ex.currentName.toUpperCase();
   const wt=eq.type==='none'?'':fmtDisp(set.in)+unitLbl(eq)+(eq.type==='sleeve'?' ('+fmtDisp(set.total)+'kg)':'')+' · ';
-  const e1=ex.lift&&set.kind!=='wu'?' · e1RM '+fmtDisp(e1rmOf(set.total,set.reps,set.rpe)):'';
+  const e1=ex.lift&&set.kind!=='wu'?' · e1RM '+fmtE1(e1rmOf(set.total,set.reps,set.rpe)):'';
   document.getElementById('rest-logged').textContent='logged · '+wt+'×'+set.reps+(set.rpe?' @ RPE '+set.rpe:'')+e1;
   const preset=restForTier(ex);
   S.restTotal=preset;S.restEnd=Date.now()+preset*1000;S.restBeeped=false;
@@ -2411,8 +2495,8 @@ function renderDone(){
     .map(([v,l])=>`<div class="stat-card"><div class="stat-val"${l==='volume'||l==='総重量'?' style="font-size:15px"':''}>${v}</div><div class="stat-lbl">${l}</div></div>`).join('');
   let e1h='';
   Object.entries(sm.e1Changes).forEach(([lift,c])=>{
-    if(c.from==null){e1h+=`<div class="e1-row">${LIFT_LBL[lift]} e1RM calibrated: <b>${fmtDisp(c.to)}</b> · goal ${GOALS[lift]||'—'}</div>`;return;}
-    const dl=r2(c.to-c.from);e1h+=`<div class="e1-row">${LIFT_LBL[lift]} e1RM <b>${fmtDisp(c.from)} → ${fmtDisp(c.to)}</b> (${dl>=0?'+':''}${fmtDisp(dl)}) · goal ${GOALS[lift]||'—'}</div>`;});
+    if(c.from==null){e1h+=`<div class="e1-row">${LIFT_LBL[lift]} e1RM calibrated: <b>${fmtE1(c.to)}</b> · goal ${GOALS[lift]||'—'}</div>`;return;}
+    const dl=r2(c.to-c.from);e1h+=`<div class="e1-row">${LIFT_LBL[lift]} e1RM <b>${fmtE1(c.from)} → ${fmtE1(c.to)}</b> (${dl>=0?'+':''}${fmtE1(dl)}) · goal ${GOALS[lift]||'—'}</div>`;});
   document.getElementById('done-e1').innerHTML=e1h;
   let exHtml='';
   S.exercises.forEach(ex=>{
@@ -2540,9 +2624,9 @@ function buildNotionPayload(){
     Location:{select:{name:legacy?'Warehouse':st.location}},
     Program:{select:{name:legacy?'Push/Pull v2 (archived)':PROGRAM.notionName}},
     'Volume (kg)':{number:st.vol},
-    'Bench e1RM':{number:e1Cur('bench')}
+    'Bench e1RM':{number:e1Cur('bench')!=null?Math.round(e1Cur('bench')*10)/10:null}
   };
-  if(e1Cur('ssb_w')!=null)props['SSB e1RM']={number:e1Cur('ssb_w')};
+  if(e1Cur('ssb_w')!=null)props['SSB e1RM']={number:Math.round(e1Cur('ssb_w')*10)/10};
   if(S.wk){props.Week={number:S.wk.w};if(SET.notionBlock)props.Block={select:{name:S.wk.block}};}
   if(!isNaN(bw)&&bw>0)props['Body Weight (kg)']={number:bw};
   if(S.adjust&&S.adjust.length)props.Adjustments={rich_text:rtChunks(S.adjust.join('\n'))};
@@ -2687,7 +2771,7 @@ function renderSettings(){
     ${row('Hard ride: TSS ≥',num('hardTSS',SET.hardTSS,1))}
     ${row('Low form: TSB <',num('tsbLow',SET.tsbLow,1))}
     <div class="settings-sec-lbl">BAR WEIGHTS (kg)</div>
-    ${bar('bd','Black Diamond')}${bar('ssb','SSB')}${bar('trap','Open trap bar')}${bar('ezHome','REP EZ bar')}${bar('camber','REP Cambered Multi-Grip Bar')}
+    ${bar('bd','Black Diamond')}${bar('ssb','SSB')}${bar('trap','Open trap bar')}${bar('ezHome','REP EZ bar')}${bar('gymway','Gymway 190 cm (landmine)')}${bar('camber','REP Cambered Multi-Grip Bar')}
     <div class="settings-sec-lbl">e1RM (drives priority-lift weights)</div>
     ${row('Bench (BD bar)',num('e1_bench',e1Cur('bench'),0.5))}
     ${row('SSB on the wedge',num('e1_ssb_w',e1Cur('ssb_w'),0.5))}
@@ -2847,6 +2931,7 @@ function init(){
   ['bench','ssb'].forEach(l=>{if(!S.e1[l]||!S.e1[l].hist)S.e1[l]={cur:SET.e1[l],hist:[{date:PROGRAM.pre,v:SET.e1[l],src:'seed'}]};});
   const rc=lsJSON('gym_rides',null);if(rc){S.rides=rc.rides;S.ridesAt=rc.at;}
   if(PROFILE==='V'){fixBench0921();seedDurations();}
+  migrateBars0928();
   ls('gym_v4_ok','1');saveData();
   setupSwipeGestures();initA2HSBanner();localiseNav();
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){tickSession();if(document.getElementById('screen-rest').classList.contains('active'))tickRest();}});

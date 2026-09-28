@@ -44,8 +44,14 @@ const seedV = (extra) => new Function(`
       {kind:'back',in:25,total:70,kg:25,reps:5,rpe:8},
       {kind:'back',in:25,total:70,kg:25,reps:5,rpe:9}]}],
     ft_pushdown:[{day:'2026-09-24',session:'THU',tier:'A3',sets:[{kind:'work',in:20,total:20,reps:10,rpe:7.5},{kind:'work',in:20,total:20,reps:10,rpe:6.5},{kind:'work',in:25,total:25,reps:10,rpe:7}]}],
-    ft_fly_mid:[{day:'2026-09-24',session:'THU',tier:'A3',sets:[{kind:'work',in:25,total:25,reps:12,rpe:6},{kind:'work',in:30,total:30,reps:12,rpe:7},{kind:'work',in:35,total:35,reps:12,rpe:8}]}]
+    ft_fly_mid:[{day:'2026-09-24',session:'THU',tier:'A3',sets:[{kind:'work',in:25,total:25,reps:12,rpe:6},{kind:'work',in:30,total:30,reps:12,rpe:7},{kind:'work',in:35,total:35,reps:12,rpe:8}]}],
+    ssb_w:[{day:'2026-09-26',session:'SAT',tier:'P1',eq:'ssb',sets:[{kind:'wu',wu:true,in:27.5,total:86,kg:27.5},{kind:'top',in:38.5,total:108,kg:38.5,reps:5,rpe:8},{kind:'back',in:34,total:99,kg:34,reps:5,rpe:7},{kind:'back',in:34,total:99,kg:34,reps:5,rpe:7.5}]}],
+    trap_rdl:[{day:'2026-09-26',session:'SAT',tier:'S2',sets:[{kind:'wu',wu:true,in:20,total:65,kg:20},{kind:'work',in:35,total:95,kg:35,reps:6,rpe:7.5},{kind:'work',in:35,total:95,kg:35,reps:6,rpe:7.5}]}],
+    camber_mid:[{day:'2026-09-26',session:'SAT',tier:'S2',sets:[{kind:'work',in:25,total:70,kg:25,reps:6,rpe:8}]}],
+    ez_curl:[{day:'2026-09-28',session:'MON',tier:'A3',sets:[{kind:'work',in:10,total:30,kg:10,reps:9,rpe:9}]}]
   };
+  h.bench_bd.unshift({date:'2026-08-01T10:00:00.000Z',sets:[{kg:80,rpe:9}]}); // v2-style: total in kg, no per-sleeve
+  localStorage.setItem('gym_prs', JSON.stringify({trap_rdl:95, ssb_w:108, bench_bd:80, ez_curl:30}));
   localStorage.setItem('gym_history', JSON.stringify(h));
   localStorage.setItem('gym_e1', JSON.stringify({bench:{cur:86.33,hist:[{date:'2026-09-21',v:87.5,src:'seed'},{date:'2026-09-21',v:86.33}]},ssb:{cur:133,hist:[{date:'2026-09-21',v:133,src:'seed'}]},ssb_w:{cur:133.2,hist:[{date:'2026-09-26',v:133.2}]}}));
   ${extra || ''}
@@ -70,7 +76,7 @@ let URL;
     for (const [k, t] of Object.entries(TEMPLATES_T)) for (const s of t.slots) s.picks.concat([s.def]).forEach(id => { if (!EX[id]) bad.push('T ' + k + ':' + id); });
     return { bad, ver: APP_VERSION };
   });
-  ok(prog.ver === '4.4', 'version 4.4');
+  ok(prog.ver === '4.5', 'version 4.5');
   ok(prog.bad.length === 0, 'every default / pick / block default exists in EX ' + prog.bad.join(','));
   ok(p._errs.length === 0, 'no JS errors on load ' + p._errs.join(' | '));
 
@@ -115,12 +121,66 @@ let URL;
   await p.evaluate(() => setWeekLayout('B'));
 
   console.log('Bench e1RM fix + durations');
-  const fix = await p.evaluate(() => ({ top: S.history.bench_bd[0].sets.find(s => s.kind === 'top'), cur: e1Cur('bench'), hist: S.e1.bench.hist.map(x => x.v), dur: durMap() }));
+  const fix = await p.evaluate(() => ({ top: S.history.bench_bd.find(e => e.day === '2026-09-21').sets.find(s => s.kind === 'top'), cur: e1Cur('bench'), hist: S.e1.bench.hist.map(x => x.v), dur: durMap() }));
   ok(fix.top.total === 70 && fix.top.in === 25, '21 Sep bench TOP corrected to 70 kg (25/sleeve)');
   ok(fix.cur === 87.5, 'bench e1RM now 87.5 (' + fix.cur + ')');
   ok(fix.dur['2026-09-26|SAT'] === 107 && fix.dur['2026-09-21|MON'] === 115, 'week-0 durations seeded');
   await p.evaluate(() => { S.e1.bench.cur = 90; saveData(); }); await p.reload(); await p.waitForTimeout(200);
   ok(await p.evaluate(() => e1Cur('bench')) === 90, 'bench fix runs once only');
+  await p.close();
+
+  console.log('Bar weights + totals (v4.5)');
+  p = await newPage(browser, T.MON28, seedV());
+  const bw = await p.evaluate(() => {
+    const H = S.history; const tot = (k, day) => H[k].find(e => (e.day || '') === day).sets.map(s => s.total);
+    return { bars: SET.bars, ver: SET.barsVerified, ssb: tot('ssb_w', '2026-09-26'), trap: tot('trap_rdl', '2026-09-26'), ez: tot('ez_curl', '2026-09-28'), camber: tot('camber_mid', '2026-09-26'),
+      v2: H.bench_bd.find(e => !e.day).sets[0], benchTop: H.bench_bd.find(e => e.day === '2026-09-21').sets.map(s => s.total),
+      e1ssb: e1Cur('ssb_w'), e1bench: e1Cur('bench'), prs: S.prs, goal: [...document.querySelectorAll('.goal-val')].map(e => e.textContent),
+      t: { ez: toTotal(EQ('ezHome'), 10), trap: toTotal(EQ('trap'), 35), ssb: toTotal(EQ('ssb'), 32), camber: toTotal(EQ('camber'), 25), bd: toTotal(EQ('bd'), 24.5) } };
+  });
+  ok(JSON.stringify(bw.bars) === JSON.stringify({ bd: 20, ssb: 30, trap: 34.5, ezHome: 15.9, camber: 20.2, gymway: 15.6 }), 'bar weights exact: ' + JSON.stringify(bw.bars));
+  ok(Object.values(bw.ver).every(Boolean), 'all bars marked verified');
+  ok(bw.t.ez === 35.9 && bw.t.trap === 104.5 && bw.t.ssb === 94 && bw.t.camber === 70.2 && bw.t.bd === 69, `totals: EZ 10 → ${bw.t.ez} · trap 35 → ${bw.t.trap} · SSB 32 → ${bw.t.ssb} · camber 25 → ${bw.t.camber} · BD 24.5 → ${bw.t.bd}`);
+  ok(JSON.stringify(bw.ssb) === '[85,107,98,98]', 'SSB 26 Sep recalculated: ' + bw.ssb);
+  ok(JSON.stringify(bw.trap) === '[74.5,104.5,104.5]' && bw.ez[0] === 35.9 && bw.camber[0] === 70.2, `trap ${bw.trap} · EZ ${bw.ez} · camber ${bw.camber}`);
+  ok(Math.abs(bw.e1ssb - 131.97) < 0.01 && bw.goal[1].startsWith('132.0'), `SSB e1RM ${bw.e1ssb} shows ${bw.goal[1]}`);
+  ok(bw.e1bench === 87.5 && bw.goal[0].startsWith('87.5') && JSON.stringify(bw.benchTop) === '[56,70,70,70]', 'bench unchanged (e1RM 87.5, totals 56/70/70/70)');
+  ok(bw.v2.kg === 80 && bw.v2.total === undefined, 'v2 bench entry (total in kg) left alone');
+  ok(bw.prs.trap_rdl === 104.5 && bw.prs.ssb_w === 107 && bw.prs.ez_curl === 35.9 && bw.prs.bench_bd === 80, 'PRs recalculated for changed bars only ' + JSON.stringify(bw.prs));
+  await p.evaluate(() => { S.day = null; startSession('MON'); });
+  const modal = await p.evaluate(() => { const ei = S.exercises.findIndex(e => e.exId === 'ez_curl'); S.modal = { ei, si: 0 }; S.currentKg = 10; updateKgDisplay(); const a = document.getElementById('kg-total').textContent;
+    const ej = S.exercises.findIndex(e => e.exId === 'ssb_pause_w'); S.modal = { ei: ej, si: 1 }; S.currentKg = 32; updateKgDisplay(); return [a, document.getElementById('kg-total').textContent]; });
+  ok(modal[0] === 'REP EZ bar 15.9 + 20 = 35.9 kg' && modal[1] === 'SSB 30 + 64 = 94 kg', 'weight picker total line: ' + modal.join(' | '));
+  await p.evaluate(() => { SET.bars.ssb = 31; saveSettings(); }); await p.reload(); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => SET.bars.ssb) === 31, 'bar migration runs once (a later edit in Settings sticks)');
+  ok(p._errs.length === 0, 'no JS errors ' + p._errs.join(' | '));
+  await p.close();
+
+  console.log('Snap + back-offs (v4.5)');
+  p = await newPage(browser, T.MON28, seedV());
+  const sn = await p.evaluate(() => {
+    const L = validWeights(EQ('ssb')); const full = L.length === 116 && L.every((v, i) => Math.abs(v - i * 0.5) < 1e-9);
+    const e = EQ('bd');
+    return { full, half: snapW(e, 21.25), above: snapW(e, 21.26), below: snapW(e, 21.24),
+      pb245: plateBreakdown(HOME_PLATES, 24.5), pb34: plateBreakdown(HOME_PLATES, 34), pb375: plateBreakdown(HOME_PLATES, 37.5),
+      s1: stripBackoff(e, 24.5, 21.74), s2: stripBackoff(e, 24.5, 21.5), tie: stripBackoff(e, 24.5, 22.25), far: stripBackoff(EQ('ssb'), 20, 17) };
+  });
+  ok(sn.full, 'home plates build every 0.5 kg step from 0 to 57.5 per sleeve');
+  ok(sn.half === 21 && sn.above === 21.5 && sn.below === 21, `nearest, halfway rounds down (21.25 → ${sn.half}, 21.26 → ${sn.above}, 21.24 → ${sn.below})`);
+  ok(JSON.stringify(sn.pb245) === '[20,2.5,2]' && JSON.stringify(sn.pb34) === '[20,10,2.5,1.5]' && JSON.stringify(sn.pb375) === '[20,15,2.5]', 'fewest plates, heaviest first');
+  ok(sn.s1.v === 22 && JSON.stringify(sn.s1.removed) === '[2.5]', 'back-off: top 24.5, target 21.74 → 22 (take off 2.5)');
+  ok(sn.s2.v === 22, 'your example: target 21.5 → 22, not 21.5');
+  ok(sn.tie.v === 22, 'tie between 22 and 22.5 → the lighter');
+  ok(sn.far === null, 'more than 1 kg away → normal rounding');
+  await p.evaluate(() => { S.day = null; startSession('MON'); });
+  const bo = await p.evaluate(() => {
+    const ei = S.exercises.findIndex(e => e.exId === 'bench_bd'); const ex = S.exercises[ei];
+    const bi = ex.sets.findIndex(s => s.kind === 'back'); const planned = suggestFor(ex, bi);
+    const ti = ex.sets.findIndex(s => s.kind === 'top'); S.modal = { ei, si: ti }; S.currentKg = 24.5; S.currentReps = 5; S.currentRpe = 7; logSet();
+    return { planned, after: suggestFor(ex, bi), top: ex.sets[ti].total };
+  });
+  ok(bo.planned.v === 22 && /take off 2.5/.test(bo.planned.why), 'planned back-off strips plates: ' + bo.planned.why);
+  ok(bo.top === 69 && bo.after.v === 22 && /take off 2.5/.test(bo.after.why), 'after the top set (69 kg): ' + bo.after.why);
   await p.close();
 
   console.log('Home screen (Mon 28 Sep, week B)');
@@ -214,12 +274,13 @@ let URL;
     endSession(); const pl = buildNotionPayload(); const tbl = pl.children[1].table;
     return { w: tbl.table_width, hdr: tbl.children[0].table_row.cells.map(c => c[0].text.content), widths: tbl.children.map(r => r.table_row.cells.length),
       row2: tbl.children[2].table_row.cells.map(c => c[0].text.content), notes: pl.properties.Notes.rich_text.map(x => x.text.content).join(''),
-      dur: durMap()['2026-10-02|FRI'], hist: (S.history.rot8_wide || []).slice(-1)[0].sets[0].at };
+      dur: durMap()['2026-10-02|FRI'], hist: (S.history.rot8_wide || []).slice(-1)[0].sets[0].at, e1: [pl.properties['Bench e1RM'].number, pl.properties['SSB e1RM'].number] };
   });
   ok(pay.w === 9 && pay.hdr.join(',') === 'Slot,Exercise,Set,Logged,Total kg,Reps,RPE,Time,Rest' && pay.widths.every(x => x === 9), 'Notion table has Time + Rest columns (9 wide)');
   ok(pay.row2[8] === '2:30', 'rest = time since previous set (' + pay.row2[8] + ')');
   ok(/median rest S2 2:30/.test(pay.notes), 'notes carry median rest by tier');
   ok(pay.dur != null && pay.hist != null, 'duration stored + set times kept in history');
+  ok(pay.e1[0] === 87.5 && pay.e1[1] === 132, 'Notion e1RMs to one decimal (' + pay.e1.join(' / ') + ')');
   await p.close();
 
   console.log("Tomoko's profile");
