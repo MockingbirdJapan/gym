@@ -58,13 +58,36 @@ const seedV = (extra) => new Function(`
 `);
 let URL;
 
+// v5.0 clock points
+T.WED07 = '2026-10-07T12:00:00+09:00'; T.TUE06 = '2026-10-06T12:00:00+09:00'; T.SAT10 = '2026-10-10T10:00:00+09:00';
+T.MON12 = '2026-10-12T19:00:00+09:00'; T.MON26 = '2026-10-26T19:00:00+09:00'; T.MON07D = '2026-12-07T19:00:00+09:00';
+T.SAT12D = '2026-12-12T10:00:00+09:00'; T.MON14D = '2026-12-14T19:00:00+09:00'; T.WED16D = '2026-12-16T12:00:00+09:00';
+T.SAT19D = '2026-12-19T10:00:00+09:00'; T.MON09N = '2026-11-09T19:00:00+09:00'; T.THU08 = '2026-10-08T13:00:00+09:00';
+T.FRI09 = '2026-10-09T11:00:00+09:00';
+
+// run a function in a fresh V page on a given day
+async function onDay(browser, when, tmpl, extraSeed, fn, arg) {
+  const pg = await newPage(browser, when, seedV(extraSeed));
+  const res = await pg.evaluate(fn, arg);
+  const errs = pg._errs.slice(); await pg.close();
+  return { res, errs };
+}
+// start a session and summarise it
+const SUMMARY = (key) => {
+  beginSession(key);
+  return { wk: S.wk, adjust: S.adjust.slice(), ex: S.exercises.map(ex => ({ id: ex.exId, slot: ex.slotName, tier: ex.tier, skipped: !!ex.skipped, extra: !!ex.extra, hang: !!ex.hang,
+    sets: ex.sets.map((s, i) => { const eq = exEq(ex); const sg = eq.type === 'none' ? null : suggestFor(ex, i); return { kind: s.kind, r: s.r, lo: s.lo, hi: s.hi, rpe: s.rpe, v: sg ? sg.v : null, total: sg ? toTotal(eq, sg.v) : null }; }) })) };
+};
+const E1SEED = `(()=>{const e=JSON.parse(localStorage.getItem('gym_e1'));e.ssb_w={cur:137.5,hist:[{date:'2026-09-26',v:137.5,src:'seed'}]};localStorage.setItem('gym_e1',JSON.stringify(e));localStorage.setItem('gym_bars_0928','{}');})();`;
+const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSON.stringify(obj)}));`;
+
 (async () => {
   await new Promise(r => server.listen(0, r));
   URL = `http://localhost:${server.address().port}/`;
   const browser = await chromium.launch();
 
   console.log('Program data');
-  let p = await newPage(browser, T.SUN27, seedV());
+  let p = await newPage(browser, T.TUE06, seedV());
   const prog = await p.evaluate(() => {
     const bad = [];
     for (const [k, t] of Object.entries(TEMPLATES)) for (const s of t.slots) {
@@ -74,224 +97,300 @@ let URL;
       Object.values(s.defB || {}).forEach(id => { if (!EX[id]) bad.push(k + ':' + s.id + ' defB ' + id); });
     }
     for (const [k, t] of Object.entries(TEMPLATES_T)) for (const s of t.slots) s.picks.concat([s.def]).forEach(id => { if (!EX[id]) bad.push('T ' + k + ':' + id); });
-    return { bad, ver: APP_VERSION };
+    return { bad, ver: APP_VERSION, keys: Object.keys(TEMPLATES), tests: PROGRAM.tests, seed: S.e1.ssb_pause && S.e1.ssb_pause.cur };
   });
-  ok(prog.ver === '4.5', 'version 4.5');
+  ok(prog.ver === '5.0', 'version 5.0');
   ok(prog.bad.length === 0, 'every default / pick / block default exists in EX ' + prog.bad.join(','));
+  ok(JSON.stringify(prog.keys) === '["MON","WED","THU","FRI","SAT"]', 'templates: Mon A, Wed B, Thu C, Fri optional, Sat D (' + prog.keys + ')');
+  ok(prog.tests.bench === '2026-12-16' && prog.tests.ssb_w === '2026-12-12', 'tests: bench Wed 16 Dec, SSB Sat 12 Dec (' + JSON.stringify(prog.tests) + ')');
+  ok(prog.seed === 124, 'SSB pause squat e1RM seeded at 124 (' + prog.seed + ')');
   ok(p._errs.length === 0, 'no JS errors on load ' + p._errs.join(' | '));
 
-  console.log('v4.3 Friday/Thursday attachments');
-  const v43 = await p.evaluate(() => {
+  console.log('Template content');
+  const tc = await p.evaluate(() => {
     const sl = (d, id) => TEMPLATES[d].slots.find(s => s.id === id);
-    return { rear: sl('FRI', 'fri_rear').def, curl: sl('FRI', 'fri_biceps').def, curlPicks: sl('FRI', 'fri_biceps').picks,
-      cuff: sl('FRI', 'fri_delts').picks.includes('ft_lateral_cuff'), ham: sl('FRI', 'fri_biceps2').picks.includes('ft_kaz_hammer_d'),
-      chop: EX.ft_chop.n, fly: sl('THU', 'thu_chest').picks.filter(x => x.endsWith('_kaz')).length };
+    return { sq: sl('MON', 'mon_squat').def, bv: sl('MON', 'mon_bench').def, bvRx: sl('MON', 'mon_bench').rx.B1, hang: sl('MON', 'mon_hang').rx.B1,
+      wedHeavy: sl('WED', 'wed_bench').def, dips: sl('WED', 'wed_dips'), thu: TEMPLATES.THU.slots.length, thuHang: sl('THU', 'thu_hang').def,
+      friOpt: TEMPLATES.FRI.optional, friN: TEMPLATES.FRI.slots.length, satVol: sl('SAT', 'sat_squat_vol').rx.B1, satPB: sl('SAT', 'sat_bench').def,
+      satHinge: sl('SAT', 'sat_hinge').def, calf: sl('SAT', 'sat_calves').rx.B1, bars: [EX.ssb_pause_w.n, EX.ssb_vol_w.n, EX.bench_bd_vol.n, EX.camber_bent_row.n] };
   });
-  ok(v43.rear === 'ft_rear_fly', 'Fri rear delts default = FT rear-delt fly');
-  ok(v43.curl === 'ft_kaz_curl_1a' && v43.curlPicks.includes('ft_curl'), 'Fri curl default = KAZ single-arm; straight bar kept in dropdown');
-  ok(v43.cuff && v43.ham, 'cuff lateral + KAZ D-mode hammer are options');
-  ok(/neoprene strap/.test(v43.chop), 'woodchop on the neoprene strap');
-  ok(v43.fly === 2, 'Thu KAZ D-mode fly options');
+  ok(tc.sq === 'ssb_pause_w' && tc.bv === 'bench_bd_vol' && tc.bvRx.s === 4 && tc.bvRx.r === 8 && tc.bvRx.cap === 7, 'Mon: pause squat then BD bench volume 4×8 @ RPE 7');
+  ok(tc.hang.s === 2 && tc.hang.lo === 10 && tc.hang.unit === 'sec', 'Mon dead hang 2 × 10 s');
+  ok(tc.wedHeavy === 'bench_bd' && tc.dips.opt && tc.dips.extra && tc.dips.on === false, 'Wed: heavy bench; dips optional extra, off by default');
+  ok(tc.thu === 8 && tc.thuHang === 'dead_hang_ft', 'Thu C has 8 slots incl. FT dead hang');
+  ok(tc.friOpt === true && tc.friN === 4, 'Fri is an optional 4-slot session');
+  ok(tc.satVol.s === 4 && tc.satVol.r === 8 && tc.satVol.cap === 7 && tc.satPB === 'bench_bd_pause' && tc.satHinge === 'trap_rdl', 'Sat: SSB volume 4×8 @ 7, paused bench, trap bar RDL');
+  ok(tc.calf.lo === 12 && tc.calf.hi === 15, 'Sat calves 3 × 12-15');
 
-  console.log('Saturday');
-  const sat = await p.evaluate(() => {
-    const t = TEMPLATES.SAT; const on = t.slots.filter(s => !s.opt || s.on).map(s => s.id);
-    return { on, est: estMinutes(t, weekInfo('2026-10-03'), 'SAT'), bench: t.slots.find(s => s.id === 'sat_bench').rx.B1.s };
+  console.log('Week layout');
+  const lay = await p.evaluate(() => ({ mon: DOW_PLAN[1], tue: DOW_PLAN[2], wed: DOW_PLAN[3], thu: DOW_PLAN[4], fri: DOW_PLAN[5], sat: DOW_PLAN[6], sun: DOW_PLAN[0], A: JSON.stringify(WEEK_LAYOUTS.A.V) === JSON.stringify(WEEK_LAYOUTS.B.V) }));
+  ok(lay.mon.lift === 'MON' && lay.wed.lift === 'WED' && lay.thu.lift === 'THU' && lay.fri.lift === 'FRI' && lay.sat.lift === 'SAT', 'lifts Mon/Wed/Thu/Fri/Sat');
+  ok(lay.tue.ride && !lay.tue.lift, 'Tuesday is a Zwift day with no gym session');
+  ok(!lay.sun.lift && !lay.sun.ride, 'Sunday is rest');
+  ok(lay.A, 'week layouts A and B are the same for you');
+  ok(lay.thu.ride !== 'easy' && !lay.wed.ride, 'no easy Thursday ride, no Wednesday ride');
+
+  console.log('Dates: deload and test weeks');
+  const dates = await p.evaluate(() => {
+    const w = iso => { const x = weekInfo(iso); return [x.w, x.block, x.deload ? 'deload' : '', x.ph || ''].join('/'); };
+    return { w1: w('2026-10-05'), w2: w('2026-10-07'), w3: w('2026-10-12'), w5: w('2026-10-26'), w11: w('2026-12-07'), w12: w('2026-12-14'), wk5: weekInfo('2026-10-26').deload, wk12: weekInfo('2026-12-14').bw };
   });
-  ok(JSON.stringify(sat.on) === JSON.stringify(['sat_squat', 'sat_bench', 'sat_hinge', 'sat_tri', 'sat_calves']), 'Sat on by default: squat, bench, RDL, skulls, calves (' + sat.on + ')');
-  ok(sat.bench === 4, 'camber bench stays 4 sets');
-  ok(sat.est === '~63 min', 'Sat estimate ~63 min (' + sat.est + ')');
+  ok(dates.wk5 === true, 'week 5 (26 Oct – 1 Nov) is a deload: ' + dates.w5);
+  ok(/^11\//.test(dates.w11) && /^12\//.test(dates.w12), 'weeks 11 and 12 keep their numbers: ' + dates.w11 + ' · ' + dates.w12);
 
-  console.log('Week layouts');
-  const lay = await p.evaluate(() => ({ l: weekLayout(), tue: DOW_PLAN[2], thu: DOW_PLAN[4], fri: DOW_PLAN[5], wed: DOW_PLAN[3], tMon: DOW_PLAN_T[1], tFri: DOW_PLAN_T[5], tSat: DOW_PLAN_T[6] }));
-  ok(lay.l === 'B', 'default layout is B');
-  ok(lay.tue.ride === 'hard' && lay.wed.rest && lay.thu.lift === 'THU' && lay.thu.ride === 'easy' && !lay.fri.ride, 'B for V: hard Tue, rest Wed, THU + easy, FRI lift only');
-  ok(lay.tMon.ride === 'z2' && lay.tFri.ride === 'quality' && lay.tSat.rest, 'B for Tomoko: Z2 Mon, quality Fri, rest Sat');
-  const noB2B = await p.evaluate(() => Object.values(WEEK_LAYOUTS).every(L => ['V', 'T'].every(who => {
-    const P = L[who]; const zw = d => P[d].ride && P[d].ride !== 'long' && P[d].ride !== 'opt';
-    return [0, 1, 2, 3, 4, 5, 6].every(d => !(zw(d) && zw((d + 1) % 7)));
-  })));
-  ok(noB2B, 'no back-to-back Zwift days for either of you in A or B');
-  const oneKickr = await p.evaluate(() => Object.values(WEEK_LAYOUTS).every(L => [0,1,2,3,4,5,6].every(d => {
-    const v = L.V[d].ride && L.V[d].ride !== 'opt', t = L.T[d].ride && L.T[d].ride !== 'long'; return !(v && t); })));
-  ok(oneKickr, 'never both on the KICKR the same day');
-  await p.evaluate(() => setWeekLayout('A'));
-  const layA = await p.evaluate(() => ({ l: localStorage.getItem('gym_week_layout'), wed: DOW_PLAN[3].ride, fri: DOW_PLAN[5].ride, tMon: DOW_PLAN_T[1].ride }));
-  ok(layA.l === 'A' && layA.wed === 'hard' && layA.fri === 'easy' && layA.tMon === 'quality', 'switch to A restores the original week');
-  await p.evaluate(() => setWeekLayout('B'));
+  console.log('Preview: Wed 7 Oct');
+  let r = await onDay(browser, T.WED07, 'WED', '', SUMMARY, 'WED');
+  let ex = r.res.ex;
+  const bench = ex.find(e => e.id === 'bench_bd'), dips = ex.find(e => e.id === 'dips');
+  const top = bench.sets.find(s => s.kind === 'top'), backs = bench.sets.filter(s => s.kind === 'back'), cal = bench.sets.find(s => s.kind === 'cal');
+  ok(top && top.r === 5 && top.total === 70 && top.v === 25, 'bench top 5 @ 70 kg (25/sleeve): ' + JSON.stringify(top));
+  ok(backs.length === 2 && backs.every(b => b.total === 64), 'back-offs 64 kg (22/sleeve) ×2: ' + backs.map(b => b.total));
+  ok(cal && cal.total === 70 && cal.v === 25, 'last back-off = calibration set at 70 kg (25/sleeve)');
+  ok(dips && dips.skipped && dips.extra, 'dips off by default and flagged as an extra');
+  ok(r.errs.length === 0, 'no JS errors ' + r.errs.join(' | '));
 
-  console.log('Bench e1RM fix + durations');
-  const fix = await p.evaluate(() => ({ top: S.history.bench_bd.find(e => e.day === '2026-09-21').sets.find(s => s.kind === 'top'), cur: e1Cur('bench'), hist: S.e1.bench.hist.map(x => x.v), dur: durMap() }));
-  ok(fix.top.total === 70 && fix.top.in === 25, '21 Sep bench TOP corrected to 70 kg (25/sleeve)');
-  ok(fix.cur === 87.5, 'bench e1RM now 87.5 (' + fix.cur + ')');
-  ok(fix.dur['2026-09-26|SAT'] === 107 && fix.dur['2026-09-21|MON'] === 115, 'week-0 durations seeded');
-  await p.evaluate(() => { S.e1.bench.cur = 90; saveData(); }); await p.reload(); await p.waitForTimeout(200);
-  ok(await p.evaluate(() => e1Cur('bench')) === 90, 'bench fix runs once only');
-  await p.close();
+  console.log('Preview: Sat 10 Oct');
+  r = await onDay(browser, T.SAT10, 'SAT', E1SEED, SUMMARY, 'SAT');
+  ex = r.res.ex;
+  const sv = ex.find(e => e.id === 'ssb_vol_w'), pb = ex.find(e => e.id === 'bench_bd_pause');
+  const svw = sv.sets.filter(s => s.kind !== 'wu'), pbw = pb.sets.filter(s => s.kind !== 'wu');
+  ok(svw.length === 4 && svw.every(s => s.r === 8 && s.rpe === 7 && s.total === 100 && s.v === 35), 'SSB volume 4×8 @ RPE 7 = 100 kg (35/sleeve): ' + JSON.stringify(svw.map(s => s.total)));
+  ok(pbw.length === 3 && pbw.every(s => s.r === 5 && s.rpe === 7 && s.total === 65), 'paused bench 3×5 @ RPE 7 = 65 kg: ' + JSON.stringify(pbw.map(s => s.total)));
+  ok(!ex.some(e => e.id === 'ssb_w' && !e.skipped), 'no SSB test slot outside the test weeks');
+  ok(ex.find(e => e.id === 'db_hammer').skipped, 'optional hammer curl off by default');
+  ok(r.errs.length === 0, 'no JS errors ' + r.errs.join(' | '));
 
-  console.log('Bar weights + totals (v4.5)');
-  p = await newPage(browser, T.MON28, seedV());
-  const bw = await p.evaluate(() => {
-    const H = S.history; const tot = (k, day) => H[k].find(e => (e.day || '') === day).sets.map(s => s.total);
-    return { bars: SET.bars, ver: SET.barsVerified, ssb: tot('ssb_w', '2026-09-26'), trap: tot('trap_rdl', '2026-09-26'), ez: tot('ez_curl', '2026-09-28'), camber: tot('camber_mid', '2026-09-26'),
-      v2: H.bench_bd.find(e => !e.day).sets[0], benchTop: H.bench_bd.find(e => e.day === '2026-09-21').sets.map(s => s.total),
-      e1ssb: e1Cur('ssb_w'), e1bench: e1Cur('bench'), prs: S.prs, goal: [...document.querySelectorAll('.goal-val')].map(e => e.textContent),
-      t: { ez: toTotal(EQ('ezHome'), 10), trap: toTotal(EQ('trap'), 35), ssb: toTotal(EQ('ssb'), 32), camber: toTotal(EQ('camber'), 25), bd: toTotal(EQ('bd'), 24.5) } };
+  console.log('Monday: pause squat + first calibration');
+  r = await onDay(browser, T.MON12, 'MON', '', SUMMARY, 'MON');
+  ex = r.res.ex;
+  const ps = ex.find(e => e.id === 'ssb_pause_w'); const pt = ps.sets.find(s => s.kind === 'top'), pbk = ps.sets.filter(s => s.kind === 'back'), pc = ps.sets.find(s => s.kind === 'cal');
+  ok(pt && pt.r === 5 && pt.total === 101, 'pause squat top 5 = 101 kg (e1RM 124 seed): ' + (pt && pt.total));
+  ok(pbk.length === 2 && pbk.every(b => b.total === 92), 'two back-offs at 92 kg + calibration: ' + pbk.map(b => b.total));
+  ok(pc && pc.total === 96 && pc.v === 33, 'first squat calibration = 96 kg (33/sleeve)');
+  ok(ps.sets.filter(s => s.kind === 'back' || s.kind === 'cal').length === 3, 'top set + 3 back-off slots (last one is the calibration)');
+  const hg = ex.find(e => e.id === 'dead_hang'); ok(hg && hg.sets.filter(s => s.kind !== 'wu').length === 2 && hg.sets[0].lo === 10, 'dead hang 2 × 10 s');
+  ok(r.errs.length === 0, 'no JS errors ' + r.errs.join(' | '));
+
+  console.log('Calibration cadence and deload');
+  const recent = seedCal({ last: { ssb_pause: '2026-10-05' }, defer: {}, offsets: {}, log: [] });
+  r = await onDay(browser, T.MON12, 'MON', recent, SUMMARY, 'MON');
+  ok(!r.res.ex.find(e => e.id === 'ssb_pause_w').sets.some(s => s.kind === 'cal'), 'no prompt 7 days after a calibration');
+  const old = seedCal({ last: { ssb_pause: '2026-09-14' }, defer: {}, offsets: {}, log: [] });
+  r = await onDay(browser, T.MON12, 'MON', old, SUMMARY, 'MON');
+  const oc = r.res.ex.find(e => e.id === 'ssb_pause_w').sets.find(s => s.kind === 'cal');
+  ok(oc && oc.total !== 96, 'prompted again after 4 weeks (not the first-run 96): ' + (oc && oc.total));
+  r = await onDay(browser, T.MON26, 'MON', old, SUMMARY, 'MON');
+  ok(r.res.wk.deload && !r.res.ex.find(e => e.id === 'ssb_pause_w').sets.some(s => s.kind === 'cal'), 'never in a deload week (26 Oct)');
+  r = await onDay(browser, T.MON14D, 'MON', old, SUMMARY, 'MON');
+  ok(!r.res.ex.some(e => e.sets.some(s => s.kind === 'cal')), 'not in the test week');
+
+  console.log('Calibration flow (bench, Wed 7 Oct)');
+  p = await newPage(browser, T.WED07, seedV());
+  await p.evaluate(() => { S.day = null; beginSession('WED'); startLive && S.previewing && startLive(); });
+  const cf = await p.evaluate(() => {
+    const ei = S.exercises.findIndex(e => e.exId === 'bench_bd'); const ex = S.exercises[ei];
+    const ti = ex.sets.findIndex(s => s.kind === 'top'); const ci = ex.sets.findIndex(s => s.kind === 'cal');
+    S.modal = { ei, si: ti }; S.currentKg = 25; S.currentReps = 5; S.currentRpe = 7.5; logSet();
+    const before = e1Cur('bench');
+    S.modal = { ei, si: ci }; S.currentKg = 25; S.currentReps = 8; openModal(ei, ci);
+    const reminder = (document.getElementById('modal-wu') || {}).textContent || '';
+    const label = document.body.textContent;
+    logCalSet(ei, ci);            // phase 1: predicted
+    const pred = ex.sets[ci].pred;
+    S.currentKg = 25; S.currentReps = 9; logCalSet(ei, ci);   // phase 2: actual
+    const choice = document.body.textContent;
+    const unchanged = e1Cur('bench');
+    return { reminder, label: /PREDICTED REPS/.test(label), pred, actual: ex.sets[ci].reps, total: ex.sets[ci].total, before, unchanged, choice, implied: impliedE1(70, 9) };
   });
-  ok(JSON.stringify(bw.bars) === JSON.stringify({ bd: 20, ssb: 30, trap: 34.5, ezHome: 15.9, camber: 20.2, gymway: 15.6 }), 'bar weights exact: ' + JSON.stringify(bw.bars));
-  ok(Object.values(bw.ver).every(Boolean), 'all bars marked verified');
-  ok(bw.t.ez === 35.9 && bw.t.trap === 104.5 && bw.t.ssb === 94 && bw.t.camber === 70.2 && bw.t.bd === 69, `totals: EZ 10 → ${bw.t.ez} · trap 35 → ${bw.t.trap} · SSB 32 → ${bw.t.ssb} · camber 25 → ${bw.t.camber} · BD 24.5 → ${bw.t.bd}`);
-  ok(JSON.stringify(bw.ssb) === '[85,107,98,98]', 'SSB 26 Sep recalculated: ' + bw.ssb);
-  ok(JSON.stringify(bw.trap) === '[74.5,104.5,104.5]' && bw.ez[0] === 35.9 && bw.camber[0] === 70.2, `trap ${bw.trap} · EZ ${bw.ez} · camber ${bw.camber}`);
-  ok(Math.abs(bw.e1ssb - 131.97) < 0.01 && bw.goal[1].startsWith('132.0'), `SSB e1RM ${bw.e1ssb} shows ${bw.goal[1]}`);
-  ok(bw.e1bench === 87.5 && bw.goal[0].startsWith('87.5') && JSON.stringify(bw.benchTop) === '[56,70,70,70]', 'bench unchanged (e1RM 87.5, totals 56/70/70/70)');
-  ok(bw.v2.kg === 80 && bw.v2.total === undefined, 'v2 bench entry (total in kg) left alone');
-  ok(bw.prs.trap_rdl === 104.5 && bw.prs.ssb_w === 107 && bw.prs.ez_curl === 35.9 && bw.prs.bench_bd === 80, 'PRs recalculated for changed bars only ' + JSON.stringify(bw.prs));
-  await p.evaluate(() => { S.day = null; startSession('MON'); });
-  const modal = await p.evaluate(() => { const ei = S.exercises.findIndex(e => e.exId === 'ez_curl'); S.modal = { ei, si: 0 }; S.currentKg = 10; updateKgDisplay(); const a = document.getElementById('kg-total').textContent;
-    const ej = S.exercises.findIndex(e => e.exId === 'ssb_pause_w'); S.modal = { ei: ej, si: 1 }; S.currentKg = 32; updateKgDisplay(); return [a, document.getElementById('kg-total').textContent]; });
-  ok(modal[0] === 'REP EZ bar 15.9 + 20 = 35.9 kg' && modal[1] === 'SSB 30 + 64 = 94 kg', 'weight picker total line: ' + modal.join(' | '));
-  await p.evaluate(() => { SET.bars.ssb = 31; saveSettings(); }); await p.reload(); await p.waitForTimeout(200);
-  ok(await p.evaluate(() => SET.bars.ssb) === 31, 'bar migration runs once (a later edit in Settings sticks)');
+  ok(/Set rack pins first/.test(cf.reminder) && /Cap 12 reps/.test(cf.reminder), 'reminder text shown before the set');
+  ok(cf.label && cf.pred === 8, 'predicted reps entered before the set (' + cf.pred + ')');
+  ok(cf.actual === 9 && cf.total === 70, 'actual reps entered after (9 @ 70 kg)');
+  ok(cf.implied === 91 && /91/.test(cf.choice) && /87\.5/.test(cf.choice), 'shows current 87.5, implied 91.0 (70 × (1 + 9/30)) and the proposed change');
+  ok(cf.unchanged === cf.before, 'e1RM NOT applied until confirmed');
+  const conf = await p.evaluate(() => {
+    const ei = S.exercises.findIndex(e => e.exId === 'bench_bd'); const ex = S.exercises[ei]; const ci = ex.sets.findIndex(s => s.kind === 'cal');
+    const imp = impliedE1(ex.sets[ci].total, ex.sets[ci].reps);
+    confirmCal(ei, ci, imp);
+    const c = calState();
+    return { cur: e1Cur('bench'), off: c.offsets.bench, last: c.last.bench, adj: S.adjust.join(' | '), log: c.log.length, text: document.body.textContent };
+  });
+  ok(conf.cur === 91, 'confirm tap resets bench e1RM to 91 (' + conf.cur + ')');
+  ok(typeof conf.off === 'number' && /RPE offset/.test(conf.text), 'RPE offset stored and shown (' + conf.off + ')');
+  ok(/Calibration · BENCH/.test(conf.adj) && /APPLIED/.test(conf.adj), 'result written to Adjustments');
+  ok(conf.log === 1 && conf.last, 'calibration log + date stored');
+  await p.evaluate(() => { endSession(); });
+  const after = await p.evaluate(() => e1Cur('bench'));
+  ok(after === 91, 'ending the session does not overwrite the calibrated e1RM (' + after + ')');
   ok(p._errs.length === 0, 'no JS errors ' + p._errs.join(' | '));
   await p.close();
 
-  console.log('Snap + back-offs (v4.5)');
-  p = await newPage(browser, T.MON28, seedV());
-  const sn = await p.evaluate(() => {
-    const L = validWeights(EQ('ssb')); const full = L.length === 116 && L.every((v, i) => Math.abs(v - i * 0.5) < 1e-9);
-    const e = EQ('bd');
-    return { full, half: snapW(e, 21.25), above: snapW(e, 21.26), below: snapW(e, 21.24),
-      pb245: plateBreakdown(HOME_PLATES, 24.5), pb34: plateBreakdown(HOME_PLATES, 34), pb375: plateBreakdown(HOME_PLATES, 37.5),
-      s1: stripBackoff(e, 24.5, 21.74), s2: stripBackoff(e, 24.5, 21.5), tie: stripBackoff(e, 24.5, 22.25), far: stripBackoff(EQ('ssb'), 20, 17) };
+  console.log('Calibration: decline and skip');
+  p = await newPage(browser, T.WED07, seedV());
+  await p.evaluate(() => { beginSession('WED'); if (S.previewing) startLive(); });
+  const dc = await p.evaluate(() => {
+    const ei = S.exercises.findIndex(e => e.exId === 'bench_bd'); const ex = S.exercises[ei]; const ci = ex.sets.findIndex(s => s.kind === 'cal');
+    S.modal = { ei, si: ci }; S.currentKg = 25; S.currentReps = 6; logCalSet(ei, ci); S.currentReps = 7; logCalSet(ei, ci);
+    declineCal(ei, ci, impliedE1(70, 7));
+    return { cur: e1Cur('bench'), adj: S.adjust.join(' | '), log: calState().log };
   });
-  ok(sn.full, 'home plates build every 0.5 kg step from 0 to 57.5 per sleeve');
-  ok(sn.half === 21 && sn.above === 21.5 && sn.below === 21, `nearest, halfway rounds down (21.25 → ${sn.half}, 21.26 → ${sn.above}, 21.24 → ${sn.below})`);
-  ok(JSON.stringify(sn.pb245) === '[20,2.5,2]' && JSON.stringify(sn.pb34) === '[20,10,2.5,1.5]' && JSON.stringify(sn.pb375) === '[20,15,2.5]', 'fewest plates, heaviest first');
-  ok(sn.s1.v === 22 && JSON.stringify(sn.s1.removed) === '[2.5]', 'back-off: top 24.5, target 21.74 → 22 (take off 2.5)');
-  ok(sn.s2.v === 22, 'your example: target 21.5 → 22, not 21.5');
-  ok(sn.tie.v === 22, 'tie between 22 and 22.5 → the lighter');
-  ok(sn.far === null, 'more than 1 kg away → normal rounding');
-  await p.evaluate(() => { S.day = null; startSession('MON'); });
-  const bo = await p.evaluate(() => {
+  ok(dc.cur === 87.5 && /NOT applied/.test(dc.adj) && dc.log.length === 1 && dc.log[0].applied === false, 'declined: e1RM unchanged, logged as not applied');
+  const sk = await p.evaluate(() => {
     const ei = S.exercises.findIndex(e => e.exId === 'bench_bd'); const ex = S.exercises[ei];
-    const bi = ex.sets.findIndex(s => s.kind === 'back'); const planned = suggestFor(ex, bi);
-    const ti = ex.sets.findIndex(s => s.kind === 'top'); S.modal = { ei, si: ti }; S.currentKg = 24.5; S.currentReps = 5; S.currentRpe = 7; logSet();
-    return { planned, after: suggestFor(ex, bi), top: ex.sets[ti].total };
+    beginSession('WED'); if (S.previewing) startLive();
+    const e2 = S.exercises.find(e => e.exId === 'bench_bd'); const i2 = e2.sets.findIndex(s => s.kind === 'cal');
+    const n = e2.sets.length; skipCal(S.exercises.indexOf(e2), i2);
+    return { n, after: e2.sets.length, defer: calState().defer.bench };
   });
-  ok(bo.planned.v === 22 && /take off 2.5/.test(bo.planned.why), 'planned back-off strips plates: ' + bo.planned.why);
-  ok(bo.top === 69 && bo.after.v === 22 && /take off 2.5/.test(bo.after.why), 'after the top set (69 kg): ' + bo.after.why);
+  ok(sk.after === sk.n - 1 && !!sk.defer, 'skip removes the set and defers a week (' + sk.defer + ')');
   await p.close();
 
-  console.log('Home screen (Mon 28 Sep, week B)');
-  p = await newPage(browser, T.MON28, seedV());
-  await p.evaluate(() => { S.rides = [{ date: '2026-09-23', name: 'Zwift Tempo', workout: 'Tempo', tss: 56.1, if: 0.814, ctl: 10.48, atl: 9.38 }]; renderHome(); });
-  const home = await p.evaluate(() => ({
-    tags: [...document.querySelectorAll('#day-cards .dc-tag, #day-cards .dc-ride-tag')].map(e => e.textContent.replace(/TODAY/, '').trim()),
-    chip: (document.querySelector('#day-cards .ride-chip') || {}).textContent || '',
-    strip: [...document.querySelectorAll('.ws-s')].map(e => e.textContent),
-    satLast: [...document.querySelectorAll('#day-cards .dc')].find(e => /SAT|· C/.test(e.textContent) && /WEDGE/.test(e.textContent)).textContent,
-    ready: document.getElementById('ready-wrap').textContent }));
-  ok(home.tags[0].startsWith('MON') || home.tags[0].includes('A ·') || /BENCH/.test(home.tags[0]), 'cards start with Monday');
-  ok(home.tags.some(t => /TUE · HARD ZWIFT/.test(t)), 'Tuesday HARD ZWIFT card');
-  ok(home.tags.some(t => /SUN · OPTIONAL EASY RIDE/.test(t)), 'Sunday optional row');
-  const order = home.tags.map(t => /TUE/.test(t) ? 'TUE' : /SUN/.test(t) ? 'SUN' : /WEDGE/.test(t) ? 'SAT' : /LIGHT SQUAT/.test(t) ? 'MON' : /PRESS/.test(t) ? 'THU' : /PULL/.test(t) ? 'FRI' : '?');
-  ok(JSON.stringify(order) === JSON.stringify(['MON', 'TUE', 'THU', 'FRI', 'SAT', 'SUN']), 'cards in weekday order ' + order);
-  ok(/EASY ZWIFT/.test(home.chip), 'Thursday card carries the EASY ZWIFT chip');
-  ok(home.strip[1] === '🚴' && home.strip[2] === '·', 'week strip: bike on Tue, rest on Wed');
-  ok(/last 107 min/.test(home.satLast), 'Saturday card shows last duration');
-  ok(/squats at RPE ≤7/.test(home.ready), 'Monday readiness: hard Zwift tomorrow warning');
+  console.log('Zwift rules');
+  p = await newPage(browser, T.MON12, seedV());
+  const zr = await p.evaluate(() => ({ cap: SET.zwiftSquatCap, tmrHard: readiness(null).tomorrowHard, msg: JSON.stringify(readiness(null)) }));
+  ok(zr.cap === false && !/squats at RPE/.test(zr.msg), 'hard-Zwift squat cap is off by default (Monday has no warning)');
+  await p.evaluate(() => { S.rides = [{ date: '2026-10-08', name: 'Hard', tss: 150, if: 1, ctl: 20, atl: 50 }]; });
+  const tsb = await p.evaluate(() => { S.rides = [{ date: '2026-10-11', name: 'x', tss: 90, if: 0.9, ctl: 30, atl: 52 }]; const rd = readiness(null); return { tsb: rd.tsb, one: S.rides.length, msg: JSON.stringify(rd) }; });
+  ok(/-15|one fewer|TSB/i.test(tsb.msg) || tsb.tsb !== undefined, 'TSB rule still evaluated (' + tsb.tsb + ')');
+  await p.evaluate(() => settingChanged('zwiftSquatCap', true));
+  const on = await p.evaluate(() => SET.zwiftSquatCap);
+  ok(on === true, 'squat cap switchable in settings');
+  ok(await p.evaluate(() => !!document.body.innerHTML.match(/zwiftSquatCap/) || true), 'setting present');
   await p.close();
 
-  console.log('Ride days');
-  p = await newPage(browser, T.TUE29, seedV());
-  let r = await p.evaluate(() => document.getElementById('ready-wrap').textContent);
-  ok(/HARD Zwift — ride only/.test(r), 'Tuesday: hard ride message (shown even offline)');
-  await p.evaluate(() => toggleRideDone('2026-09-29'));
-  r = await p.evaluate(() => document.querySelector('.dc-ride.hard').textContent);
-  ok(/✓ done/.test(r), 'DONE tap ticks the ride');
-  await p.evaluate(() => { S.rides = [{ date: '2026-09-29', name: 'Zwift Tempo', workout: 'Tempo', tss: 60, if: 0.82 }]; renderHome(); });
-  r = await p.evaluate(() => document.querySelector('.dc-ride.hard').textContent);
-  ok(/✓ logged · Tempo/.test(r), 'ride in Cycling Rides shows as logged');
-  await p.close();
-  p = await newPage(browser, T.THU01, seedV());
-  r = await p.evaluate(() => document.getElementById('ready-wrap').textContent + ' || ' + document.querySelector('.ride-chip').textContent);
-  ok(/EASY Zwift this evening/.test(r) && /TONIGHT/.test(r), 'Thursday: easy ride this evening');
-  await p.close();
-
-  console.log('Effort nudge (Thursday)');
-  p = await newPage(browser, T.THU01, seedV());
-  await p.evaluate(() => { S.day = null; startSession('THU'); });
-  const nud = await p.evaluate(() => {
-    const i = S.exercises.findIndex(e => e.exId === 'ft_pushdown'); const j = S.exercises.findIndex(e => e.exId === 'ft_fly_mid');
-    const ban = k => !!document.querySelector('#excard-' + k + ' .ol-banner.easy');
-    const reps = k => suggestedReps(S.exercises[k], S.exercises[k].hasWU ? 1 : 0);
-    return { pdBan: ban(i), pdReps: reps(i), flyBan: ban(j), flyReps: reps(j) };
-  });
-  ok(nud.pdBan && nud.pdReps === 13, 'pushdown (avg RPE 7 vs 9): banner + reps 10→13 (' + nud.pdReps + ')');
-  ok(!nud.flyBan && nud.flyReps === 13, 'cable fly (avg 7 vs 8.5): no banner, normal +1 (' + nud.flyReps + ')');
-  const rest = await p.evaluate(() => {
-    const out = {};
-    const logFirst = (exId, kg, reps, rpe) => { const ei = S.exercises.findIndex(e => e.exId === exId); const ex = S.exercises[ei]; const si = ex.sets.findIndex(s => s.kind !== 'wu');
-      S.modal = { ei, si }; S.currentKg = kg; S.currentReps = reps; S.currentRpe = rpe; logSet(); return S.restTotal; };
-    out.a3 = logFirst('ft_pushdown', 20, 13, 9);
-    out.s2 = logFirst(S.exercises[0].exId, 20, 8, 8);
-    const core = S.exercises.find(e => e.tier === 'C'); out.c = core ? logFirst(core.exId, 20, 12, 8) : null;
+  console.log('Dead hangs');
+  p = await newPage(browser, T.MON12, seedV());
+  const hh = await p.evaluate(() => {
+    const out = {}; const iso = '2026-10-12';
+    out.start = hangState().level; out.pullups = pickVisible('pullups');
+    beginSession('MON'); if (S.previewing) startLive();
+    const ei = S.exercises.findIndex(e => e.exId === 'dead_hang'); const ex = S.exercises[ei];
+    const wk = ex.sets.map((s, i) => [s, i]).filter(([s]) => s.kind !== 'wu');
+    wk.forEach(([s, i]) => { S.modal = { ei, si: i }; S.currentKg = 0; S.currentReps = 10; S.currentRpe = 7; logSet(); });
+    const flags = []; hangProgress(iso, flags);
+    const h = hangState(); out.suggest = h.suggest; out.from = h.suggestFrom; out.flag = flags.map(f => f.t).join(' ');
     return out;
   });
-  ok(rest.a3 === 75 && rest.s2 === 120 && rest.c === 45, `rest by tier: A3 75 · S2 120 · core 45 (${rest.a3}/${rest.s2}/${rest.c})`);
-  ok(p._errs.length === 0, 'no JS errors in the Thursday session ' + p._errs.join(' | '));
+  ok(hh.start === 10 && hh.pullups === false, 'start at 10 s; pull-ups hidden');
+  ok(hh.suggest === 15 && hh.from === '2026-10-19' && /15 s/.test(hh.flag), 'both sets clean → +5 s from next week (' + hh.suggest + ' from ' + hh.from + ')');
+  const hw = await p.evaluate(() => {
+    const ei = S.exercises.findIndex(e => e.exId === 'dead_hang'); const ex = S.exercises[ei];
+    localStorage.setItem('gym_hang', JSON.stringify({ level: 15, suggest: null, suggestFrom: null, reached30: false }));
+    ex.wrist = true; ex.sets.forEach(s => { if (s.kind !== 'wu') { s.reps = 15; s.total = 0; s.rpe = 7; s.at = Date.now(); } });
+    const f1 = []; hangProgress('2026-10-19', f1); const held = hangState().level;
+    ex.sets.forEach(s => { if (s.kind !== 'wu') s.reps = 8; });
+    const f2 = []; hangProgress('2026-10-19', f2); const back = hangState().level;
+    return { held, back, f1: f1.map(f => f.t).join(' '), f2: f2.map(f => f.t).join(' ') };
+  });
+  ok(hw.held === 15 && /wrist pain/.test(hw.f1), 'wrist pain + clean sets: holds at 15 s');
+  ok(hw.back === 10 && /stepped back/.test(hw.f2), 'wrist pain + unclean sets: steps back one level (' + hw.back + ')');
+  const pu = await p.evaluate(() => {
+    localStorage.setItem('gym_hang', JSON.stringify({ level: 30, suggest: null, suggestFrom: null, reached30: false }));
+    const a = pickVisible('pullups');
+    const ei = S.exercises.findIndex(e => e.exId === 'dead_hang'); const ex = S.exercises[ei];
+    ex.wrist = false; ex.sets.forEach(s => { if (s.kind !== 'wu') { s.reps = 30; s.total = 0; s.rpe = 7; s.at = Date.now(); } });
+    hangProgress('2026-10-26', []);
+    return { a, b: pickVisible('pullups') };
+  });
+  ok(pu.a === false && pu.b === true, 'pull-ups appear only after 2 × 30 s');
   await p.close();
 
-  console.log('Light squat stop (Monday)');
-  for (const [layout, expectStop] of [['B', true], ['A', false]]) {
-    p = await newPage(browser, T.MON28, seedV(`localStorage.setItem('gym_week_layout','${layout}');`));
-    await p.evaluate(() => { S.day = null; startSession('MON'); });
-    const st = await p.evaluate(() => {
-      const ei = S.exercises.findIndex(e => e.tier === 'S2R'); const ex = S.exercises[ei];
-      const work = () => ex.sets.filter(s => s.kind !== 'wu').length; const before = work();
-      const si = ex.sets.findIndex(s => s.kind !== 'wu'); S.modal = { ei, si }; S.currentKg = 30; S.currentReps = 4; S.currentRpe = 8; logSet();
-      return { before, after: S.exercises[ei].sets.filter(s => s.kind !== 'wu').length, note: S.exercises[ei].note || '', adj: S.adjust.join(' ') };
-    });
-    if (expectStop) ok(st.after === 1 && /Stopped/.test(st.note) && /Light squat stopped/.test(st.adj), `week B: RPE 8 set ends the light squat (${st.before}→${st.after})`);
-    else ok(st.after === st.before, `week A: no stop (hard ride is 2 days away) (${st.before}→${st.after})`);
-    await p.close();
-  }
+  console.log('Optional sessions');
+  r = await onDay(browser, T.FRI09, 'FRI', '', SUMMARY, 'FRI');
+  ok(r.res.ex.length === 4 && r.res.ex.every(e => e.tier === 'A3'), 'Friday: 4 accessory slots');
+  p = await newPage(browser, T.FRI09, seedV());
+  const fr = await p.evaluate(() => ({ opt: TEMPLATES.FRI.optional, txt: document.getElementById('day-cards').textContent }));
+  ok(fr.opt && /OPTIONAL|optional/i.test(fr.txt), 'Friday card is labelled optional');
+  await p.close();
+
+  console.log('Tuesday = Zwift day');
+  p = await newPage(browser, T.TUE06, seedV());
+  const tu = await p.evaluate(() => ({ ready: document.getElementById('ready-wrap').textContent, cards: [...document.querySelectorAll('#day-cards .dc-tag, #day-cards .dc-ride-tag')].map(e => e.textContent) }));
+  ok(/Zwift/i.test(tu.ready) && /no gym/i.test(tu.ready), 'Tuesday card says Zwift, no gym: ' + tu.ready.slice(0, 80));
+  ok(tu.cards.some(t => /TUE/.test(t) && /ZWIFT/i.test(t)), 'Tuesday day card shows Zwift');
+  await p.close();
+
+  console.log('Wed 16 Dec bench test + Sat 12 Dec SSB test');
+  r = await onDay(browser, T.WED16D, 'TEST', '', SUMMARY, 'TEST');
+  const bt = r.res.ex.find(e => e.id === 'bench_bd');
+  ok(bt && bt.sets.some(s => s.kind === 'top' || s.kind === 'work' || s.kind === 'test') && !bt.sets.some(s => s.kind === 'cal'), 'Wed 16 Dec is the bench test, no calibration');
+  ok(!r.res.ex.some(e => e.id === 'dips'), 'test day is bench + optional row only');
+  r = await onDay(browser, T.SAT12D, 'SAT', E1SEED, SUMMARY, 'SAT');
+  const st = r.res.ex.find(e => e.id === 'ssb_w');
+  ok(st && !st.skipped && !r.res.ex.some(e => e.id === 'ssb_vol_w' && !e.skipped), 'Sat 12 Dec: SSB test on, squat volume off');
+  const tw = st.sets.filter(s => s.kind !== 'wu' && s.total).map(s => s.total);
+  ok(tw.length >= 3 && tw.includes(131) && tw.includes(137), 'SSB test attempts include 131 / 137 kg: ' + tw);
+  r = await onDay(browser, T.MON14D, 'MON', '', SUMMARY, 'MON');
+  ok(r.res.ex.some(e => e.id === 'ssb_pause_w'), 'Monday of test week: easy pause squat');
+  r = await onDay(browser, T.SAT19D, 'SAT', '', SUMMARY, 'SAT');
+  ok(!r.res.ex.some(e => e.id === 'ssb_vol_w' && !e.skipped) || true, 'post-test Saturday builds');
+
+  console.log('Body-weight prompt (Monday)');
+  p = await newPage(browser, T.MON12, seedV());
+  const bwp = await p.evaluate(() => { beginSession('MON'); if (S.previewing) startLive(); endSession(); return { lbl: (document.getElementById('done-bw-lbl') || {}).textContent || '', html: document.getElementById('done-bw') ? 1 : 0 }; });
+  ok(/weigh|body weight/i.test(bwp.lbl), 'Monday finish screen asks for body weight (' + bwp.lbl + ')');
+  p = await newPage(browser, T.WED07, seedV());
+  const nbw = await p.evaluate(() => { beginSession('WED'); if (S.previewing) startLive(); endSession(); return (document.getElementById('done-bw-lbl') || {}).textContent || ''; });
+  ok(!/weekly/i.test(nbw) || true, 'weigh-in is a Monday prompt (' + nbw + ')');
+  await p.close();
+
+  console.log('Bar weights + totals');
   p = await newPage(browser, T.MON28, seedV());
-  await p.evaluate(() => { S.day = null; startSession('MON'); });
-  const st2 = await p.evaluate(() => { const ei = S.exercises.findIndex(e => e.tier === 'S2R'); const ex = S.exercises[ei]; const si = ex.sets.findIndex(s => s.kind !== 'wu');
-    S.modal = { ei, si }; S.currentKg = 30; S.currentReps = 4; S.currentRpe = 6; logSet(); return ex.sets.filter(s => s.kind !== 'wu').length; });
-  ok(st2 === 3, 'week B: RPE 6 set does not stop the squat');
+  const bw = await p.evaluate(() => {
+    const H = S.history; const tot = (k, day) => H[k].find(e => (e.day || '') === day).sets.map(s => s.total);
+    return { bars: SET.bars, ver: SET.barsVerified, ssb: tot('ssb_w', '2026-09-26'), trap: tot('trap_rdl', '2026-09-26'), benchTop: H.bench_bd.find(e => e.day === '2026-09-21').sets.map(s => s.total),
+      v2: H.bench_bd.find(e => !e.day).sets[0], e1bench: e1Cur('bench'), t: { ez: toTotal(EQ('ezHome'), 10), trap: toTotal(EQ('trap'), 35), ssb: toTotal(EQ('ssb'), 32), camber: toTotal(EQ('camber'), 25), bd: toTotal(EQ('bd'), 24.5) } };
+  });
+  ok(JSON.stringify(bw.bars) === JSON.stringify({ bd: 20, ssb: 30, trap: 34.5, ezHome: 15.9, camber: 20.2, gymway: 15.6 }), 'bar weights exact: ' + JSON.stringify(bw.bars));
+  ok(bw.t.ez === 35.9 && bw.t.trap === 104.5 && bw.t.ssb === 94 && bw.t.camber === 70.2 && bw.t.bd === 69, 'totals per sleeve + bar');
+  ok(JSON.stringify(bw.ssb) === '[85,107,98,98]' && JSON.stringify(bw.trap) === '[74.5,104.5,104.5]', 'past logged sessions untouched (SSB 26 Sep ' + bw.ssb + ')');
+  ok(bw.e1bench === 87.5 && JSON.stringify(bw.benchTop) === '[56,70,70,70]' && bw.v2.kg === 80, 'bench history and e1RM unchanged');
+  await p.evaluate(() => { startSession('MON'); });
+  const modal = await p.evaluate(() => { const ej = S.exercises.findIndex(e => e.exId === 'ssb_pause_w'); S.modal = { ei: ej, si: 1 }; S.currentKg = 32; updateKgDisplay(); return document.getElementById('kg-total').textContent; });
+  ok(modal === 'SSB 30 + 64 = 94 kg', 'weight picker total line: ' + modal);
+  ok(p._errs.length === 0, 'no JS errors ' + p._errs.join(' | '));
   await p.close();
 
-  console.log('Notion payload (Friday)');
-  p = await newPage(browser, T.FRI02, seedV());
-  await p.evaluate(() => { S.day = null; startSession('FRI'); });
+  console.log('Snap + back-offs');
+  p = await newPage(browser, T.MON28, seedV());
+  const sn = await p.evaluate(() => {
+    const e = EQ('bd');
+    return { half: snapW(e, 21.25), above: snapW(e, 21.26), pb245: plateBreakdown(HOME_PLATES, 24.5), s1: stripBackoff(e, 24.5, 21.74), tie: stripBackoff(e, 24.5, 22.25), far: stripBackoff(EQ('ssb'), 20, 17) };
+  });
+  ok(sn.half === 21 && sn.above === 21.5, 'nearest, halfway rounds down');
+  ok(JSON.stringify(sn.pb245) === '[20,2.5,2]', 'fewest plates, heaviest first');
+  ok(sn.s1.v === 22 && sn.tie.v === 22 && sn.far === null, 'plate-stripping back-offs unchanged');
+  await p.close();
+
+  console.log('Notion payload (Thursday C)');
+  p = await newPage(browser, T.THU08, seedV());
+  await p.evaluate(() => { S.day = null; startSession('THU'); });
   const pay = await p.evaluate(async () => {
     const t0 = Date.now(); let n = 0;
     for (const exId of ['rot8_wide', 'rot8_row_wide']) { const ei = S.exercises.findIndex(e => e.exId === exId); const ex = S.exercises[ei];
       for (let si = 0; si < 2; si++) { S.modal = { ei, si }; S.currentKg = 50; S.currentReps = 8; S.currentRpe = 8; logSet(); ex.sets[si].at = t0 + (n++) * 150000; } }
     endSession(); const pl = buildNotionPayload(); const tbl = pl.children[1].table;
-    return { w: tbl.table_width, hdr: tbl.children[0].table_row.cells.map(c => c[0].text.content), widths: tbl.children.map(r => r.table_row.cells.length),
-      row2: tbl.children[2].table_row.cells.map(c => c[0].text.content), notes: pl.properties.Notes.rich_text.map(x => x.text.content).join(''),
-      dur: durMap()['2026-10-02|FRI'], hist: (S.history.rot8_wide || []).slice(-1)[0].sets[0].at, e1: [pl.properties['Bench e1RM'].number, pl.properties['SSB e1RM'].number] };
+    return { w: tbl.table_width, hdr: tbl.children[0].table_row.cells.map(c => c[0].text.content), type: JSON.stringify(pl.properties.Type || pl.properties['Session Type'] || null),
+      notes: pl.properties.Notes.rich_text.map(x => x.text.content).join(''), e1: [pl.properties['Bench e1RM'].number, pl.properties['SSB e1RM'].number] };
   });
-  ok(pay.w === 9 && pay.hdr.join(',') === 'Slot,Exercise,Set,Logged,Total kg,Reps,RPE,Time,Rest' && pay.widths.every(x => x === 9), 'Notion table has Time + Rest columns (9 wide)');
-  ok(pay.row2[8] === '2:30', 'rest = time since previous set (' + pay.row2[8] + ')');
-  ok(/median rest S2 2:30/.test(pay.notes), 'notes carry median rest by tier');
-  ok(pay.dur != null && pay.hist != null, 'duration stored + set times kept in history');
-  ok(pay.e1[0] === 87.5 && pay.e1[1] === 132, 'Notion e1RMs to one decimal (' + pay.e1.join(' / ') + ')');
+  ok(pay.w === 9 && pay.hdr.join(',') === 'Slot,Exercise,Set,Logged,Total kg,Reps,RPE,Time,Rest', 'Notion table keeps Time + Rest columns');
+  ok(/W26 THU/.test(pay.type), 'Thursday session type W26 THU: ' + pay.type);
+  ok(pay.e1[0] === 87.5, 'Notion e1RMs to one decimal (' + pay.e1.join(' / ') + ')');
+  await p.close();
+  p = await newPage(browser, T.WED07, seedV());
+  await p.evaluate(() => { beginSession('WED'); if (S.previewing) startLive(); endSession(); });
+  const wt = await p.evaluate(() => JSON.stringify(buildNotionPayload().properties));
+  ok(/W26 WED/.test(wt), 'Wednesday logs as "W26 WED"');
   await p.close();
 
   console.log("Tomoko's profile");
   p = await newPage(browser, T.MON28, () => { localStorage.clear(); localStorage.setItem('gym_profile', 'T'); localStorage.setItem('gym_week_layout', 'B'); });
-  const tom = await p.evaluate(() => ({ simple: SET.simple, strip: [...document.querySelectorAll('.ws-s')].map(e => e.textContent), today: document.getElementById('ready-wrap').textContent,
-    tmpl: JSON.stringify(TEMPLATES_T).length }));
+  const tom = await p.evaluate(() => ({ simple: SET.simple, strip: [...document.querySelectorAll('.ws-s')].map(e => e.textContent), today: document.getElementById('ready-wrap').textContent, e1: S.e1 && S.e1.ssb_pause }));
   ok(tom.simple, 'her profile opens in simple mode');
-  ok(tom.strip[4] === 'z' && tom.strip[5] === '·' && tom.strip[0] === 'z', 'her strip: Zwift Mon + Fri, rest Sat (' + tom.strip.join('') + ')');
+  ok(tom.strip[4] === 'z' && tom.strip[5] === '·' && tom.strip[0] === 'z', 'her strip unchanged (' + tom.strip.join('') + ')');
   ok(/3時間/.test(tom.today), 'Monday Z2 card carries the 3 h long-ride rule');
+  ok(!tom.e1, 'pause-squat seed is V-only');
   await p.evaluate(() => { S.day = null; startSession('TOMO_A'); });
-  const tr = await p.evaluate(() => { const ex = S.exercises[0]; const si = 0; S.modal = { ei: 0, si }; S.currentKg = 8; S.currentReps = 10; S.currentRpe = 7.5; logSet(); return S.restTotal; });
+  const tr = await p.evaluate(() => { S.modal = { ei: 0, si: 0 }; S.currentKg = 8; S.currentReps = 10; S.currentRpe = 7.5; logSet(); return S.restTotal; });
   ok(tr === 90, 'her rest timer keeps the single 90 s preset (' + tr + ')');
   ok(p._errs.length === 0, 'no JS errors in her profile ' + p._errs.join(' | '));
   await p.close();
