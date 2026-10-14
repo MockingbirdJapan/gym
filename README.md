@@ -24,6 +24,14 @@ node tests/run.js
 
 ## Changelog
 
+### v5.1 (preview, not yet live)
+- Week: Mon SSB+BD bench vol+hang; Tue ride (A sweet spot / B easy); Wed bench heavy → camber OHP → camber row → skulls → laterals → curl; Fri +FT rear-delt fly; Sat SSB fixed load; Sun optional easy ride.
+- DB input is ONE dumbbell ("kg per DB"); per-exercise load modes (`exMode`/`DB_SINGLE`). Stored history and Notion volumes are NOT rewritten.
+- Tuesday A/B, readiness downgrade (own record `gym_tue_down`, legs-heavy toggle `gym_legs_heavy`), Wednesday make-up chip.
+- Removed the hard-Zwift → Monday squat cap rule.
+- Saturday SSB fixed load 93 kg 4×8 @ RPE ≤8 (`gym_satfix`): +1 rep to 10, then +2 kg.
+- Weekend slip: Sat logged on Sunday → Monday SSB light (RPE ≤7, no AMRAP).
+
 - **v5.0 (Winter 2026 rewrite)** — Week: Mon A (home) · Tue Zwift, no gym · Wed B (home) · Thu C (warehouse) · Fri optional (warehouse, never missed) · Sat D (home) · Sun rest. New templates per the spec; new lifts with their own history (SSB pause squat wedge, BD bench volume, SSB volume wedge, camber bent row, dead hangs). SSB pause squat e1RM seeded at 124 until a calibration replaces it. Bench test moved to Wed 16 Dec (SSB test stays Sat 12 Dec). RPE calibration set on the last back-off of Mon (pause squat) and Wed (bench heavy), about every 4 weeks, never in a deload week; predicted/actual reps, implied e1RM = load × (1 + reps/30), proposed change applied only on confirm, RPE offset stored per lift, every result written to Adjustments. Dead hangs in seconds (start 2 × 10 s, +5 s when both sets are clean, wrist-pain toggle, pull-ups hidden until 2 × 30 s). Dips are an optional extra on Wed. Monday body-weight prompt (optional). "Hard Zwift tomorrow caps squats at RPE 7" is now off by default (Settings); TSB < −15 rule kept. Notion Type "W26 WED" is written for Wednesday sessions. Past sessions are untouched.
 - **v4.5 (28 Sep 2026)** — Weighed bar weights (SSB 30, BD 20, EZ 15.9, camber 20.2, trap 34.5, Gymway 15.6 kg; exact, never rounded); stored sleeve totals, PRs and e1RMs recalculated once from per-sleeve × 2 + bar (bench untouched); P1 back-offs only remove plates from the top set's stack (closest candidate, tie → lighter, > 1 kg/sleeve away → normal rounding); e1RM shown and sent to Notion to one decimal.
 - **v4.4 (27 Sep 2026)** — Week layouts A/B (default B: hard Zwift Tue, easy Thu evening; Tomoko Z2 Mon, quality Fri); ride cards and bike icons; Saturday laterals + core off by default; effort nudge (+3 reps when last time averaged ≥2 RPE under target); per-set Time + Rest in the Notion table and median rest in the notes; last duration on day cards; light squat ends after a set over RPE 7 when the hard ride is tomorrow; rest timer by tier (P1 180 · S2 120 · A3 75 · core 45 s, editable); one-off fix for the 21 Sep bench top set (60 → 70 kg, e1RM 87.5).
