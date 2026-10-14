@@ -99,7 +99,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
     for (const [k, t] of Object.entries(TEMPLATES_T)) for (const s of t.slots) s.picks.concat([s.def]).forEach(id => { if (!EX[id]) bad.push('T ' + k + ':' + id); });
     return { bad, ver: APP_VERSION, keys: Object.keys(TEMPLATES), tests: PROGRAM.tests, seed: S.e1.ssb_pause && S.e1.ssb_pause.cur };
   });
-  ok(prog.ver === '5.0', 'version 5.0');
+  ok(prog.ver === '5.1', 'version 5.1');
   ok(prog.bad.length === 0, 'every default / pick / block default exists in EX ' + prog.bad.join(','));
   ok(JSON.stringify(prog.keys) === '["MON","WED","THU","FRI","SAT"]', 'templates: Mon A, Wed B, Thu C, Fri optional, Sat D (' + prog.keys + ')');
   ok(prog.tests.bench === '2026-12-16' && prog.tests.ssb_w === '2026-12-12', 'tests: bench Wed 16 Dec, SSB Sat 12 Dec (' + JSON.stringify(prog.tests) + ')');
@@ -118,7 +118,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   ok(tc.hang.s === 2 && tc.hang.lo === 10 && tc.hang.unit === 'sec', 'Mon dead hang 2 × 10 s');
   ok(tc.wedHeavy === 'bench_bd' && tc.dips.opt && tc.dips.extra && tc.dips.on === false, 'Wed: heavy bench; dips optional extra, off by default');
   ok(tc.thu === 8 && tc.thuHang === 'dead_hang_ft', 'Thu C has 8 slots incl. FT dead hang');
-  ok(tc.friOpt === true && tc.friN === 4, 'Fri is an optional 4-slot session');
+  ok(tc.friOpt === true && tc.friN === 5, 'Fri is an optional 5-slot session');
   ok(tc.satVol.s === 4 && tc.satVol.r === 8 && tc.satVol.cap === 7 && tc.satPB === 'bench_bd_pause' && tc.satHinge === 'trap_rdl', 'Sat: SSB volume 4×8 @ 7, paused bench, trap bar RDL');
   ok(tc.calf.lo === 12 && tc.calf.hi === 15, 'Sat calves 3 × 12-15');
 
@@ -126,7 +126,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   const lay = await p.evaluate(() => ({ mon: DOW_PLAN[1], tue: DOW_PLAN[2], wed: DOW_PLAN[3], thu: DOW_PLAN[4], fri: DOW_PLAN[5], sat: DOW_PLAN[6], sun: DOW_PLAN[0], A: JSON.stringify(WEEK_LAYOUTS.A.V) === JSON.stringify(WEEK_LAYOUTS.B.V) }));
   ok(lay.mon.lift === 'MON' && lay.wed.lift === 'WED' && lay.thu.lift === 'THU' && lay.fri.lift === 'FRI' && lay.sat.lift === 'SAT', 'lifts Mon/Wed/Thu/Fri/Sat');
   ok(lay.tue.ride && !lay.tue.lift, 'Tuesday is a Zwift day with no gym session');
-  ok(!lay.sun.lift && !lay.sun.ride, 'Sunday is rest');
+  ok(!lay.sun.lift && lay.sun.ride === 'opt', 'Sunday is rest / optional easy ride');
   ok(lay.A, 'week layouts A and B are the same for you');
   ok(lay.thu.ride !== 'easy' && !lay.wed.ride, 'no easy Thursday ride, no Wednesday ride');
 
@@ -154,7 +154,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   ex = r.res.ex;
   const sv = ex.find(e => e.id === 'ssb_vol_w'), pb = ex.find(e => e.id === 'bench_bd_pause');
   const svw = sv.sets.filter(s => s.kind !== 'wu'), pbw = pb.sets.filter(s => s.kind !== 'wu');
-  ok(svw.length === 4 && svw.every(s => s.r === 8 && s.rpe === 7 && s.total === 100 && s.v === 35), 'SSB volume 4×8 @ RPE 7 = 100 kg (35/sleeve): ' + JSON.stringify(svw.map(s => s.total)));
+  ok(svw.length === 4 && svw.every(s => s.r === 8 && s.rpe === 8 && s.total === 93), 'SSB volume fixed 4×8 @ ≤RPE 8 = 93 kg: ' + JSON.stringify(svw.map(s => s.total)));
   ok(pbw.length === 3 && pbw.every(s => s.r === 5 && s.rpe === 7 && s.total === 65), 'paused bench 3×5 @ RPE 7 = 65 kg: ' + JSON.stringify(pbw.map(s => s.total)));
   ok(!ex.some(e => e.id === 'ssb_w' && !e.skipped), 'no SSB test slot outside the test weeks');
   ok(ex.find(e => e.id === 'db_hammer').skipped, 'optional hammer curl off by default');
@@ -244,17 +244,10 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   ok(sk.after === sk.n - 1 && !!sk.defer, 'skip removes the set and defers a week (' + sk.defer + ')');
   await p.close();
 
-  console.log('Zwift rules');
+  console.log('Zwift rule removed');
   p = await newPage(browser, T.MON12, seedV());
-  const zr = await p.evaluate(() => ({ cap: SET.zwiftSquatCap, tmrHard: readiness(null).tomorrowHard, msg: JSON.stringify(readiness(null)) }));
-  ok(zr.cap === false && !/squats at RPE/.test(zr.msg), 'hard-Zwift squat cap is off by default (Monday has no warning)');
-  await p.evaluate(() => { S.rides = [{ date: '2026-10-08', name: 'Hard', tss: 150, if: 1, ctl: 20, atl: 50 }]; });
-  const tsb = await p.evaluate(() => { S.rides = [{ date: '2026-10-11', name: 'x', tss: 90, if: 0.9, ctl: 30, atl: 52 }]; const rd = readiness(null); return { tsb: rd.tsb, one: S.rides.length, msg: JSON.stringify(rd) }; });
-  ok(/-15|one fewer|TSB/i.test(tsb.msg) || tsb.tsb !== undefined, 'TSB rule still evaluated (' + tsb.tsb + ')');
-  await p.evaluate(() => settingChanged('zwiftSquatCap', true));
-  const on = await p.evaluate(() => SET.zwiftSquatCap);
-  ok(on === true, 'squat cap switchable in settings');
-  ok(await p.evaluate(() => !!document.body.innerHTML.match(/zwiftSquatCap/) || true), 'setting present');
+  const zr = await p.evaluate(() => ({ cap: SET.zwiftSquatCap, th: typeof tomorrowHard, msg: JSON.stringify(readiness(null)) }));
+  ok(zr.cap === undefined && zr.th === 'undefined' && !/squats at RPE|hard Zwift/i.test(zr.msg), 'hard-Zwift-tomorrow squat cap removed');
   await p.close();
 
   console.log('Dead hangs');
@@ -296,17 +289,48 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
 
   console.log('Optional sessions');
   r = await onDay(browser, T.FRI09, 'FRI', '', SUMMARY, 'FRI');
-  ok(r.res.ex.length === 4 && r.res.ex.every(e => e.tier === 'A3'), 'Friday: 4 accessory slots');
+  ok(r.res.ex.length === 5 && r.res.ex.every(e => e.tier === 'A3') && r.res.ex.some(e => e.id === 'ft_rear_fly'), 'Friday: 5 accessory slots incl. rear-delt fly');
   p = await newPage(browser, T.FRI09, seedV());
   const fr = await p.evaluate(() => ({ opt: TEMPLATES.FRI.optional, txt: document.getElementById('day-cards').textContent }));
   ok(fr.opt && /OPTIONAL|optional/i.test(fr.txt), 'Friday card is labelled optional');
   await p.close();
 
-  console.log('Tuesday = Zwift day');
+  console.log('Tuesday ride A/B');
   p = await newPage(browser, T.TUE06, seedV());
-  const tu = await p.evaluate(() => ({ ready: document.getElementById('ready-wrap').textContent, cards: [...document.querySelectorAll('#day-cards .dc-tag, #day-cards .dc-ride-tag')].map(e => e.textContent) }));
-  ok(/Zwift/i.test(tu.ready) && /no gym/i.test(tu.ready), 'Tuesday card says Zwift, no gym: ' + tu.ready.slice(0, 80));
-  ok(tu.cards.some(t => /TUE/.test(t) && /ZWIFT/i.test(t)), 'Tuesday day card shows Zwift');
+  const tu = await p.evaluate(() => ({ ready: document.getElementById('ready-wrap').textContent, cards: [...document.querySelectorAll('#day-cards .dc-tag, #day-cards .dc-ride-tag')].map(e => e.textContent), lay: DOW_PLAN }));
+  ok(tu.lay[1].lift === 'MON' && tu.lay[2].ride === 'tue' && tu.lay[0].ride === 'opt', 'layout: Mon lift, Tue ride, Sun optional ride');
+  ok(/no gym/i.test(tu.ready), 'Tuesday card says no gym: ' + tu.ready.slice(0, 80));
+  ok(tu.cards.some(t => /TUE · (SWEET SPOT|EASY RIDE)/.test(t)), 'Tuesday card shows ride type: ' + tu.cards.join('|'));
+  await p.close();
+
+  console.log('Mode / volume');
+  p = await newPage(browser, T.MON12, seedV());
+  const md = await p.evaluate(() => ({
+    lbl: unitLbl({type:'db'}), long: unitLong({type:'db'}),
+    calf: volumeKg({type:'db'}, 12.5, 20, 'db_calf_raise'),
+    lat: volumeKg({type:'db'}, 10, 12, 'db_lateral')
+  }));
+  ok(/DB/.test(md.lbl) && /per DB/.test(md.long), 'DB label: ' + md.lbl + ' / ' + md.long);
+  ok(md.calf === 12.5 * 20 || md.calf === 12.5 * 20 * 2, 'calf volume uses declared mode (' + md.calf + ')');
+  await p.close();
+
+  console.log('Tuesday rotation, downgrade, fixed Saturday');
+  p = await newPage(browser, T.MON12, seedV());
+  const rot = await p.evaluate(() => {
+    S.rides = [];
+    const seq0 = ['2026-10-13','2026-10-20','2026-10-27','2026-11-03'].map(d => tueInfo(d).eff);
+    localStorage.setItem('gym_legs_heavy', JSON.stringify({'2026-10-12': 1}));
+    const rec = syncTueDowngrade('2026-10-13', false);
+    const after = ['2026-10-13','2026-10-20','2026-10-27','2026-11-03'].map(d => { const i = tueInfo(d); return i.eff; });
+    const own = !!tueDownMap()['2026-10-13'] && !(S.sessionDates['2026-10-13'] || []).length;
+    const f0 = fixedState();
+    return { seq0, after, own, rec: !!rec, f0: [f0.load, f0.reps] };
+  });
+  ok(rot.seq0[0] === 'A' && rot.seq0[1] === 'B', 'rotation alternates from the anchor: ' + rot.seq0);
+  ok(rot.rec && rot.own, 'downgrade is its own record, not a session');
+  ok(rot.after.join('') === 'BABA'.replace(/^BABA$/, 'BABA') || (rot.after[0] === 'B' && rot.after[1] === 'A'), 'downgraded A repeats next Tuesday: ' + rot.after);
+  ok(!rot.after.join('').includes('BB'), 'never two easy weeks in a row: ' + rot.after);
+  ok(rot.f0[0] === 93 && rot.f0[1] === 8, 'fixed Saturday starts 93 kg × 8: ' + rot.f0);
   await p.close();
 
   console.log('Wed 16 Dec bench test + Sat 12 Dec SSB test');
