@@ -432,7 +432,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .adj-banner{margin:8px 10px 2px;background:var(--gold4);border:0.5px solid var(--gold3);border-radius:5px;padding:6px 9px;font-size:8px;color:var(--gold2);line-height:1.6}
 .rx-line{padding:0 10px 4px;font-size:8px;color:var(--txt2);letter-spacing:0.3px}
 .rx-line b{color:var(--gold2);font-weight:normal}
-.wu-ladder{padding:0 10px 5px;font-size:7px;color:#555;letter-spacing:0.3px}
+.wu-ladder{padding:2px 10px 6px;font-size:9px;color:#a8964f;letter-spacing:0.3px;line-height:1.4} /* v5.3: readable — this is where the warm-up reps live */
 .opt-tag{font-size:6px;color:#555;border:0.5px solid #252525;border-radius:2px;padding:1px 4px;margin-left:5px;letter-spacing:0.5px;vertical-align:middle}
 .wh-tag{font-size:6px;color:#886600;border:0.5px solid #2a2000;border-radius:2px;padding:1px 4px;margin-left:5px;letter-spacing:0.5px;vertical-align:middle}
 .ol-banner.big .ol-banner-txt{color:var(--gold2)}
@@ -525,6 +525,48 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 .fb-votes .fb-v.on{border-color:var(--gold);background:var(--gold4)}
 .fb-warn{width:100%;padding:7px;border-radius:6px;border:0.5px solid var(--border);background:var(--bg);color:var(--txt3);font-size:11px}
 .fb-warn.on{border-color:var(--red);background:var(--red2);color:var(--red)}
+/* v5.4 */
+.var-row{margin:2px 0 10px}
+.var-lbl{font-size:8px;color:var(--txt2);letter-spacing:1px;margin-bottom:5px}
+.var-opts{display:flex;flex-wrap:wrap;gap:5px}
+.var-o{font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.5px;padding:8px 10px;border-radius:4px;border:0.5px solid;cursor:pointer;-webkit-appearance:none}
+.var-o.voff{border-color:var(--border2);background:var(--bg);color:var(--txt2)}
+.var-o.von{border-color:var(--gold);background:var(--gold4);color:var(--gold)}
+.sc-v{display:inline-block;margin-left:3px;padding:0 2px;border-radius:2px;background:var(--gold3);color:var(--gold);font-size:7px}
+.var-line{font-size:9px;color:var(--txt2);margin:0 0 4px 20px;line-height:1.4}
+.var-line b{color:var(--gold2);font-weight:400}
+.ex-setup{font-size:9px;color:#5f7f9a;margin:0 0 4px 20px;letter-spacing:0.3px}
+.setup-warn{margin:6px 10px 2px;background:#0a1220;border:0.5px solid #1e3a5a;border-radius:5px;padding:6px 9px;font-size:9px;color:#7fa6c8;line-height:1.6}
+.preview-banner.nano-pv{background:#120a1a;border-color:#3a1e5a}
+.pv-btn[disabled]{opacity:0.4;cursor:default}
+.ms-card,.wr-card{margin:4px 10px 4px;background:var(--bg2);border:0.5px solid var(--border);border-radius:6px;padding:7px 10px}
+.ms-hd,.wr-hd{font-size:8px;color:var(--txt2);letter-spacing:1px;display:flex;justify-content:space-between;gap:8px;margin-bottom:4px}
+.ms-hd span,.wr-hd span{color:var(--gold2);letter-spacing:0.5px}
+.ms-row{display:flex;align-items:baseline;gap:8px;padding:3px 0;border-top:0.5px solid var(--border);font-size:10px;color:var(--txt4)}
+.ms-id{width:20px;flex-shrink:0;color:var(--txt3)}
+.ms-t{flex:1;min-width:0}
+.ms-t small{display:block;font-size:8px;color:var(--txt3);margin-top:1px}
+.ms-st{font-size:9px;flex-shrink:0;text-align:right}
+.ms-row.ms-done{color:var(--green)}
+.ms-row.ms-done .ms-id{color:var(--green)}
+.ms-row.ms-next{color:var(--gold)}
+.ms-row.ms-next .ms-id{color:var(--gold2)}
+.wr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+.wr-c{display:flex;justify-content:space-between;gap:4px;font-size:9px;color:var(--txt3);border:0.5px solid var(--border);border-radius:3px;padding:3px 5px}
+.wr-c b{font-weight:400;font-variant-numeric:tabular-nums}
+.wr-c.part{color:var(--gold2);border-color:var(--gold3)}
+.wr-c.ok{color:var(--green);border-color:var(--green3)}
+.checkin{margin:6px 0;border:0.5px solid var(--border);border-radius:6px;padding:8px 9px;background:var(--bg2)}
+.ci-row+.ci-row{margin-top:8px}
+.ci-lbl{font-size:8px;color:var(--txt2);letter-spacing:1px;margin-bottom:5px}
+.ci-lbl span{color:var(--txt3);letter-spacing:0}
+.ci-btns{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.ci-btns.ci-11{grid-template-columns:repeat(11,1fr)}
+.ci-b{font-family:'Courier New',monospace;font-size:11px;padding:8px 0;border-radius:4px;border:0.5px solid var(--border2);background:var(--bg);color:var(--txt2);cursor:pointer;-webkit-appearance:none}
+.ci-b.ci-on{border-color:var(--gold);background:var(--gold4);color:var(--gold)}
+.nano-hd{font-size:8px;color:#9a7fc8;letter-spacing:1.5px;margin:6px 2px 0}
+.dc-nano{border-color:#3a1e5a;background:#0d0912}
+.ws-s.gym-moved{text-decoration:underline;text-decoration-color:var(--gold3)}
 </style>
 </head>
 <body>
@@ -582,7 +624,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
     <div id="ready-wrap"></div>
     <div class="sec-hdr">SESSIONS</div>
     <div class="day-cards" id="day-cards"></div>
-    <div class="home-tip">mon A home · wed zwift hard · thu B warehouse · fri D warehouse + zwift easy · sat C home</div>
+    <div class="home-tip">mon A home · tue zwift · wed B home · thu C warehouse (home when closed) · fri easy ride · sat D home</div>
   </div>
   <div class="nav-bar">
     <button class="nav-btn nav-active" onclick="goHome()">HOME<div class="nav-dot"></div></button>
@@ -618,6 +660,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
       <div class="m-ex" id="modal-ex"></div>
       <div class="m-set" id="modal-set"></div>
       <div class="target-line" id="modal-target"></div>
+      <div class="var-row" id="modal-var" style="display:none"></div>
       <div class="wu-suggest" id="modal-wu" style="display:none"></div>
       <div id="wt-section">
         <div class="m-lbl" id="wt-lbl">WEIGHT</div>
@@ -763,6 +806,7 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
       <div class="cardio-info green" id="cardio-info" style="display:none"></div>
       <div id="done-exercises"></div>
       <div class="done-flags" id="done-flags"></div>
+      <div id="done-checkin"></div>
       <div class="bw-row">
         <div class="notes-lbl" style="margin:0" id="done-bw-lbl">BODY WEIGHT (kg)</div>
         <input class="settings-inp" id="done-bw" type="number" inputmode="decimal" step="0.1" placeholder="—">
@@ -821,8 +865,8 @@ body{font-family:'Courier New',monospace;color:var(--txt)}
 // ── GENERATED by gen_program.py from the Block 1 exercise picker (round 5 picks). Do not hand-edit. ──
 // v4.3 (27 Sep): EX + TEMPLATES hand-edited for the Fri/Thu attachment changes.
 // v4.4 (27 Sep): gen_program.py is no longer available — this file is now the source of truth. Edit EX / TEMPLATES here and run tests/run.js.
-const EX={"bench_bd":{"n":"BD bench — competition grip","loc":"H","eq":"bd","acc":["wraps"],"wu":1},"bench_bd_pause":{"n":"BD bench — paused 2 s","loc":"H","eq":"bd","acc":["wraps"],"wu":1},"camber_mid":{"n":"Camber bench — normal handles","loc":"H","grip":"normal","eq":"camber","acc":["wraps"],"wu":1},"smith_flat":{"n":"Smith flat bench — normal grip","loc":"W","eq":"smith","wu":1,"jn":"スミスマシン ベンチプレス"},"ssb_pause_w":{"n":"SSB pause squat 2 s — wedge","loc":"H","eq":"ssb","wu":1},"ssb_tempo_w":{"n":"SSB tempo squat 3 s down — wedge","loc":"H","eq":"ssb","wu":1},"ssb_1q_w":{"n":"SSB 1¼ squat — wedge","loc":"H","eq":"ssb","wu":1},"ssb_light_w":{"n":"SSB squat — wedge, 3×5 @ 60–65%","loc":"H","eq":"ssb","rx":{"lo":5,"hi":5},"wu":1},"goblet_w":{"n":"DB goblet squat — wedge","loc":"H","eq":"hexdb"},"smith_squat":{"n":"Smith squat","loc":"W","eq":"smith","wu":1,"jn":"スミスマシン スクワット"},"db_incline_30":{"n":"DB incline press (30°)","loc":"W","eq":"hexdbW","wu":1,"jn":"ダンベル インクラインプレス"},"db_incline_15":{"n":"DB low-incline press (15°)","loc":"W","eq":"hexdbW","wu":1},"db_incline_neutral":{"n":"DB incline press — neutral grip (30°)","loc":"W","eq":"hexdbW","wu":1},"db_incline_45":{"n":"DB incline press (45°)","loc":"W","eq":"hexdbW","wu":1},"landmine_press":{"n":"Half-kneeling landmine press","loc":"H","eq":"landmine","side":1,"jn":"ランドマインプレス"},"ft_fly_low_high":{"n":"FT low-to-high fly","loc":"W","eq":"ft"},"pullups":{"n":"Pull-ups","loc":"H","eq":"bw"},"chinups":{"n":"Chin-ups","loc":"H","eq":"bw"},"band_pullups":{"n":"Band-assisted pull-ups","loc":"H","eq":"none","jn":"バンド懸垂"},"weighted_pullups":{"n":"Weighted pull-ups","loc":"H","eq":"bw"},"inverted_row":{"n":"Inverted row (BD bar in the stand)","loc":"H","eq":"bw","jn":"インバーテッドロウ"},"rot8_narrow":{"n":"RO-T8 narrow pulldown (long bar)","loc":"W","eq":"lat","rot":"lat","jn":"ナロー ラットプルダウン"},"db_lateral":{"n":"DB lateral raise","loc":"H","eq":"hexdb"},"db_leanaway":{"n":"DB lean-away lateral (hold the stand)","loc":"H","eq":"hexdb"},"db_seated_lat":{"n":"DB seated lateral (flat bench)","loc":"H","eq":"hexdb"},"band_lateral":{"n":"Band lateral raise","loc":"H","eq":"none"},"ft_lateral":{"n":"FT cable lateral raise","loc":"W","eq":"ft1"},"camber_row_mid":{"n":"Camber-bar row — normal handles","loc":"H","grip":"normal","eq":"camber"},"camber_row_wide":{"n":"Camber-bar row — wide handles","loc":"H","grip":"wide","eq":"camber"},"camber_row_close":{"n":"Camber-bar row — narrow handles","loc":"H","grip":"narrow","eq":"camber"},"db_chest_row":{"n":"Chest-supported DB row (adjustable bench)","loc":"W","eq":"hexdbW","jn":"チェストサポート ダンベルロウ"},"db_row_1arm":{"n":"One-arm DB row (flat bench)","loc":"H","eq":"hexdb","side":1,"jn":"ワンハンドダンベルロウ"},"meadows":{"n":"Meadows row (landmine)","loc":"H","eq":"landmine","side":1},"tbar_lm":{"n":"Landmine T-bar row","loc":"H","eq":"landmine"},"bd_row":{"n":"BD bent-over row","loc":"H","eq":"bd"},"ft_row_1arm":{"n":"FT one-arm cable row","loc":"W","eq":"ft1","side":1,"jn":"ワンハンド ケーブルロウ"},"ez_curl":{"n":"EZ curl","loc":"H","eq":"ezHome"},"ez_reverse":{"n":"EZ reverse curl","loc":"H","eq":"ezHome"},"ez_drag":{"n":"EZ drag curl","loc":"H","eq":"ezHome"},"db_hammer":{"n":"DB hammer curl","loc":"H","eq":"hexdb"},"db_alt_curl":{"n":"DB alternating curl","loc":"H","eq":"hexdb","side":1},"ft_curl":{"n":"FT straight-bar curl","loc":"W","eq":"ft1","jn":"ケーブルカール"},"db_rear_fly":{"n":"DB rear-delt fly (bent over)","loc":"H","eq":"hexdb"},"band_pullapart":{"n":"Band pull-apart","loc":"H","eq":"none","rx":{"lo":15,"hi":25}},"db_prone_y":{"n":"DB prone Y-raise (flat bench)","loc":"H","eq":"hexdb"},"ft_facepull":{"n":"FT face pull (neoprene strap)","loc":"W","eq":"ft1","jn":"フェイスプル"},"dips":{"n":"Dips (dip attachment)","loc":"H","eq":"bw"},"db_flat_fly":{"n":"DB flat fly","loc":"H","eq":"hexdb"},"db_pullover":{"n":"DB pullover (flat bench)","loc":"H","eq":"hexdb"},"ez_oh_ext":{"n":"EZ overhead extension (seated)","loc":"H","eq":"ezHome"},"ft_pushdown":{"n":"RO-T8 spreader bar pushdown","loc":"W","eq":"cable"},"hanging_leg_raise":{"n":"Hanging leg raise — straight legs","loc":"W","cue":"Skip while the right shoulder is tweaked — hanging loads it","eq":"bw"},"hanging_knee":{"n":"Hanging knee raise","loc":"W","cue":"Skip while the right shoulder is tweaked — hanging loads it","eq":"bw"},"weighted_situp":{"n":"Weighted sit-up (plate on chest, feet anchored)","loc":"H","eq":"bw"},"lying_leg_raise":{"n":"Lying leg raise on the flat bench","loc":"H","eq":"bw"},"toes_to_bar":{"n":"Toes-to-bar","loc":"H","eq":"bw"},"rev_crunch_bench":{"n":"Reverse crunch on the adjustable bench","loc":"W","eq":"none"},"calf_atx_db_1l":{"n":"ATX calf raise — single leg, DB in one hand","loc":"H","cue":"Hold the rack with the free hand · 2 s pause in the bottom stretch · knee straight · first session: stop 2–3 reps short","eq":"hexdb","side":1},"calf_atx_ssb":{"n":"ATX calf raise — SSB","loc":"H","cue":"2 s pause in the bottom stretch · knees straight","eq":"ssb"},"calf_seated_db":{"n":"ATX seated calf raise — DBs on the knees","loc":"H","cue":"Bent knee trains the soleus (the calf muscle cycling uses most) · 2 s pause at the bottom","eq":"hexdb"},"calf_atx_db":{"n":"ATX calf raise — two legs, holding a DB","loc":"H","cue":"2 s pause in the bottom stretch · knees straight","eq":"hexdb"},"smith_calf":{"n":"Smith calf raise","loc":"W","cue":"2 s pause in the bottom stretch · knees straight","eq":"smith"},"smith_incline":{"n":"Smith incline press (~30°)","loc":"W","eq":"smith","wu":1},"smith_low_incline":{"n":"Smith low-incline press (~15°)","loc":"W","eq":"smith","wu":1},"smith_cg_bench":{"n":"Smith close-grip bench","loc":"W","eq":"smith","wu":1},"camber_close":{"n":"Camber bench — narrow handles","loc":"H","grip":"narrow","eq":"camber","acc":["wraps"],"wu":1},"leg_curl":{"n":"Prone leg curl","loc":"W","eq":"curl","jn":"レッグカール"},"leg_curl_1l":{"n":"Single-leg prone curl","loc":"W","eq":"curl","side":1},"hip_thrust_m":{"n":"Hip thrust machine","loc":"W","eq":"hip","jn":"ヒップスラスト（マシン）"},"smith_rdl":{"n":"Smith RDL","loc":"W","eq":"smith","jn":"スミスマシン ルーマニアンデッドリフト"},"smith_seated_ohp":{"n":"Smith seated OHP — back supported","loc":"W","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"smith","wu":1},"db_seated_press":{"n":"Seated DB press (adjustable bench)","loc":"W","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"hexdbW","wu":1},"smith_ohp_flat":{"n":"Smith seated OHP — flat bench, no back support","loc":"W","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"smith","wu":1},"ft_1arm_press":{"n":"FT half-kneeling one-arm press","loc":"W","eq":"ft1","side":1},"smith_standing_ohp":{"n":"Smith standing OHP","loc":"W","eq":"smith"},"db_seated_flat":{"n":"DB seated press (flat bench, no back support)","loc":"H","eq":"hexdb"},"ft_fly_mid":{"n":"FT cable fly (mid height)","loc":"W","eq":"ft"},"ft_fly_high_low":{"n":"FT high-to-low fly","loc":"W","eq":"ft"},"ft_incline_fly":{"n":"FT incline fly (adjustable bench)","loc":"W","eq":"ft"},"straight_arm":{"n":"Straight-arm pulldown (spreader)","loc":"W","eq":"lat"},"smith_shrug":{"n":"Smith shrug","loc":"W","eq":"smith"},"ft_bar_pushdown":{"n":"FT straight-bar pushdown","loc":"W","eq":"ft1"},"lat_pushdown":{"n":"Pushdown on the lat machine","loc":"W","eq":"lat"},"ft_rev_pushdown":{"n":"FT single-arm reverse-grip pushdown","loc":"W","eq":"ft1","side":1},"ft_oh_ext":{"n":"FT overhead strap extension (neoprene strap)","loc":"W","eq":"ft1"},"ft_crossbody_ext":{"n":"FT single-arm cross-body extension","loc":"W","eq":"ft1","side":1},"db_oh_ext":{"n":"DB overhead extension","loc":"H","eq":"hexdb"},"cable_crunch":{"n":"Kneeling cable crunch (neoprene strap)","loc":"W","eq":"ft1","jn":"ケーブルクランチ"},"standing_crunch":{"n":"FT standing cable crunch","loc":"W","eq":"ft1"},"rkc_plank":{"n":"RKC plank","loc":"H","eq":"none","rx":{"lo":20,"hi":30,"unit":"sec"}},"leg_ext":{"n":"Leg extension","loc":"W","eq":"ext"},"leg_ext_1l":{"n":"Single-leg extension","loc":"W","eq":"ext","side":1},"rot8_wide":{"n":"RO-T8 wide pulldown (long bar, widest notch)","loc":"W","eq":"lat","rot":"lat","jn":"ラットプルダウン"},"spreader_pd":{"n":"Spreader pulldown","loc":"W","eq":"lat"},"underhand_pd":{"n":"Underhand pulldown","loc":"W","eq":"lat"},"ft_1arm_pd":{"n":"FT half-kneeling one-arm pulldown","loc":"W","eq":"ft1","side":1,"jn":"ワンハンド ケーブルプルダウン"},"ft_crossbody_pd":{"n":"FT kneeling cross-body pulldown","loc":"W","eq":"ft1","side":1},"rot8_row_wide":{"n":"RO-T8 row — wide","loc":"W","eq":"lat","rot":"row","jn":"シーテッドロウ（ワイド）"},"rot8_row_med":{"n":"RO-T8 row — medium","loc":"W","eq":"lat","rot":"row","jn":"シーテッドロウ"},"ft_high_row":{"n":"FT kneeling high row","loc":"W","eq":"ft1"},"ft_1arm_straight":{"n":"FT single-arm straight-arm pulldown","loc":"W","eq":"ft1","side":1},"ft_rear_fly":{"n":"FT rear-delt fly (crossed cables)","loc":"W","eq":"ft"},"ft_1arm_reverse":{"n":"FT single-arm reverse fly","loc":"W","eq":"ft1","side":1},"ft_y_raise":{"n":"FT cable Y-raise","loc":"W","eq":"ft1"},"ft_behind_lat":{"n":"FT behind-back single-arm lateral","loc":"W","eq":"ft1","side":1},"ft_bayesian":{"n":"FT bayesian curl (behind the body)","loc":"W","eq":"ft1"},"ft_rope_hammer":{"n":"FT Kaz bar hammer curl","loc":"W","eq":"ft1"},"ft_conc":{"n":"FT concentration curl","loc":"W","eq":"ft1","side":1},"ft_high_curl":{"n":"FT high-cable curl","loc":"W","eq":"ft1"},"ft_reverse_curl":{"n":"FT reverse-grip curl","loc":"W","eq":"ft1"},"ft_chop":{"n":"Half-kneeling cable woodchop (high to low, neoprene strap)","loc":"W","eq":"ft1","side":1},"ft_lift":{"n":"Half-kneeling cable lift (low to high)","loc":"W","eq":"ft1","side":1},"ft_side_bend":{"n":"Cable side bend","loc":"W","eq":"ft1","side":1},"kb_suitcase_carry":{"n":"KB suitcase carry (fieldoor KB)","loc":"W","eq":"none","rx":{"lo":30,"hi":45,"unit":"sec"},"side":1},"pallof_ft":{"n":"Pallof press (FT)","loc":"W","eq":"ft1","side":1,"jn":"パロフプレス"},"landmine_rotation":{"n":"Landmine rotation (\"rainbow\")","loc":"H","eq":"landmine","side":1},"ssb_w":{"n":"SSB squat — wedge","loc":"H","eq":"ssb","acc":["belt"],"wu":1},"ssb_flat":{"n":"SSB squat — flat","loc":"H","eq":"ssb","acc":["belt"],"wu":1},"camber_wide":{"n":"Camber bench — wide handles","loc":"H","grip":"wide","eq":"camber","acc":["wraps"],"wu":1},"bench_bd_cg":{"n":"BD close-grip bench","loc":"H","eq":"bd","wu":1},"larsen":{"n":"BD Larsen press (feet up)","loc":"H","eq":"bd","wu":1},"spoto":{"n":"BD Spoto press (pause 2 cm off the chest)","loc":"H","eq":"bd","wu":1},"db_flat":{"n":"DB flat press","loc":"H","eq":"hexdb","jn":"ダンベルベンチプレス"},"db_flat_neutral":{"n":"DB neutral-grip flat press","loc":"H","eq":"hexdb"},"trap_rdl":{"n":"Trap bar RDL","loc":"H","eq":"trap","acc":["belt"],"wu":1},"trap_dl_high":{"n":"Trap bar DL — high handles","loc":"H","eq":"trap","acc":["belt"],"wu":1,"jn":"トラップバー デッドリフト"},"trap_dl_low":{"n":"Trap bar DL — low handles","loc":"H","eq":"trap","acc":["belt"],"wu":1},"bd_rdl":{"n":"BD RDL","loc":"H","eq":"bd","wu":1},"db_rdl":{"n":"DB RDL","loc":"H","eq":"hexdb","jn":"ダンベル ルーマニアンデッドリフト"},"sl_db_rdl":{"n":"Single-leg DB RDL","loc":"H","eq":"hexdb","side":1},"ssb_gm":{"n":"SSB good morning","loc":"H","eq":"ssb"},"bb_hip_thrust":{"n":"Barbell hip thrust (BD bar, flat bench)","loc":"H","eq":"bd"},"ez_skull":{"n":"EZ skull crusher","loc":"H","eq":"ezHome"},"ez_jm":{"n":"EZ JM press","loc":"H","eq":"ezHome"},"db_side_bend":{"n":"DB side bend","loc":"H","eq":"hexdb","side":1},"hanging_oblique":{"n":"Hanging oblique knee raise","loc":"H","eq":"bw","side":1},"weighted_side_plank":{"n":"Weighted side plank","loc":"H","eq":"bw","rx":{"lo":20,"hi":30,"unit":"sec"},"side":1},"db_suitcase_dl":{"n":"DB suitcase deadlift (one DB)","loc":"H","eq":"hexdb","side":1},"trap_march":{"n":"Trap-bar farmer march in place","loc":"H","eq":"trap","rx":{"lo":30,"hi":45,"unit":"sec"}},"dead_bug":{"n":"Dead bug","loc":"H","eq":"none","jn":"デッドバグ","side":1},"trap_hold":{"n":"Trap-bar farmer hold","loc":"H","eq":"trap","rx":{"lo":30,"hi":45,"unit":"sec"}},"db_suitcase_hold":{"n":"DB suitcase hold (one side)","loc":"H","eq":"hexdb","rx":{"lo":30,"hi":45,"unit":"sec"},"side":1,"jn":"スーツケースホールド"},"band_pallof":{"n":"Band Pallof press","loc":"H","eq":"none","side":1},"camber_ohp":{"n":"Camber neutral-grip OHP (standing)","loc":"H","eq":"camber"},"bd_squat":{"n":"BD back squat","loc":"H","eq":"bd"},"goblet":{"n":"Goblet squat","loc":"H","jn":"ゴブレットスクワット","eq":"hexdb"},"db_rev_lunge":{"n":"Reverse lunge","loc":"H","jn":"リバースランジ","eq":"hexdb","side":1},"smith_box_squat":{"n":"Smith box squat","loc":"W","jn":"スミスマシン ボックススクワット","eq":"smith"},"lm_squat":{"n":"Landmine squat","loc":"H","jn":"ランドマインスクワット","eq":"landmine"},"split_squat":{"n":"Split squat","loc":"H","jn":"スプリットスクワット","eq":"hexdb","side":1},"step_up":{"n":"Step-up","loc":"H","jn":"ステップアップ","eq":"hexdb","side":1},"db_dl":{"n":"DB deadlift from the floor","loc":"H","jn":"ダンベルデッドリフト","eq":"hexdb"},"incline_pushup":{"n":"Incline push-up","loc":"H","jn":"インクライン プッシュアップ","eq":"bw"},"ft_press":{"n":"Cable chest press","loc":"W","jn":"ケーブル チェストプレス","eq":"ft"},"calf_sl":{"n":"Single-leg calf raise","loc":"H","jn":"片足カーフレイズ","eq":"hexdb","side":1},"side_plank":{"n":"Side plank","loc":"H","jn":"サイドプランク","eq":"none","side":1,"rx":{"lo":20,"hi":40,"unit":"sec"}},"bird_dog":{"n":"Bird dog","loc":"H","jn":"バードドッグ","eq":"none","side":1},"ft_kaz_curl_1a":{"n":"FT single-arm curl — KAZ handle (D-mode)","loc":"W","eq":"ft1","side":1,"cue":"D-mode: clip both ends of the handle to one carabiner so the load sits in the middle of the palm"},"ft_lateral_cuff":{"n":"FT cable lateral raise — ankle cuff on the forearm","loc":"W","eq":"ft1","cue":"Needs a pair of ankle cuffs · strap just above the bony bump on the pinky side of the wrist, not on it · no grip"},"ft_kaz_hammer_d":{"n":"FT hammer curl — KAZ handles (D-mode)","loc":"W","eq":"ft1","cue":"D-mode: clip both ends of each handle to one point · neutral grip, thumbs up"},"ft_fly_mid_kaz":{"n":"FT cable fly (mid height) — KAZ D-mode","loc":"W","eq":"ft","cue":"D-mode: clip both ends of each handle to one carabiner · handle low in the palm, wrist stacked over the forearm"},"ft_fly_low_high_kaz":{"n":"FT low-to-high fly — KAZ D-mode","loc":"W","eq":"ft","cue":"D-mode: clip both ends of each handle to one carabiner · handle low in the palm, wrist stacked over the forearm"},"bench_bd_vol":{"n":"BD bench — competition grip, volume","loc":"H","eq":"bd","acc":["wraps"],"wu":1},"ssb_vol_w":{"n":"SSB squat — wedge, volume","loc":"H","eq":"ssb","acc":["belt"],"wu":1},"camber_bent_row":{"n":"Standing bent row — camber bar","loc":"H","eq":"camber"},"dead_hang":{"n":"Dead hang (pull-up bar)","loc":"H","eq":"none"},"dead_hang_ft":{"n":"Dead hang — functional trainer multigrip bar","loc":"W","eq":"none"}};
-const TEMPLATES={"MON":{"key":"MON","letter":"A","dow":1,"loc":"H","title":"Pause squat + bench volume","note":"Pause squat first (top set of 5, then 3 back-offs at about −8%), then competition-grip bench volume at RPE 7, an optional one-arm DB row, DB lateral raises and a dead hang. Every 4 weeks the last back-off becomes an optional calibration set.","slots":[{"id":"mon_squat","name":"Squat — pause 2 s (wedge)","tier":"P1","min":22,"def":"ssb_pause_w","picks":["ssb_pause_w","ssb_tempo_w","smith_squat"],"purpose":"Top set of 5, then 3 back-offs. The top set updates this lift's own e1RM (separate from the Saturday SSB squat).","lift":"ssb_pause","cal":true},{"id":"mon_bench","name":"Bench — volume","tier":"S2R","min":16,"def":"bench_bd_vol","picks":["bench_bd_vol","camber_mid","camber_wide","db_flat","smith_flat"],"purpose":"Competition grip, 4×8 at RPE 7. The load comes from your bench e1RM; your RPE moves it from there.","vol":true,"primer":true,"rx":{"B1":{"s":4,"r":8,"cap":7},"B2":{"s":4,"r":6,"cap":7},"B3":{"s":3,"r":3,"cap":7}}},{"id":"mon_row","name":"One-arm DB row — optional","tier":"A3","min":9,"def":"db_row_1arm","picks":["db_row_1arm"],"purpose":"Optional (off by default). Bench-supported, so it doesn't load the lower back after squats. Weight is ONE dumbbell, reps per arm.","rx":{"B1":{"s":3,"lo":10,"hi":12,"rpe":8}},"opt":1,"on":false},{"id":"mon_delts","name":"Side delts","tier":"A3","min":8,"def":"db_lateral","picks":["db_lateral","db_leanaway","ft_lateral"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"mon_hang","name":"Dead hang","tier":"A3","min":3,"def":"dead_hang","picks":["dead_hang"],"purpose":"Grip and shoulder health. Time-based: both sets clean → +5 s the next week.","rx":{"B1":{"s":2,"lo":10,"hi":10,"unit":"sec"}},"hang":true}]},"WED":{"key":"WED","letter":"B","dow":3,"loc":"H","title":"Bench heavy + overhead","note":"Heavy bench first (top set of 5, then 3 back-offs at about −8%), then standing OHP, the camber-bar row, triceps and curls (about 65 min). Dips are an optional extra. Side delts moved to Monday (v5.2).","slots":[{"id":"wed_bench","name":"Bench — heavy","tier":"P1","min":26,"def":"bench_bd","picks":["bench_bd","camber_mid","smith_flat"],"purpose":"Goal #1: the tested lift. The top set updates bench e1RM.","lift":"bench","cal":true},{"id":"wed_ohp","name":"Vertical press","tier":"S2","min":13,"def":"camber_ohp","picks":["camber_ohp","smith_seated_ohp","db_seated_flat","landmine_press"],"purpose":"Neutral-grip camber OHP, standing.","rx":{"B1":{"s":3,"lo":6,"hi":8,"rpe":7}}},{"id":"wed_row","name":"Horizontal pull","tier":"S2","min":11,"def":"camber_row_mid","picks":["camber_row_mid","camber_bent_row","camber_row_wide","camber_row_close","bd_row","db_row_1arm"],"purpose":"Camber-bar row, normal handles. Replaces the standing bent row (its history is kept as an option in the dropdown).","rx":{"B1":{"s":3,"lo":8,"hi":10,"rpe":8}}},{"id":"wed_tri","name":"Triceps","tier":"A3","min":8,"def":"ez_skull","picks":["ez_skull","ez_oh_ext","db_oh_ext","ft_pushdown"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12}}},{"id":"wed_biceps","name":"Biceps","tier":"A3","min":9,"def":"ez_curl","picks":["ez_curl","ez_reverse","db_hammer","ft_curl"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12}}},{"id":"wed_dips","name":"Dips — optional extra","tier":"A3","min":0,"def":"dips","picks":["dips"],"purpose":"Optional. Not counted toward the session; skip it without any input.","rx":{"B1":{"s":3,"lo":6,"hi":10,"rpe":8}},"opt":1,"on":false,"extra":1}]},"THU":{"key":"THU","letter":"C","dow":4,"loc":"W","title":"Warehouse: press, back and legs","note":"Back-supported Smith OHP, wide pulldown and row on the RO-T8, then leg machines, rear delts and a dead hang.","slots":[{"id":"thu_ohp","name":"Vertical press","tier":"S2","min":12,"def":"smith_seated_ohp","picks":["smith_seated_ohp","smith_ohp_flat","ft_1arm_press","landmine_press"],"purpose":"","rx":{"B1":{"s":3,"lo":6,"hi":8,"rpe":8}}},{"id":"thu_pd","name":"Vertical pull","tier":"S2","min":10,"def":"rot8_wide","picks":["rot8_wide","rot8_narrow","spreader_pd","underhand_pd","ft_1arm_pd","pullups"],"purpose":"Wide pulldown, long bar, widest notch.","rx":{"B1":{"s":3,"lo":8,"hi":10}}},{"id":"thu_row","name":"Horizontal pull","tier":"S2","min":10,"def":"rot8_row_wide","picks":["rot8_row_wide","rot8_row_med","ft_high_row"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":10}}},{"id":"thu_ext","name":"Legs — quads","tier":"A3","min":5,"def":"leg_ext","picks":["leg_ext","leg_ext_1l"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":15}}},{"id":"thu_hip","name":"Hips — hip thrust","tier":"A3","min":7,"def":"hip_thrust_m","picks":["hip_thrust_m"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12}}},{"id":"thu_curl","name":"Legs — hamstrings","tier":"A3","min":5,"def":"leg_curl","picks":["leg_curl","leg_curl_1l"],"purpose":"","rx":{"B1":{"s":2,"lo":10,"hi":12}}},{"id":"thu_rear","name":"Rear delts","tier":"A3","min":6,"def":"ft_rear_fly","picks":["ft_rear_fly","ft_1arm_reverse","ft_facepull"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"thu_hang","name":"Dead hang","tier":"A3","min":3,"def":"dead_hang_ft","picks":["dead_hang_ft"],"purpose":"Functional trainer multigrip bar. Time-based: both sets clean → +5 s the next week.","rx":{"B1":{"s":2,"lo":10,"hi":10,"unit":"sec"}},"hang":true}]},"FRI":{"key":"FRI","letter":"○","dow":5,"loc":"W","title":"Shoulders + arms","optional":true,"note":"Optional 30–40 minute session. It never counts as missed.","slots":[{"id":"fri_lat","name":"Side delts","tier":"A3","min":8,"def":"ft_lateral","picks":["ft_lateral","ft_lateral_cuff","ft_y_raise"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"fri_rear","name":"Rear delts","tier":"A3","min":7,"def":"ft_rear_fly","picks":["ft_rear_fly","ft_1arm_reverse"],"purpose":"Crossed cables. Same history as Thursday's rear-delt fly.","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"fri_face","name":"Face pull","tier":"A3","min":6,"def":"ft_facepull","picks":["ft_facepull","ft_rear_fly"],"purpose":"","rx":{"B1":{"s":2,"lo":15,"hi":15}}},{"id":"fri_curl","name":"Biceps","tier":"A3","min":8,"def":"ft_curl","picks":["ft_curl","ft_rope_hammer","ft_kaz_curl_1a"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":12}}},{"id":"fri_tri","name":"Triceps","tier":"A3","min":7,"def":"ft_pushdown","picks":["ft_pushdown","ft_bar_pushdown","ft_oh_ext"],"purpose":"","rx":{"B1":{"s":2,"lo":10,"hi":12}}}]},"SAT":{"key":"SAT","letter":"D","dow":6,"loc":"H","title":"Squat volume + paused bench + hinge","note":"Squat and bench volume at RPE 7 with a hinge. In the SSB test week this day carries the SSB test.","slots":[{"id":"sat_squat","name":"Squat — SSB test","tier":"P1","min":24,"def":"ssb_w","picks":["ssb_w","ssb_flat","smith_squat"],"purpose":"Goal #2. The SSB test on Sat 12 Dec is on the wedge. Only appears in the test and post-test weeks.","lift":"ssb_w","testOnly":true},{"id":"sat_squat_vol","name":"Squat — volume (wedge)","tier":"S2R","min":20,"def":"ssb_vol_w","picks":["ssb_vol_w","ssb_pause_w","ssb_tempo_w","smith_squat"],"purpose":"4×8 at RPE 7–8 on the wedge with ONE fixed load for every set. Add reps before adding load.","vol":true,"noTest":true,"rx":{"B1":{"s":4,"r":8,"cap":7},"B2":{"s":3,"r":5,"cap":7},"B3":{"s":2,"r":3,"cap":6.5}},"fixed":true},{"id":"sat_bench","name":"Bench — paused 2 s","tier":"S2R","min":12,"def":"bench_bd_pause","picks":["bench_bd_pause","spoto","bench_bd_vol","camber_mid"],"purpose":"Paused bench, 3×5 at RPE 7.","vol":true,"rx":{"B1":{"s":3,"r":5,"cap":7},"B3":{"s":2,"r":3,"cap":6.5}}},{"id":"sat_hinge","name":"Hinge","tier":"S2","min":12,"def":"trap_rdl","picks":["trap_rdl","trap_dl_high","bd_rdl","hip_thrust_m"],"purpose":"Posterior chain.","rx":{"B1":{"s":3,"lo":6,"hi":8,"rpe":7},"B2":{"s":3,"lo":4,"hi":6,"rpe":7},"B3":{"s":2,"lo":3,"hi":3,"rpe":6}},"hinge":true,"defB":{"B2":"trap_dl_high","B3":"trap_dl_high"}},{"id":"sat_calves","name":"Calves","tier":"A3","min":6,"def":"calf_atx_db_1l","picks":["calf_atx_db_1l","calf_atx_ssb","calf_seated_db","calf_atx_db","smith_calf"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"sat_extra","name":"Hammer curl — optional","tier":"A3","min":6,"def":"db_hammer","picks":["db_hammer"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":12}},"opt":1,"on":false}]}};
+const EX={"bench_bd":{"n":"BD bench — competition grip","loc":"H","eq":"bd","acc":["wraps"],"wu":1,"su":{"r":"bench"}},"bench_bd_pause":{"n":"BD bench — paused 2 s","loc":"H","eq":"bd","acc":["wraps"],"wu":1,"su":{"r":"bench"}},"camber_mid":{"n":"Camber bench — normal handles","loc":"H","grip":"normal","eq":"camber","acc":["wraps"],"wu":1,"vl":"NORMAL","vs":"·","su":{"r":"bench"}},"smith_flat":{"n":"Smith flat bench — normal grip","loc":"W","eq":"smith","wu":1,"jn":"スミスマシン ベンチプレス"},"ssb_pause_w":{"n":"SSB pause squat 2 s — wedge","loc":"H","eq":"ssb","wu":1,"su":{"r":"squat"}},"ssb_tempo_w":{"n":"SSB tempo squat 3 s down — wedge","loc":"H","eq":"ssb","wu":1,"su":{"r":"squat"}},"ssb_1q_w":{"n":"SSB 1¼ squat — wedge","loc":"H","eq":"ssb","wu":1,"su":{"r":"squat"}},"ssb_light_w":{"n":"SSB squat — wedge, 3×5 @ 60–65%","loc":"H","eq":"ssb","rx":{"lo":5,"hi":5},"wu":1,"su":{"r":"squat"}},"goblet_w":{"n":"DB goblet squat — wedge","loc":"H","eq":"hexdb"},"smith_squat":{"n":"Smith squat","loc":"W","eq":"smith","wu":1,"jn":"スミスマシン スクワット"},"db_incline_30":{"n":"DB incline press (30°)","loc":"H","eq":"hexdb","wu":1,"jn":"ダンベル インクラインプレス","su":{"b":"30°"}},"db_incline_15":{"n":"DB low-incline press (15°)","loc":"H","eq":"hexdb","wu":1,"su":{"b":"15°"}},"db_incline_neutral":{"n":"DB incline press — neutral grip (30°)","loc":"H","eq":"hexdb","wu":1,"su":{"b":"30°"}},"db_incline_45":{"n":"DB incline press (45°)","loc":"H","eq":"hexdb","wu":1,"su":{"b":"45°"}},"landmine_press":{"n":"Half-kneeling landmine press","loc":"H","eq":"landmine","side":1,"jn":"ランドマインプレス"},"ft_fly_low_high":{"n":"FT low-to-high fly","loc":"W","eq":"ft"},"pullups":{"n":"Pull-ups","loc":"H","eq":"bw"},"chinups":{"n":"Chin-ups","loc":"H","eq":"bw"},"band_pullups":{"n":"Band-assisted pull-ups","loc":"H","eq":"none","jn":"バンド懸垂"},"weighted_pullups":{"n":"Weighted pull-ups","loc":"H","eq":"bw"},"inverted_row":{"n":"Inverted row (BD bar in the stand)","loc":"H","eq":"bw","jn":"インバーテッドロウ"},"rot8_narrow":{"n":"RO-T8 narrow pulldown (long bar)","loc":"W","eq":"lat","rot":"lat","jn":"ナロー ラットプルダウン","vl":"NARROW BAR","vs":"n"},"db_lateral":{"n":"DB lateral raise","loc":"H","eq":"hexdb"},"db_leanaway":{"n":"DB lean-away lateral (hold the stand)","loc":"H","eq":"hexdb"},"db_seated_lat":{"n":"DB seated lateral (flat bench)","loc":"H","eq":"hexdb"},"band_lateral":{"n":"Band lateral raise","loc":"H","eq":"none"},"ft_lateral":{"n":"FT cable lateral raise","loc":"W","eq":"ft1","vl":"HANDLE","vs":"H"},"camber_row_mid":{"n":"Camber-bar row — normal handles","loc":"H","grip":"normal","eq":"camber","vl":"NORMAL","vs":"·"},"camber_row_wide":{"n":"Camber-bar row — wide handles","loc":"H","grip":"wide","eq":"camber","vl":"WIDE","vs":"W"},"camber_row_close":{"n":"Camber-bar row — narrow handles","loc":"H","grip":"narrow","eq":"camber","vl":"NARROW","vs":"N"},"db_chest_row":{"n":"Chest-supported DB row (AB-4100)","loc":"H","eq":"hexdb","jn":"チェストサポート ダンベルロウ","su":{"b":"30°"}},"db_row_1arm":{"n":"One-arm DB row (flat bench)","loc":"H","eq":"hexdb","side":1,"jn":"ワンハンドダンベルロウ"},"meadows":{"n":"Meadows row (landmine)","loc":"H","eq":"landmine","side":1},"tbar_lm":{"n":"Landmine T-bar row","loc":"H","eq":"landmine"},"bd_row":{"n":"BD bent-over row","loc":"H","eq":"bd"},"ft_row_1arm":{"n":"FT one-arm cable row","loc":"W","eq":"ft1","side":1,"jn":"ワンハンド ケーブルロウ"},"ez_curl":{"n":"EZ curl","loc":"H","eq":"ezHome"},"ez_reverse":{"n":"EZ reverse curl","loc":"H","eq":"ezHome"},"ez_drag":{"n":"EZ drag curl","loc":"H","eq":"ezHome"},"db_hammer":{"n":"DB hammer curl","loc":"H","eq":"hexdb"},"db_alt_curl":{"n":"DB alternating curl","loc":"H","eq":"hexdb","side":1},"ft_curl":{"n":"FT straight-bar curl","loc":"W","eq":"ft1","jn":"ケーブルカール","vl":"STRAIGHT BAR","vs":"B"},"db_rear_fly":{"n":"DB rear-delt fly (bent over)","loc":"H","eq":"hexdb"},"band_pullapart":{"n":"Band pull-apart","loc":"H","eq":"none","rx":{"lo":15,"hi":25}},"db_prone_y":{"n":"DB prone Y-raise (flat bench)","loc":"H","eq":"hexdb"},"ft_facepull":{"n":"FT face pull (neoprene strap)","loc":"W","eq":"ft1","jn":"フェイスプル","vl":"NEOPRENE STRAP","vs":"N"},"dips":{"n":"Dips (dip attachment)","loc":"H","eq":"bw"},"db_flat_fly":{"n":"DB flat fly","loc":"H","eq":"hexdb"},"db_pullover":{"n":"DB pullover (flat bench)","loc":"H","eq":"hexdb"},"ez_oh_ext":{"n":"EZ overhead extension (seated)","loc":"H","eq":"ezHome"},"ft_pushdown":{"n":"RO-T8 spreader bar pushdown","loc":"W","eq":"cable","vl":"SPREADER","vs":"S"},"hanging_leg_raise":{"n":"Hanging leg raise — straight legs","loc":"W","cue":"Skip while the right shoulder is tweaked — hanging loads it","eq":"bw"},"hanging_knee":{"n":"Hanging knee raise","loc":"W","cue":"Skip while the right shoulder is tweaked — hanging loads it","eq":"bw"},"weighted_situp":{"n":"Weighted sit-up (plate on chest, feet anchored)","loc":"H","eq":"bw"},"lying_leg_raise":{"n":"Lying leg raise on the flat bench","loc":"H","eq":"bw"},"toes_to_bar":{"n":"Toes-to-bar","loc":"H","eq":"bw"},"rev_crunch_bench":{"n":"Reverse crunch on the adjustable bench","loc":"W","eq":"none"},"calf_atx_db_1l":{"n":"ATX calf raise — single leg, DB in one hand","loc":"H","cue":"Hold the rack with the free hand · 2 s pause in the bottom stretch · knee straight · first session: stop 2–3 reps short","eq":"hexdb","side":1},"calf_atx_ssb":{"n":"ATX calf raise — SSB","loc":"H","cue":"2 s pause in the bottom stretch · knees straight","eq":"ssb","su":{"r":"squat"}},"calf_seated_db":{"n":"ATX seated calf raise — DBs on the knees","loc":"H","cue":"Bent knee trains the soleus (the calf muscle cycling uses most) · 2 s pause at the bottom","eq":"hexdb"},"calf_atx_db":{"n":"ATX calf raise — two legs, holding a DB","loc":"H","cue":"2 s pause in the bottom stretch · knees straight","eq":"hexdb"},"smith_calf":{"n":"Smith calf raise","loc":"W","cue":"2 s pause in the bottom stretch · knees straight","eq":"smith"},"smith_incline":{"n":"Smith incline press (~30°)","loc":"W","eq":"smith","wu":1},"smith_low_incline":{"n":"Smith low-incline press (~15°)","loc":"W","eq":"smith","wu":1},"smith_cg_bench":{"n":"Smith close-grip bench","loc":"W","eq":"smith","wu":1},"camber_close":{"n":"Camber bench — narrow handles","loc":"H","grip":"narrow","eq":"camber","acc":["wraps"],"wu":1,"vl":"NARROW","vs":"N","su":{"r":"bench"}},"leg_curl":{"n":"Prone leg curl","loc":"W","eq":"curl","jn":"レッグカール"},"leg_curl_1l":{"n":"Single-leg prone curl","loc":"W","eq":"curl","side":1},"hip_thrust_m":{"n":"Hip thrust machine","loc":"W","eq":"hip","jn":"ヒップスラスト（マシン）"},"smith_rdl":{"n":"Smith RDL","loc":"W","eq":"smith","jn":"スミスマシン ルーマニアンデッドリフト"},"smith_seated_ohp":{"n":"Smith seated OHP — back supported","loc":"W","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"smith","wu":1},"db_seated_press":{"n":"Seated DB press (AB-4100, upright)","loc":"H","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"hexdb","wu":1,"su":{"b":"upright"}},"smith_ohp_flat":{"n":"Smith seated OHP — flat bench, no back support","loc":"W","cue":"Right shoulder: stop if it pinches; FT one-arm press is the gentlest swap","eq":"smith","wu":1},"ft_1arm_press":{"n":"FT half-kneeling one-arm press","loc":"W","eq":"ft1","side":1},"smith_standing_ohp":{"n":"Smith standing OHP","loc":"W","eq":"smith"},"db_seated_flat":{"n":"DB seated press (flat bench, no back support)","loc":"H","eq":"hexdb"},"ft_fly_mid":{"n":"FT cable fly (mid height)","loc":"W","eq":"ft"},"ft_fly_high_low":{"n":"FT high-to-low fly","loc":"W","eq":"ft"},"ft_incline_fly":{"n":"FT incline fly (adjustable bench)","loc":"W","eq":"ft"},"straight_arm":{"n":"Straight-arm pulldown (spreader)","loc":"W","eq":"lat"},"smith_shrug":{"n":"Smith shrug","loc":"W","eq":"smith"},"ft_bar_pushdown":{"n":"FT straight-bar pushdown","loc":"W","eq":"ft1","vl":"STRAIGHT BAR","vs":"B"},"lat_pushdown":{"n":"Pushdown on the lat machine","loc":"W","eq":"lat"},"ft_rev_pushdown":{"n":"FT single-arm reverse-grip pushdown","loc":"W","eq":"ft1","side":1,"vl":"REVERSE GRIP (1-arm)","vs":"V"},"ft_oh_ext":{"n":"FT overhead strap extension (neoprene strap)","loc":"W","eq":"ft1","vl":"NEOPRENE STRAP","vs":"N"},"ft_crossbody_ext":{"n":"FT single-arm cross-body extension","loc":"W","eq":"ft1","side":1},"db_oh_ext":{"n":"DB overhead extension","loc":"H","eq":"hexdb"},"cable_crunch":{"n":"Kneeling cable crunch (neoprene strap)","loc":"W","eq":"ft1","jn":"ケーブルクランチ"},"standing_crunch":{"n":"FT standing cable crunch","loc":"W","eq":"ft1"},"rkc_plank":{"n":"RKC plank","loc":"H","eq":"none","rx":{"lo":20,"hi":30,"unit":"sec"}},"leg_ext":{"n":"Leg extension","loc":"W","eq":"ext"},"leg_ext_1l":{"n":"Single-leg extension","loc":"W","eq":"ext","side":1},"rot8_wide":{"n":"RO-T8 wide pulldown (long bar, widest notch)","loc":"W","eq":"lat","rot":"lat","jn":"ラットプルダウン","vl":"WIDE BAR","vs":"W"},"spreader_pd":{"n":"Spreader pulldown","loc":"W","eq":"lat","vl":"SPREADER","vs":"S"},"underhand_pd":{"n":"Underhand pulldown","loc":"W","eq":"lat","vl":"UNDERHAND","vs":"U"},"ft_1arm_pd":{"n":"FT half-kneeling one-arm pulldown","loc":"W","eq":"ft1","side":1,"jn":"ワンハンド ケーブルプルダウン"},"ft_crossbody_pd":{"n":"FT kneeling cross-body pulldown","loc":"W","eq":"ft1","side":1},"rot8_row_wide":{"n":"RO-T8 row — wide","loc":"W","eq":"lat","rot":"row","jn":"シーテッドロウ（ワイド）","vl":"RO-T8 WIDE","vs":"W"},"rot8_row_med":{"n":"RO-T8 row — medium","loc":"W","eq":"lat","rot":"row","jn":"シーテッドロウ","vl":"RO-T8 MEDIUM","vs":"m"},"ft_high_row":{"n":"FT kneeling high row","loc":"W","eq":"ft1"},"ft_1arm_straight":{"n":"FT single-arm straight-arm pulldown","loc":"W","eq":"ft1","side":1},"ft_rear_fly":{"n":"FT rear-delt fly (crossed cables)","loc":"W","eq":"ft"},"ft_1arm_reverse":{"n":"FT single-arm reverse fly","loc":"W","eq":"ft1","side":1},"ft_y_raise":{"n":"FT cable Y-raise","loc":"W","eq":"ft1"},"ft_behind_lat":{"n":"FT behind-back single-arm lateral","loc":"W","eq":"ft1","side":1},"ft_bayesian":{"n":"FT bayesian curl (behind the body)","loc":"W","eq":"ft1"},"ft_rope_hammer":{"n":"FT Kaz bar hammer curl","loc":"W","eq":"ft1"},"ft_conc":{"n":"FT concentration curl","loc":"W","eq":"ft1","side":1},"ft_high_curl":{"n":"FT high-cable curl","loc":"W","eq":"ft1"},"ft_reverse_curl":{"n":"FT reverse-grip curl","loc":"W","eq":"ft1"},"ft_chop":{"n":"Half-kneeling cable woodchop (high to low, neoprene strap)","loc":"W","eq":"ft1","side":1},"ft_lift":{"n":"Half-kneeling cable lift (low to high)","loc":"W","eq":"ft1","side":1},"ft_side_bend":{"n":"Cable side bend","loc":"W","eq":"ft1","side":1},"kb_suitcase_carry":{"n":"KB suitcase carry (fieldoor KB)","loc":"W","eq":"none","rx":{"lo":30,"hi":45,"unit":"sec"},"side":1},"pallof_ft":{"n":"Pallof press (FT)","loc":"W","eq":"ft1","side":1,"jn":"パロフプレス"},"landmine_rotation":{"n":"Landmine rotation (\"rainbow\")","loc":"H","eq":"landmine","side":1},"ssb_w":{"n":"SSB squat — wedge","loc":"H","eq":"ssb","acc":["belt"],"wu":1,"su":{"r":"squat"}},"ssb_flat":{"n":"SSB squat — flat","loc":"H","eq":"ssb","acc":["belt"],"wu":1,"su":{"r":"squat"}},"camber_wide":{"n":"Camber bench — wide handles","loc":"H","grip":"wide","eq":"camber","acc":["wraps"],"wu":1,"vl":"WIDE","vs":"W","su":{"r":"bench"}},"bench_bd_cg":{"n":"BD close-grip bench","loc":"H","eq":"bd","wu":1,"su":{"r":"bench"}},"larsen":{"n":"BD Larsen press (feet up)","loc":"H","eq":"bd","wu":1,"su":{"r":"bench"}},"spoto":{"n":"BD Spoto press (pause 2 cm off the chest)","loc":"H","eq":"bd","wu":1,"su":{"r":"bench"}},"db_flat":{"n":"DB flat press","loc":"H","eq":"hexdb","jn":"ダンベルベンチプレス"},"db_flat_neutral":{"n":"DB neutral-grip flat press","loc":"H","eq":"hexdb"},"trap_rdl":{"n":"Trap bar RDL","loc":"H","eq":"trap","acc":["belt"],"wu":1},"trap_dl_high":{"n":"Trap bar DL — high handles","loc":"H","eq":"trap","acc":["belt"],"wu":1,"jn":"トラップバー デッドリフト"},"trap_dl_low":{"n":"Trap bar DL — low handles","loc":"H","eq":"trap","acc":["belt"],"wu":1},"bd_rdl":{"n":"BD RDL","loc":"H","eq":"bd","wu":1},"db_rdl":{"n":"DB RDL","loc":"H","eq":"hexdb","jn":"ダンベル ルーマニアンデッドリフト"},"sl_db_rdl":{"n":"Single-leg DB RDL","loc":"H","eq":"hexdb","side":1},"ssb_gm":{"n":"SSB good morning","loc":"H","eq":"ssb","su":{"r":"squat"}},"bb_hip_thrust":{"n":"Barbell hip thrust (BD bar, flat bench)","loc":"H","eq":"bd"},"ez_skull":{"n":"EZ skull crusher","loc":"H","eq":"ezHome"},"ez_jm":{"n":"EZ JM press","loc":"H","eq":"ezHome"},"db_side_bend":{"n":"DB side bend","loc":"H","eq":"hexdb","side":1},"hanging_oblique":{"n":"Hanging oblique knee raise","loc":"H","eq":"bw","side":1},"weighted_side_plank":{"n":"Weighted side plank","loc":"H","eq":"bw","rx":{"lo":20,"hi":30,"unit":"sec"},"side":1},"db_suitcase_dl":{"n":"DB suitcase deadlift (one DB)","loc":"H","eq":"hexdb","side":1},"trap_march":{"n":"Trap-bar farmer march in place","loc":"H","eq":"trap","rx":{"lo":30,"hi":45,"unit":"sec"}},"dead_bug":{"n":"Dead bug","loc":"H","eq":"none","jn":"デッドバグ","side":1},"trap_hold":{"n":"Trap-bar farmer hold","loc":"H","eq":"trap","rx":{"lo":30,"hi":45,"unit":"sec"}},"db_suitcase_hold":{"n":"DB suitcase hold (one side)","loc":"H","eq":"hexdb","rx":{"lo":30,"hi":45,"unit":"sec"},"side":1,"jn":"スーツケースホールド"},"band_pallof":{"n":"Band Pallof press","loc":"H","eq":"none","side":1},"camber_ohp":{"n":"Camber neutral-grip OHP (standing)","loc":"H","eq":"camber"},"bd_squat":{"n":"BD back squat","loc":"H","eq":"bd","su":{"r":"squat"}},"goblet":{"n":"Goblet squat","loc":"H","jn":"ゴブレットスクワット","eq":"hexdb"},"db_rev_lunge":{"n":"Reverse lunge","loc":"H","jn":"リバースランジ","eq":"hexdb","side":1},"smith_box_squat":{"n":"Smith box squat","loc":"W","jn":"スミスマシン ボックススクワット","eq":"smith"},"lm_squat":{"n":"Landmine squat","loc":"H","jn":"ランドマインスクワット","eq":"landmine"},"split_squat":{"n":"Split squat","loc":"H","jn":"スプリットスクワット","eq":"hexdb","side":1},"step_up":{"n":"Step-up","loc":"H","jn":"ステップアップ","eq":"hexdb","side":1},"db_dl":{"n":"DB deadlift from the floor","loc":"H","jn":"ダンベルデッドリフト","eq":"hexdb"},"incline_pushup":{"n":"Incline push-up","loc":"H","jn":"インクライン プッシュアップ","eq":"bw"},"ft_press":{"n":"Cable chest press","loc":"W","jn":"ケーブル チェストプレス","eq":"ft"},"calf_sl":{"n":"Single-leg calf raise","loc":"H","jn":"片足カーフレイズ","eq":"hexdb","side":1},"side_plank":{"n":"Side plank","loc":"H","jn":"サイドプランク","eq":"none","side":1,"rx":{"lo":20,"hi":40,"unit":"sec"}},"bird_dog":{"n":"Bird dog","loc":"H","jn":"バードドッグ","eq":"none","side":1},"ft_kaz_curl_1a":{"n":"FT single-arm curl — KAZ handle (D-mode)","loc":"W","eq":"ft1","side":1,"cue":"D-mode: clip both ends of the handle to one carabiner so the load sits in the middle of the palm"},"ft_lateral_cuff":{"n":"FT cable lateral raise — ankle cuff on the forearm","loc":"W","eq":"ft1","cue":"Needs a pair of ankle cuffs · strap just above the bony bump on the pinky side of the wrist, not on it · no grip","vl":"ANKLE CUFF","vs":"C"},"ft_kaz_hammer_d":{"n":"FT hammer curl — KAZ handles (D-mode)","loc":"W","eq":"ft1","cue":"D-mode: clip both ends of each handle to one point · neutral grip, thumbs up"},"ft_fly_mid_kaz":{"n":"FT cable fly (mid height) — KAZ D-mode","loc":"W","eq":"ft","cue":"D-mode: clip both ends of each handle to one carabiner · handle low in the palm, wrist stacked over the forearm"},"ft_fly_low_high_kaz":{"n":"FT low-to-high fly — KAZ D-mode","loc":"W","eq":"ft","cue":"D-mode: clip both ends of each handle to one carabiner · handle low in the palm, wrist stacked over the forearm"},"bench_bd_vol":{"n":"BD bench — competition grip, volume","loc":"H","eq":"bd","acc":["wraps"],"wu":1,"su":{"r":"bench"}},"ssb_vol_w":{"n":"SSB squat — wedge, volume","loc":"H","eq":"ssb","acc":["belt"],"wu":1,"su":{"r":"squat"}},"camber_bent_row":{"n":"Standing bent row — camber bar","loc":"H","eq":"camber","vl":"NORMAL","vs":"·"},"dead_hang":{"n":"Dead hang (pull-up bar)","loc":"H","eq":"none"},"dead_hang_ft":{"n":"Dead hang — functional trainer multigrip bar","loc":"W","eq":"none"},"db_incline_curl":{"n":"DB incline curl (AB-4100)","loc":"H","eq":"hexdb","su":{"b":"45°"}},"kb_swing":{"n":"KB swing","loc":"H","eq":"kb","cue":"Hamstring stand-in while the warehouse leg curl is out of reach · hips back, snap through"},"ft_1arm_pushdown":{"n":"FT one-arm pushdown (single handle)","loc":"W","eq":"ft1","side":1,"vl":"SINGLE HANDLE","vs":"1"},"ft_rope_pushdown":{"n":"FT rope pushdown","loc":"W","eq":"ft1","vl":"ROPE","vs":"R"},"ft_oh_ext_rope":{"n":"FT overhead extension (rope)","loc":"W","eq":"ft1","vl":"ROPE","vs":"R"},"ft_oh_ext_bar":{"n":"FT overhead extension (bar)","loc":"W","eq":"ft1","vl":"BAR","vs":"B"},"pd_mag":{"n":"Pulldown — close neutral (MAG/V)","loc":"W","eq":"lat","vl":"CLOSE NEUTRAL (MAG)","vs":"M"},"pd_rot8_handles":{"n":"Pulldown — RO-T8 handles","loc":"W","eq":"lat","vl":"RO-T8 HANDLES","vs":"H"},"row_mag":{"n":"Seated row — close neutral (MAG/V)","loc":"W","eq":"lat","vl":"CLOSE NEUTRAL (MAG)","vs":"M"},"row_widebar":{"n":"Seated row — wide bar","loc":"W","eq":"lat","vl":"WIDE BAR","vs":"W"},"ft_facepull_rope":{"n":"FT face pull (rope)","loc":"W","eq":"ft1","vl":"ROPE","vs":"R"},"ft_curl_ez":{"n":"FT EZ-bar curl","loc":"W","eq":"ft1","vl":"EZ BAR","vs":"E"},"ft_rope_curl":{"n":"FT rope curl","loc":"W","eq":"ft1","vl":"ROPE","vs":"R"},"camber_bent_close":{"n":"Standing bent row — camber bar, narrow handles","loc":"H","eq":"camber","vl":"NARROW","vs":"N"},"camber_bent_wide":{"n":"Standing bent row — camber bar, wide handles","loc":"H","eq":"camber","vl":"WIDE","vs":"W"},"fam_camber_bench":{"n":"Camber bench","loc":"H","eq":"camber","fam":["camber_close","camber_mid","camber_wide"],"famDef":"camber_mid","famLbl":"HANDLES","acc":["wraps"],"wu":1,"su":{"r":"bench"}},"fam_camber_row":{"n":"Camber-bar row","loc":"H","eq":"camber","fam":["camber_row_close","camber_row_mid","camber_row_wide"],"famDef":"camber_row_mid","famLbl":"HANDLES"},"fam_camber_bent":{"n":"Standing bent row — camber bar","loc":"H","eq":"camber","fam":["camber_bent_close","camber_bent_row","camber_bent_wide"],"famDef":"camber_bent_row","famLbl":"HANDLES"},"fam_pushdown":{"n":"Triceps pushdown (FT)","loc":"W","eq":"ft1","fam":["ft_1arm_pushdown","ft_pushdown","ft_rope_pushdown","ft_bar_pushdown","ft_rev_pushdown"],"famDef":"ft_1arm_pushdown","famLbl":"ATTACHMENT"},"fam_oh_ext":{"n":"Overhead triceps extension (FT)","loc":"W","eq":"ft1","fam":["ft_oh_ext","ft_oh_ext_rope","ft_oh_ext_bar"],"famDef":"ft_oh_ext","famLbl":"ATTACHMENT"},"fam_pulldown":{"n":"Lat pulldown","loc":"W","eq":"lat","fam":["pd_mag","pd_rot8_handles","rot8_wide","rot8_narrow","spreader_pd","underhand_pd"],"famDef":"pd_mag","famLbl":"ATTACHMENT"},"fam_row":{"n":"Seated cable row","loc":"W","eq":"lat","fam":["rot8_row_wide","rot8_row_med","row_mag","row_widebar"],"famDef":"rot8_row_wide","famLbl":"ATTACHMENT"},"fam_facepull":{"n":"Face pull (FT)","loc":"W","eq":"ft1","fam":["ft_facepull","ft_facepull_rope"],"famDef":"ft_facepull","famLbl":"ATTACHMENT"},"fam_cable_curl":{"n":"Cable curl (FT)","loc":"W","eq":"ft1","fam":["ft_curl","ft_curl_ez","ft_rope_curl"],"famDef":"ft_curl","famLbl":"ATTACHMENT"},"fam_cable_lat":{"n":"Cable lateral raise (FT)","loc":"W","eq":"ft1","fam":["ft_lateral","ft_lateral_cuff"],"famDef":"ft_lateral","famLbl":"ATTACHMENT"},"nano_pd_mag":{"n":"Nano pulldown — close neutral (MAG)","loc":"H","eq":"nano","nano":1,"vl":"CLOSE NEUTRAL (MAG)","vs":"M","su":{"a":"high"}},"nano_pd_bar":{"n":"Nano pulldown — lat bar","loc":"H","eq":"nano","nano":1,"vl":"LAT BAR","vs":"B","su":{"a":"high"}},"nano_ohe_strap":{"n":"Nano overhead extension — strap","loc":"H","eq":"nano","nano":1,"vl":"NEOPRENE STRAP","vs":"N","su":{"a":"high"}},"nano_ohe_rope":{"n":"Nano overhead extension — rope","loc":"H","eq":"nano","nano":1,"vl":"ROPE","vs":"R","su":{"a":"high"}},"nano_push_1arm":{"n":"Nano one-arm pushdown — single handle","loc":"H","eq":"nano","nano":1,"vl":"SINGLE HANDLE","vs":"1","side":1,"su":{"a":"high"}},"nano_push_rope":{"n":"Nano pushdown — rope","loc":"H","eq":"nano","nano":1,"vl":"ROPE","vs":"R","su":{"a":"high"}},"nano_push_bar":{"n":"Nano pushdown — straight bar","loc":"H","eq":"nano","nano":1,"vl":"STRAIGHT BAR","vs":"B","su":{"a":"high"}},"nano_face_strap":{"n":"Nano face pull — strap","loc":"H","eq":"nano","nano":1,"vl":"NEOPRENE STRAP","vs":"N","su":{"a":"high"}},"nano_face_rope":{"n":"Nano face pull — rope","loc":"H","eq":"nano","nano":1,"vl":"ROPE","vs":"R","su":{"a":"high"}},"nano_row_1arm":{"n":"Nano one-arm row — single handle","loc":"H","eq":"nano","nano":1,"side":1,"su":{"a":"mid"}},"nano_fly_1arm":{"n":"Nano one-arm fly — single handle","loc":"H","eq":"nano","nano":1,"side":1,"su":{"a":"mid"}},"nano_lat_handle":{"n":"Nano cable lateral — handle","loc":"H","eq":"nano","nano":1,"vl":"HANDLE","vs":"H","side":1,"su":{"a":"low"}},"nano_lat_cuff":{"n":"Nano cable lateral — ankle cuff","loc":"H","eq":"nano","nano":1,"vl":"ANKLE CUFF","vs":"C","side":1,"su":{"a":"low"}},"nano_leg_curl":{"n":"Nano standing leg curl — ankle strap","loc":"H","eq":"nano","nano":1,"side":1,"su":{"a":"low"}},"nfam_pulldown":{"n":"Nano half-kneeling pulldown","loc":"H","eq":"nano","fam":["nano_pd_mag","nano_pd_bar"],"famDef":"nano_pd_mag","famLbl":"ATTACHMENT","nano":1,"su":{"a":"high"}},"nfam_ohe":{"n":"Nano overhead triceps extension","loc":"H","eq":"nano","fam":["nano_ohe_strap","nano_ohe_rope"],"famDef":"nano_ohe_strap","famLbl":"ATTACHMENT","nano":1,"su":{"a":"high"}},"nfam_push":{"n":"Nano pushdown","loc":"H","eq":"nano","fam":["nano_push_1arm","nano_push_rope","nano_push_bar"],"famDef":"nano_push_1arm","famLbl":"ATTACHMENT","nano":1,"su":{"a":"high"}},"nfam_face":{"n":"Nano face pull","loc":"H","eq":"nano","fam":["nano_face_strap","nano_face_rope"],"famDef":"nano_face_strap","famLbl":"ATTACHMENT","nano":1,"su":{"a":"high"}},"nfam_lat":{"n":"Nano cable lateral","loc":"H","eq":"nano","fam":["nano_lat_handle","nano_lat_cuff"],"famDef":"nano_lat_handle","famLbl":"ATTACHMENT","nano":1,"su":{"a":"low"}}};
+const TEMPLATES={"MON":{"key":"MON","letter":"A","dow":1,"loc":"H","title":"Bench heavy + light squat","note":"Heavy bench first: a ~90% single, the top set, then back-offs at about −8%. Then a light pause squat (RPE ≤ 6, the day before the Tuesday ride), a one-arm DB row, side delts, EZ curl and a dead hang.","slots":[{"id":"mon_bench","name":"Bench — heavy","tier":"P1","min":28,"def":"bench_bd","picks":["bench_bd","fam_camber_bench","smith_flat"],"purpose":"Goal #1. Competition grip, still pause on the chest. The top set updates bench e1RM.","lift":"bench","cal":true},{"id":"mon_squat","name":"Squat — light pause (wedge)","tier":"S2R","min":12,"def":"ssb_pause_w","picks":["ssb_pause_w","ssb_tempo_w","ssb_light_w","smith_squat"],"purpose":"Light: 3×4 @ RPE ≤ 6. Keeps the squat groove twice a week without tiring the legs before Tuesday.","rx":{"B1":{"s":3,"r":4,"cap":6},"B3":{"s":2,"r":3,"cap":5.5}}},{"id":"mon_row","name":"Horizontal pull","tier":"A3","min":9,"def":"db_row_1arm","picks":["db_row_1arm","db_chest_row"],"purpose":"Bench-supported, so it doesn't load the lower back after squats. Weight is ONE dumbbell, reps per arm.","rx":{"B1":{"s":3,"lo":8,"hi":12,"rpe":8}}},{"id":"mon_delts","name":"Side delts","tier":"A3","min":8,"def":"db_leanaway","picks":["db_leanaway","db_lateral","db_seated_lat","nfam_lat"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"mon_curl","name":"Biceps","tier":"A3","min":7,"def":"ez_curl","picks":["ez_curl","ez_reverse","db_hammer","db_incline_curl"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12}}},{"id":"mon_extra","name":"Hammer / incline curl — optional","tier":"A3","min":5,"def":"db_hammer","picks":["db_hammer","db_incline_curl"],"purpose":"Optional (off by default).","rx":{"B1":{"s":2,"lo":10,"hi":12}},"opt":1,"on":false},{"id":"mon_hang","name":"Dead hang","tier":"A3","min":3,"def":"dead_hang","picks":["dead_hang"],"purpose":"Grip and shoulder health. Time-based: both sets clean → +5 s the next week.","rx":{"B1":{"s":2,"lo":10,"hi":10,"unit":"sec"}},"hang":true}]},"WED":{"key":"WED","letter":"B","dow":3,"loc":"H","title":"Close-grip bench + back","note":"Close-grip bench (triceps and lockout), a dead-hang warm-up into chin-ups, the camber-bar row with handles chosen set by set, EZ skull crushers and rear delts. Day after the Tuesday ride: upper body only. Dips are an optional extra.","slots":[{"id":"wed_cg","name":"Bench — close grip","tier":"S2","min":20,"def":"bench_bd_cg","picks":["bench_bd_cg","spoto","fam_camber_bench"],"purpose":"One hand-width in from your competition grip. Its own history; never updates bench e1RM.","rx":{"B1":{"s":4,"lo":5,"hi":6,"rpe":8},"VOL":{"s":4,"lo":6,"hi":8,"rpe":8},"B3":{"s":2,"lo":3,"hi":5,"rpe":7}}},{"id":"wed_hang","name":"Dead hang — warm-up","tier":"A3","min":3,"def":"dead_hang","picks":["dead_hang"],"purpose":"Warm-up for the chin-ups. Same dead-hang progression as Monday.","rx":{"B1":{"s":2,"lo":10,"hi":10,"unit":"sec"}},"hang":true},{"id":"wed_pull","name":"Vertical pull","tier":"S2","min":10,"def":"chinups","picks":["chinups","pullups","band_pullups","weighted_pullups"],"purpose":"Band-assisted if you get fewer than 5.","rx":{"B1":{"s":3,"lo":5,"hi":8,"rpe":8}}},{"id":"wed_row","name":"Horizontal pull","tier":"S2","min":10,"def":"fam_camber_row","picks":["fam_camber_row","fam_camber_bent","bd_row","db_chest_row"],"purpose":"Camber-bar row. Pick the handles set by set inside each set.","rx":{"B1":{"s":3,"lo":8,"hi":10,"rpe":8}}},{"id":"wed_tri","name":"Triceps","tier":"A3","min":8,"def":"ez_skull","picks":["ez_skull","ez_jm","db_oh_ext","ez_oh_ext","nfam_ohe"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12}}},{"id":"wed_rear","name":"Rear delts","tier":"A3","min":6,"def":"db_rear_fly","picks":["db_rear_fly","band_pullapart","db_prone_y"],"purpose":"","rx":{"B1":{"s":3,"lo":15,"hi":20}},"nanoDef":"nfam_face"},{"id":"wed_lat","name":"Side delts (Nano)","tier":"A3","min":6,"def":"nfam_lat","picks":["nfam_lat","db_lateral"],"purpose":"Programme B: moved home from Thursday.","rx":{"B1":{"s":3,"lo":12,"hi":15}},"nanoOnly":1},{"id":"wed_dips","name":"Dips — optional extra","tier":"A3","min":0,"def":"dips","picks":["dips"],"purpose":"Optional. Not counted toward the session; skip it without any input.","rx":{"B1":{"s":2,"lo":8,"hi":12,"rpe":8}},"opt":1,"on":false,"extra":1}]},"THU":{"key":"THU","letter":"C","dow":4,"loc":"W","title":"Warehouse: upper hypertrophy + leg machines","note":"Smith incline, pulldown, back-supported Smith OHP and the seated row, then cable isolation (fly, overhead extension, pushdown, lateral, face pull) and the leg machines. Attachments are chosen set by set. When the warehouse is closed this day runs at home.","slots":[{"id":"thu_incline","name":"Incline press","tier":"S2","min":12,"def":"smith_incline","picks":["smith_incline","smith_low_incline","db_incline_30","db_incline_15","landmine_press"],"purpose":"","rx":{"B1":{"s":3,"lo":6,"hi":10,"rpe":8}}},{"id":"thu_pd","name":"Vertical pull","tier":"S2","min":10,"def":"fam_pulldown","picks":["fam_pulldown","ft_1arm_pd","pullups","chinups"],"purpose":"Attachment chosen set by set.","rx":{"B1":{"s":3,"lo":8,"hi":12,"rpe":9}},"nanoHome":"nfam_pulldown"},{"id":"thu_ohp","name":"Vertical press","tier":"S2","min":10,"def":"smith_seated_ohp","picks":["smith_seated_ohp","smith_ohp_flat","ft_1arm_press","db_seated_press","landmine_press"],"purpose":"","rx":{"B1":{"s":3,"lo":6,"hi":10,"rpe":8}}},{"id":"thu_row","name":"Horizontal pull","tier":"S2","min":9,"def":"fam_row","picks":["fam_row","ft_row_1arm","ft_high_row","db_chest_row"],"purpose":"Attachment chosen set by set.","rx":{"B1":{"s":3,"lo":10,"hi":12,"rpe":9}},"nanoHome":"nano_row_1arm"},{"id":"thu_fly","name":"Chest fly","tier":"A3","min":7,"def":"ft_fly_mid","picks":["ft_fly_mid","ft_fly_low_high","ft_fly_high_low","ft_fly_mid_kaz","ft_fly_low_high_kaz","db_flat_fly"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}},"nanoHome":"nano_fly_1arm"},{"id":"thu_ohe","name":"Triceps — overhead","tier":"A3","min":6,"def":"fam_oh_ext","picks":["fam_oh_ext","dips","db_oh_ext"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":15}},"nanoHome":"nfam_ohe"},{"id":"thu_push","name":"Triceps — pushdown","tier":"A3","min":5,"def":"fam_pushdown","picks":["fam_pushdown"],"purpose":"Attachment chosen set by set.","rx":{"B1":{"s":2,"lo":12,"hi":15}},"nanoHome":"nfam_push"},{"id":"thu_lat","name":"Side delts","tier":"A3","min":5,"def":"fam_cable_lat","picks":["fam_cable_lat","ft_behind_lat","ft_y_raise","db_lateral"],"purpose":"","rx":{"B1":{"s":2,"lo":12,"hi":15}},"nanoSkip":1},{"id":"thu_face","name":"Rear delts","tier":"A3","min":5,"def":"fam_facepull","picks":["fam_facepull","ft_rear_fly","ft_1arm_reverse","db_rear_fly"],"purpose":"","rx":{"B1":{"s":2,"lo":15,"hi":20}},"nanoSkip":1},{"id":"thu_curl","name":"Legs — hamstrings","tier":"A3","min":6,"def":"leg_curl","picks":["leg_curl","leg_curl_1l","kb_swing"],"purpose":"Closed warehouse: KB swing stands in (no knee flexion at home without the Nano).","rx":{"B1":{"s":3,"lo":8,"hi":12}},"nanoHome":"nano_leg_curl"},{"id":"thu_quad","name":"Legs — quads / hips","tier":"A3","min":5,"def":"leg_ext","picks":["leg_ext","leg_ext_1l","hip_thrust_m"],"purpose":"","rx":{"B1":{"s":2,"lo":12,"hi":15}}}]},"FRI":{"key":"FRI","letter":"○","dow":5,"loc":"W","title":"Shoulders + arms","optional":true,"note":"Optional 30–40 minute session. It never counts as missed.","slots":[{"id":"fri_lat","name":"Side delts","tier":"A3","min":8,"def":"ft_lateral","picks":["ft_lateral","ft_lateral_cuff","ft_y_raise"],"purpose":"","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"fri_rear","name":"Rear delts","tier":"A3","min":7,"def":"ft_rear_fly","picks":["ft_rear_fly","ft_1arm_reverse"],"purpose":"Crossed cables. Same history as Thursday's rear-delt fly.","rx":{"B1":{"s":3,"lo":12,"hi":15}}},{"id":"fri_face","name":"Face pull","tier":"A3","min":6,"def":"ft_facepull","picks":["ft_facepull","ft_rear_fly"],"purpose":"","rx":{"B1":{"s":2,"lo":15,"hi":15}}},{"id":"fri_curl","name":"Biceps","tier":"A3","min":8,"def":"ft_curl","picks":["ft_curl","ft_rope_hammer","ft_kaz_curl_1a"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":12}}},{"id":"fri_tri","name":"Triceps","tier":"A3","min":7,"def":"ft_pushdown","picks":["ft_pushdown","ft_bar_pushdown","ft_oh_ext"],"purpose":"","rx":{"B1":{"s":2,"lo":10,"hi":12}}}],"retired":1},"SAT":{"key":"SAT","letter":"D","dow":6,"loc":"H","title":"SSB heavy + paused bench + hinge","note":"SSB on the wedge: a top set (triples in Block 2) and back-offs — your weekly SSB e1RM. Then 2-count paused bench at RPE 7, the trap bar RDL and calves. Optional DB laterals between bench sets.","slots":[{"id":"sat_squat","name":"Squat — SSB (wedge)","tier":"P1","min":24,"def":"ssb_w","picks":["ssb_w","ssb_flat","smith_squat"],"purpose":"Goal #2. The top set updates SSB e1RM every week. SSB test Sat 12 Dec.","lift":"ssb_w"},{"id":"sat_bench","name":"Bench — paused 2 s","tier":"S2R","min":12,"def":"bench_bd_pause","picks":["bench_bd_pause","spoto","fam_camber_bench"],"purpose":"Paused bench at RPE 7. Its own history.","vol":true,"rx":{"B1":{"s":3,"r":4,"cap":7},"VOL":{"s":3,"r":5,"cap":7},"B3":{"s":2,"r":3,"cap":6.5}}},{"id":"sat_hinge","name":"Hinge","tier":"S2","min":12,"def":"trap_rdl","picks":["trap_rdl","trap_dl_high","trap_dl_low","bd_rdl","kb_swing"],"purpose":"Posterior chain.","rx":{"B1":{"s":3,"lo":6,"hi":8,"rpe":7.5},"B3":{"s":2,"lo":3,"hi":5,"rpe":6}},"hinge":true},{"id":"sat_calves","name":"Calves","tier":"A3","min":6,"def":"calf_atx_db_1l","picks":["calf_atx_db_1l","calf_atx_ssb","calf_seated_db","calf_atx_db"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":15}}},{"id":"sat_extra","name":"Side delts — optional","tier":"A3","min":5,"def":"db_lateral","picks":["db_lateral","db_hammer"],"purpose":"Optional spacer between bench sets.","rx":{"B1":{"s":2,"lo":15,"hi":20}},"opt":1,"on":false}]}};
 const TEMPLATES_T={"TOMO_A":{"key":"TOMO_A","letter":"A","dow":2,"loc":"H","title":"全身トレーニング（自宅）","note":"週のはじめの全身メニュー。重さは「あと2〜3回できる」で止めてください。","slots":[{"id":"ta_squat","name":"スクワット","tier":"A3","min":6,"def":"goblet","picks":["goblet","split_squat","step_up","lm_squat","smith_box_squat"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12,"rpe":7.5}}},{"id":"ta_press","name":"プレス（胸）","tier":"A3","min":6,"def":"db_flat","picks":["db_flat","incline_pushup","landmine_press","ft_press"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12,"rpe":7.5}},"pair":"p1"},{"id":"ta_row","name":"ロウ（背中）","tier":"A3","min":6,"def":"db_row_1arm","picks":["db_row_1arm","inverted_row","ft_row_1arm"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":12,"rpe":7.5}},"pair":"p1"},{"id":"ta_hinge","name":"ヒンジ（お尻・裏もも）","tier":"A3","min":6,"def":"db_rdl","picks":["db_rdl","db_dl","trap_dl_high","smith_rdl","hip_thrust_m"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":12,"rpe":7.5}}},{"id":"ta_lunge","name":"ランジ","tier":"A3","min":6,"def":"db_rev_lunge","picks":["db_rev_lunge","step_up","split_squat"],"purpose":"","rx":{"B1":{"s":2,"lo":8,"hi":8,"rpe":7.5}}},{"id":"ta_carry","name":"体幹（持つ）","tier":"A3","min":6,"def":"db_suitcase_hold","picks":["db_suitcase_hold","side_plank"],"purpose":"","rx":{"B1":{"s":2,"lo":30,"hi":45,"rpe":7.5}}},{"id":"ta_core","name":"体幹","tier":"A3","min":6,"def":"dead_bug","picks":["dead_bug","bird_dog","side_plank"],"purpose":"","rx":{"B1":{"s":2,"lo":6,"hi":10,"rpe":7.5}}}],"simple":1},"TOMO_B":{"key":"TOMO_B","letter":"B","dow":4,"loc":"W","title":"全身トレーニング（倉庫ジム）","note":"マシン中心のメニュー。スミスマシンはバーの重さを0として、片側のプレート重量を記録します。","slots":[{"id":"tb_squat","name":"スクワット","tier":"A3","min":6,"def":"smith_squat","picks":["smith_squat","smith_box_squat","lm_squat"],"purpose":"","rx":{"B1":{"s":3,"lo":8,"hi":10,"rpe":7}}},{"id":"tb_pull","name":"プルダウン（背中）","tier":"A3","min":6,"def":"rot8_wide","picks":["rot8_wide","rot8_narrow","ft_1arm_pd","band_pullups","inverted_row"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":15,"rpe":7.5}},"pair":"p1"},{"id":"tb_press","name":"プレス（胸）","tier":"A3","min":6,"def":"smith_flat","picks":["smith_flat","ft_press","landmine_press","incline_pushup"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":12,"rpe":7.5}},"pair":"p1"},{"id":"tb_hinge","name":"ヒップスラスト","tier":"A3","min":6,"def":"hip_thrust_m","picks":["hip_thrust_m","smith_rdl","trap_dl_high"],"purpose":"","rx":{"B1":{"s":3,"lo":10,"hi":15,"rpe":7.5}}},{"id":"tb_row","name":"ロウ（背中）","tier":"A3","min":6,"def":"rot8_row_med","picks":["rot8_row_med","rot8_row_wide","ft_row_1arm"],"purpose":"","rx":{"B1":{"s":2,"lo":12,"hi":15,"rpe":7.5}}},{"id":"tb_core","name":"体幹","tier":"A3","min":6,"def":"pallof_ft","picks":["pallof_ft","cable_crunch","side_plank","bird_dog","dead_bug"],"purpose":"","rx":{"B1":{"s":2,"lo":10,"hi":12,"rpe":7.5}}},{"id":"tb_pick","name":"お好みの種目","tier":"A3","min":6,"def":"leg_curl","picks":["leg_curl","ft_facepull","ft_curl"],"purpose":"","rx":{"B1":{"s":2,"lo":12,"hi":15,"rpe":7.5}},"opt":1,"on":true}],"simple":1}};
 const NAME2ID={"Bench Press":"bench_bd","Paused Bench Press":"bench_bd_pause","Neutral-Grip Bench (Camber)":"camber_mid","DB Flat Press":"db_flat","Close-Grip Bench Press":"bench_bd_cg","Back Squat (Black Diamond)":"bd_squat","Pull-ups":"pullups","Chin-ups":"chinups","Band-Assisted Pull-ups":"band_pullups","Pull-ups + dead hang 10–15s":"pullups","Chin-ups + dead hang 10–15s":"chinups","One-Arm DB Row":"db_row_1arm","Chest-Supported DB Row":"db_chest_row","DB Chest-Supported Row":"db_chest_row","Meadows Row (Landmine)":"meadows","Landmine T-Bar Row":"tbar_lm","Bent-Over Row (Black Diamond)":"bd_row","Dips":"dips","EZ-Bar Curl":"ez_curl","DB Hammer Curl":"db_hammer","EZ-Bar Reverse Curl":"ez_reverse","DB Rear Delt Fly":"db_rear_fly","Band Pull-Apart":"band_pullapart","Face Pulls (FT)":"ft_facepull","FT Rear Delt Fly":"ft_rear_fly","Tricep Pushdown (Lat)":"lat_pushdown","OH Tricep Ext (FT)":"ft_oh_ext","Overhead DB Tricep Extension":"db_oh_ext","Lat Pulldown Wide":"rot8_wide","Lat Pulldown Close":"rot8_narrow","Lat Pulldown Underhand":"underhand_pd","Straight Arm Pulldown (Lat)":"straight_arm","Lat Row Wide":"rot8_row_wide","Lat Row Medium":"rot8_row_med","Prone Machine Curl":"leg_curl","Single Leg Prone Curl":"leg_curl_1l","Leg Extension":"leg_ext","Single Leg Extension":"leg_ext_1l","Hip Thrust Machine":"hip_thrust_m","Barbell RDL":"bd_rdl","Trap Bar Deadlift":"trap_dl_high","DB RDL":"db_rdl","Smith Incline Press":"smith_incline","Smith OH Press":"smith_seated_ohp","Smith Flat Press":"smith_flat","Chest Fly (FT)":"ft_fly_mid","Low-to-High Fly (FT)":"ft_fly_low_high","DB Lateral Raise":"db_lateral","FT Concentration Curl":"ft_conc","Smith Machine Squat":"smith_squat","DB Incline Press":"db_incline_30","Dead Bug":"dead_bug","Band Pallof Press":"band_pallof","Neutral-Grip OHP (Camber)":"camber_ohp"};
 const SSB_WEDGE_FROM='2026-09-18'; // SSB logs on/after this date were on the ATX wedge
@@ -830,7 +874,7 @@ const SSB_WEDGE_FROM='2026-09-18'; // SSB logs on/after this date were on the AT
 // ═══════════════════════════════════════════════════════════════════════════
 // GYM v4 — Winter 2026 · core + variation · home + warehouse · Zwift-aware
 // ═══════════════════════════════════════════════════════════════════════════
-const APP_VERSION='5.2';
+const APP_VERSION='5.4';
 const PROXY='https://notion-proxy.vic-prado.workers.dev';
 const RIDES_DB_DEFAULT='2419668731db4db9a6a5bfa8d06b74b4'; // Notion "Cycling Rides" database
 const REST_PRESETS=[60,90,120,180];
@@ -871,7 +915,9 @@ const DEFAULT_SETTINGS={
   ridesDb:RIDES_DB_DEFAULT,
   showLegacy:false,
   notionBlock:true, // Session Log has a Block select (added 21 Sep 2026)
-  restTier:{P1:180,S2:120,A3:75,C:45} // v4.4: rest timer default per tier (seconds); simple mode keeps the single preset
+  nano:'off',                     // v5.4: Gym Nano — off · preview (Programme B visible, START disabled) · installed
+  whClosed:{from:'',to:''},       // v5.4: warehouse closed between these dates → Thursday runs at home
+  restTier:{P1:180,S2:120,A3:75,C:45,WU:120,WU1:150,SQV:210} // v4.4: rest timer default per tier (seconds); simple mode keeps the single preset. v5.3: WU → S1 (WU1 after an 85% single), SQV = Saturday SSB volume
 };
 let SET=JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
 
@@ -898,6 +944,8 @@ function EQ(key){
     hexdb:  {label:`Hex DBs · home (${fmtKg(D.home[0])}–${fmtKg(D.home[D.home.length-1])} kg)`,loc:'home',type:'db',weights:D.home},
     hexdbW: {label:D.whNone?'Hex DBs · none at the warehouse (history only)':`Hex DBs · warehouse (${fmtKg(D.wh[0])}–${fmtKg(D.wh[D.wh.length-1])} kg)`,loc:'wh',type:'db',weights:D.wh},
     hexdbAll:{label:'Hex DB',loc:'home',type:'db',weights:HEX_DB},
+    kb:     {label:'Kettlebells (16 kg pair · 24 kg)',loc:'home',type:'db',weights:[16,24]},
+    nano:   {label:'Gym Nano (MBC stand)',loc:'home',type:'stack',min:3.5,max:100,step:0.5}, // v5.4: 3.5–100 kg in ~0.5 kg steps (Speediance spec)
     bw:     {label:'Bodyweight',loc:'home',type:'bw',weights:[0].concat(D.home)},
     none:   {label:'No load / band',loc:'home',type:'none'},
     smith:  {label:'Smith',loc:'wh',type:'perSide',bar:0,plates:SMITH_PLATES},
@@ -970,7 +1018,7 @@ function fromTotal(eq,t){
 //   dbSingle= one DB/KB, volume × 1 (× 2 only when reps are logged per arm / leg: perArm)
 //   side    = plate-loaded per side × 2            stack    = as entered
 const DB_SINGLE={goblet_w:0,goblet:0,db_pullover:0,db_oh_ext:0,calf_atx_db:0,db_side_bend:0,db_suitcase_dl:0,db_suitcase_hold:0, // 0 = one DB, whole-body reps
-  calf_atx_db_1l:1,calf_sl:1,db_row_1arm:1,sl_db_rdl:1,db_leanaway:1};                                                             // 1 = one DB, reps logged per arm / leg
+  calf_atx_db_1l:1,calf_sl:1,db_row_1arm:1,sl_db_rdl:1,db_leanaway:1,kb_swing:0};                                                             // 1 = one DB, reps logged per arm / leg
 function exMode(exId,eq){
   eq=eq||EQ((EX[exId]||{}).eq||'none');
   if(eq.type==='db'){return DB_SINGLE[exId]!==undefined?{mode:'dbSingle',perArm:DB_SINGLE[exId]===1}:{mode:'dbPair',perArm:false};}
@@ -1019,13 +1067,13 @@ function loadFor(e1,reps,rpe){return e1/(1+(reps+Math.max(0,10-rpe))/30);}
 
 // ─── PROGRAM: WINTER 2026 (Block 1 → 3) ─────────────────────────────────────
 // PRE = calibration week (21–27 Sep). Week 1 = Mon 28 Sep. B1 wk1–5 (5 = deload) · B2 wk6–9 · B3 wk10–12 (tests).
-const PROGRAM={id:'W26',name:'Winter 2026',notionName:'Winter 2026',pre:'2026-09-21',start:'2026-09-28',weeks:12,
-  tests:{ssb_w:'2026-12-12',bench:'2026-12-16'},primer:'2026-12-14'};
+const PROGRAM={id:'W26',name:'Winter 2026',notionName:'Winter 2026',pre:'2026-09-21',start:'2026-09-28',weeks:24,
+  tests:{ssb_w:'2026-12-12'},checkpoint:'2026-12-14'}; // v5.4: the Wed 16 Dec bench test is replaced by the Mon 14 Dec checkpoint; the plan runs to mid-March
 // JS getDay(): 0=Sun … 6=Sat
 // Week layouts (v4.4). A = original (hard Wed, easy Fri). B = hard Tue, easy Thu evening (testing from 28 Sep).
 // V and T switch together; the choice is stored per device (Settings → Week layout).
 // v5.0: V's winter week (Mon A · Tue Zwift · Wed B · Thu C · Fri optional · Sat D · Sun rest) is the same in both layouts.
-const V_WINTER={0:{ride:'opt'},1:{lift:'MON'},2:{ride:'tue'},3:{lift:'WED'},4:{lift:'THU'},5:{lift:'FRI'},6:{lift:'SAT'}};
+const V_WINTER={0:{ride:'opt'},1:{lift:'MON'},2:{ride:'tue'},3:{lift:'WED'},4:{lift:'THU'},5:{ride:'opt'},6:{lift:'SAT'}}; // v5.4: Friday = rest or an easy ride
 const WEEK_LAYOUTS={
   A:{V:V_WINTER,
      T:{0:{ride:'long'},1:{ride:'quality'},2:{lift:'TOMO_A'},3:{rest:true},4:{lift:'TOMO_B'},5:{rest:true},6:{ride:'z2'}}},
@@ -1039,24 +1087,33 @@ let DOW_PLAN_T=WEEK_LAYOUTS[LAYOUT_DEFAULT].T;
 function weekLayout(){const v=ls('gym_week_layout');return WEEK_LAYOUTS[v]?v:LAYOUT_DEFAULT;}
 function applyWeekLayout(){const L=WEEK_LAYOUTS[weekLayout()];DOW_PLAN=L.V;DOW_PLAN_T=L.T;}
 function setWeekLayout(l){if(!WEEK_LAYOUTS[l])return;ls('gym_week_layout',l);applyWeekLayout();for(const k in _vwCache)delete _vwCache[k];renderSettings();}
-const TMPL_DOW={MON:1,WED:3,THU:4,TEST:3,FRI:5,SAT:6,TOMO_A:2,TOMO_B:4};
+const TMPL_DOW={MON:1,WED:3,THU:4,TEST:3,FRI:5,SAT:6,TOMO_A:2,TOMO_B:4,PV_WED:3,PV_THU:4};
 const RIDE_JA={quality:'Zwift ポイント練習 45〜60分',z2:'Zwift ゾーン2 60〜90分',long:'ロングライド'};
 function TPL(){return isT()?TEMPLATES_T:TEMPLATES;}
 function dowPlan(){return isT()?DOW_PLAN_T:DOW_PLAN;}
 const LIFT_EX={bench:'bench_bd',ssb_w:'ssb_w',ssb_pause:'ssb_pause_w'};
-const GOALS={bench:100,ssb_w:140};
+const GOALS={bench:105,ssb_w:140}; // v5.4: 100 kg bench done (23 Oct) → next goal 105 (M3)
 
+// v5.4 blocks: B1 wk1–5 (5 = deload) · B2 wk6–9 · B3 = PEAK wk10–11 + CHECKPOINT wk12 · LT light wk13–14 ·
+// VOL = Block 3 volume wk15–19 (19 = deload) · STR = Block 4 strength wk20–23 · TW = test window wk24 · then POST.
 function weekInfo(iso){
   const d=daysBetween(PROGRAM.start,iso);
   if(d<0)return {w:0,block:'PRE',bw:1,ph:'SSB WEDGE TOP 5 @ RPE 8'};
   const w=Math.floor(d/7)+1;
   if(w<=5)return {w,block:'B1',bw:w,ph:w===5?'DELOAD':'BUILD · 5s',deload:w===5};
   if(w<=9)return {w,block:'B2',bw:w-5,ph:'STRENGTH · 3s'};
-  if(w<=11)return {w,block:'B3',bw:w-9,ph:w===11?'PEAK · SSB TEST SAT':'PEAK'};
-  if(w===12)return {w,block:'B3',bw:3,ph:'TEST WEEK',testWeek:true};
+  if(w<=11)return {w,block:'B3',bw:w-9,ph:w===11?'SSB TEST SAT 12 DEC':'OPENER PRACTICE'};
+  if(w===12)return {w,block:'B3',bw:3,ph:'BENCH CHECKPOINT MON 14 DEC',testWeek:true,checkpoint:true};
+  if(w<=14)return {w,block:'LT',bw:w-12,ph:'RPE ≤ 7 · any 2 sessions',deload:true,light:true};
+  if(w<=19)return {w,block:'VOL',bw:w-14,ph:w===19?'DELOAD':'VOLUME · 5s / 6s',deload:w===19};
+  if(w<=23)return {w,block:'STR',bw:w-19,ph:'STRENGTH · 3s → 2s'};
+  if(w===24)return {w,block:'TW',bw:1,ph:'bench 105 if M2 is met'};
   return {w,block:'POST',bw:1,ph:'BLOCK COMPLETE',post:true};
 }
-function blockKey(wk){return (wk.block==='PRE'||wk.block==='POST')?'B1':wk.block;}
+function blockKey(wk){return ({PRE:'B1',POST:'B1',LT:'B1',STR:'B2',TW:'B2'})[wk.block]||wk.block;}
+const BLOCK_NAME={PRE:'CALIBRATION WEEK',B1:'BLOCK 1',B2:'BLOCK 2',B3:'PEAK',LT:'LIGHT',VOL:'BLOCK 3',STR:'BLOCK 4',TW:'TEST WINDOW',POST:'BLOCK COMPLETE'};
+const NOTION_BLOCK={B3:'PEAK',LT:'LIGHT',VOL:'B3',STR:'B4',TW:'TEST'}; // Notion "Block" names (Block 3 / 4 as on the plan page)
+function blockLabel(b){return NOTION_BLOCK[b]||b;}
 
 // Priority-lift (P1) sets for a given week. kinds: top · back (pct of actual top) · test · pct (pct of e1RM)
 function p1Plan(lift,wk,templateKey){
@@ -1064,6 +1121,8 @@ function p1Plan(lift,wk,templateKey){
   const B=(n,r,pct,pause)=>Array.from({length:n},()=>({kind:'back',r,pct,pause:!!pause}));
   const bench=lift==='bench';
   const pauseSq=lift==='ssb_pause';
+  // v5.3: the bench test can be started any day (home → BENCH TEST · ANY DAY)
+  if(bench&&templateKey==='TEST')return {sets:[.90,.95,1.0,1.025].map((p,i)=>({kind:'test',r:1,rpe:i<2?8:10,pct:p})),label:'TEST DAY',test:true};
   if(pauseSq){ // Monday pause squat: the squat structure with 3 back-offs in the build block; easy either side of the SSB test
     if(wk.block==='PRE')return {sets:[T(5,8),...B(3,5,.92)],label:'calibration: top 5 @ RPE 8'};
     if(wk.block==='POST')return {sets:[T(5,7),...B(3,5,.92)],label:'maintenance'};
@@ -1076,6 +1135,9 @@ function p1Plan(lift,wk,templateKey){
     if(wk.bw===2)return {sets:[T(3,6)],label:'pre-test · easy (SSB test on Saturday)'};
     return {sets:[T(3,6)],label:'post-test · easy'};
   }
+  // v5.4: Monday bench opens with a brief-pause single at ~90% of e1RM (RPE ~8) before the top set in the strength blocks
+  const SG=()=>({kind:'pct',r:1,pct:.90,rpe:8,single:true});
+  const test=()=>({sets:[.90,.95,1.0,1.025].map((p,i)=>({kind:'test',r:1,rpe:i<2?8:10,pct:p})),label:'TEST DAY',test:true});
   if(wk.block==='PRE')return {sets:[T(5,8),...B(2,5,.92)],label:'calibration: top 5 @ RPE 8'};
   if(wk.block==='POST')return {sets:[T(5,7),...B(bench?3:2,5,.92)],label:'maintenance'};
   if(wk.block==='B1'){
@@ -1084,15 +1146,31 @@ function p1Plan(lift,wk,templateKey){
   }
   if(wk.block==='B2'){
     const rpe=[7.5,8,8.5,9][wk.bw-1];
-    return bench?{sets:[T(3,rpe),...B(3,3,.85,true)],label:'back-offs paused 2 s'}:{sets:[T(3,rpe),...B(2,3,.92)]};
+    return bench?{sets:[SG(),T(3,rpe),...B(3,3,.92)]}:{sets:[T(3,rpe),...B(3,4,.88)],label:'back-offs 3×4 @ 88% of the top set'};
   }
-  // B3
-  const test=()=>({sets:[.90,.95,1.0,1.025].map((p,i)=>({kind:'test',r:1,rpe:i<2?8:10,pct:p})),label:'TEST DAY',test:true});
-  if(wk.bw===1)return bench?{sets:[T(1,8),...B(3,2,.90)]}:{sets:[T(1,8.5),...B(2,2,.90)],label:'opener practice'};
-  if(wk.bw===2)return bench?{sets:[T(1,8.5),...B(2,2,.90)],label:'volume −40%'}:test();
-  // test week (wk 12)
-  if(bench)return templateKey==='TEST'?test():{sets:Array.from({length:2},()=>({kind:'pct',r:2,pct:.85})),label:'primer · no single'};
-  return {sets:[T(3,6)],label:'post-test · easy'};
+  if(wk.block==='B3'){ // peak (wk10–11) + checkpoint week (wk12)
+    if(bench){
+      if(wk.bw===1)return {sets:[T(3,8),...B(2,3,.92)],label:'SSB peak week · bench triples @ 8'};
+      if(wk.bw===2)return {sets:[T(3,8),...B(1,3,.92)],label:'SSB test this Saturday · one back-off'};
+      return {sets:[T(3,9),...B(1,3,.92)],label:'CHECKPOINT · target 90 × 3 @ RPE ≤ 9 (M1) · no max',checkpoint:true};
+    }
+    if(wk.bw===1)return {sets:[T(1,8.5),...B(2,2,.90)],label:'opener practice'};
+    if(wk.bw===2)return test();
+    return {sets:[T(3,6)],label:'post-test · easy'};
+  }
+  if(wk.block==='LT')return {sets:[T(3,6.5),...B(1,3,.92)],label:'light weeks · RPE ≤ 7'};
+  if(wk.block==='VOL'){
+    if(wk.deload)return {sets:[T(bench?6:5,6),...B(1,bench?6:5,.92)],label:'deload'};
+    const rpe=[7,7.5,8,8.5][wk.bw-1];
+    return bench?{sets:[T(6,rpe),...B(3,6,.92)]}:{sets:[T(5,rpe),...B(3,5,.92)]};
+  }
+  if(wk.block==='STR'){
+    if(bench){const [r,rpe]=[[3,8],[3,8.5],[2,8.5],[2,9]][wk.bw-1];return {sets:[SG(),T(r,rpe),...B(3,r,.92)]};}
+    return {sets:[T(3,[8,8.5,9,9][wk.bw-1]),...B(3,3,.92)]};
+  }
+  // TW · test window (wk24)
+  if(bench)return {sets:[T(1,8),...B(2,2,.90)],label:'TEST WINDOW · if M2 is met, run BENCH TEST · ANY DAY this week instead'};
+  return {sets:[T(3,7),...B(2,3,.92)]};
 }
 
 // Default exercise for a slot in this block
@@ -1135,21 +1213,51 @@ function slotRx(slot,exId,wk,templateKey){
   return base;
 }
 
-// Special template for the bench test (Wed 16 Dec, at home)
+// Special template for the any-day bench test (home)
 function testTemplate(){
-  const M=TEMPLATES.WED;const pick=id=>M.slots.find(s=>s.id===id);
+  const M=TEMPLATES.MON;const pick=id=>M.slots.find(s=>s.id===id); // v5.4: heavy bench lives on Monday
   return {key:'TEST',letter:'T',loc:'H',title:'Bench test (home)',note:'Warm up well. Singles at 90 → 95 → 100 → 102.5% of e1RM; stop at RPE 10.',
-    slots:[Object.assign({},pick('wed_bench'),{cal:false}),Object.assign({},pick('wed_row'),{opt:1,on:true})]};
+    slots:[Object.assign({},pick('mon_bench'),{cal:false}),Object.assign({},pick('mon_row'),{opt:1,on:true})]};
 }
 // Templates offered on a given date (test week swaps THU for the bench test)
 function templatesFor(wk){
   if(isT())return Object.keys(TEMPLATES_T);
-  const keys=['MON','WED','THU','FRI','SAT'];
-  return keys.map(k=>k==='WED'&&wk.testWeek?'TEST':k);
+  return ['MON','WED','THU','SAT']; // v5.4: Friday retired; the bench test is the any-day card
 }
-function tmplDef(key){return key==='TEST'?testTemplate():TPL()[key];}
+// ─── v5.4: GYM NANO (Programme B) ────────────────────────────────────────────
+// Slot fields: nanoDef = the slot's default with the Nano · nanoHome = first home pick with the Nano (closure Thursday) ·
+// nanoOnly = slot exists only with the Nano · nanoSkip = slot dropped with the Nano (moved home to Wednesday).
+// Settings → Gym Nano: off · preview (PV_WED / PV_THU cards, START disabled) · installed (Programme B everywhere).
+const PREVIEW_KEYS={PV_WED:'WED',PV_THU:'THU'};
+function nanoOn(){return !isT()&&SET.nano==='installed';}
+function nanoActive(){return nanoOn()||!!S.nanoPreview;}
+function withNano(def){
+  const d=Object.assign({},def);
+  d.slots=def.slots.filter(s=>!s.nanoSkip).map(s=>{
+    const c=Object.assign({},s);
+    if(s.nanoDef){c.def=s.nanoDef;c.picks=[s.nanoDef].concat(s.picks.filter(x=>x!==s.nanoDef));}
+    if(s.nanoHome)c.picks=[s.nanoHome].concat(s.picks.filter(x=>x!==s.nanoHome));
+    return c;
+  });
+  return d;
+}
+function tmplDef(key){
+  if(PREVIEW_KEYS[key]){
+    const d=withNano(TEMPLATES[PREVIEW_KEYS[key]]);d.key=key;d.preview=true;
+    if(key==='PV_THU'){d.forceLoc='H';d.title='Thursday at home with the Nano (closure weeks)';}else d.title=d.title+' (Programme B)';
+    return d;
+  }
+  const d=key==='TEST'?testTemplate():TPL()[key];
+  if(!d||isT())return d;
+  if(nanoOn())return withNano(d);
+  return d.slots.some(s=>s.nanoOnly)?Object.assign({},d,{slots:d.slots.filter(s=>!s.nanoOnly)}):d;
+}
+// v5.4: warehouse closed between two dates (Settings) → warehouse days run at home
+function whClosed(iso){const c=SET.whClosed||{};return !!(c.from&&c.to&&(iso||localISO())>=c.from&&(iso||localISO())<=c.to);}
+function homeLoc(def,iso){if(def&&def.forceLoc)return def.forceLoc;return def&&def.loc==='W'&&!isT()&&whClosed(iso)?'H':def&&def.loc;}
 function tmplLabel(key){
   if(key==='TEST')return 'BENCH TEST';
+  if(PREVIEW_KEYS[key])return PREVIEW_KEYS[key]+' · B PREVIEW';
   if(isT())return (TEMPLATES_T[key]?'ストレングス '+TEMPLATES_T[key].letter:key);
   if(TEMPLATES[key]&&TEMPLATES[key].optional)return key+' · OPTIONAL';
   return key+' · '+TEMPLATES[key].letter;
@@ -1241,7 +1349,7 @@ function hangState(){
   return h;
 }
 function saveHang(h){ls('gym_hang',JSON.stringify(h));}
-function pickVisible(id){return !(PULLUP_IDS.includes(id)&&!hangState().reached30);}
+function pickVisible(id){if(EX[id]&&EX[id].nano&&!nanoActive())return false;return !(PULLUP_IDS.includes(id)&&!hangState().reached30);}
 function toggleWrist(ei){const ex=S.exercises[ei];ex.wrist=!ex.wrist;saveActive();renderSession();}
 // session end: judge each dead-hang exercise
 function hangProgress(iso,flags){
@@ -1309,7 +1417,7 @@ function tueInfo(iso){
 // why Monday counts as heavy: any calibration / AMRAP set, any working set at RPE ≥9, or you marked your legs heavy
 function mondayHeavy(monday){
   const why=[];
-  Object.keys(S.history).forEach(k=>(S.history[k]||[]).forEach(e=>{
+  Object.keys(S.history).filter(k=>/^ssb_|squat/.test(k)).forEach(k=>(S.history[k]||[]).forEach(e=>{ // v5.4: legs only — Monday's heavy bench never downgrades the ride
     if(e.day!==monday||e.session!=='MON')return;
     (e.sets||[]).forEach(x=>{
       if(x.wu||x.kind==='wu')return;
@@ -1352,7 +1460,7 @@ const CAL_REMINDER='Set rack pins first. Take this set to a true grind (first cl
 function calState(){const c=Object.assign({last:{},defer:{},offsets:{ssb_pause:null,ssb_w:null,bench:null},log:[]},lsJSON('gym_calib',null)||{});return c;}
 function saveCal(c){ls('gym_calib',JSON.stringify(c));}
 function calDue(lift,wk,tmplKey){
-  if(tmplKey==='TEST'||wk.deload||!(wk.block==='B1'||wk.block==='B2'))return false; // never in a deload week; not in peak/test weeks either
+  if(tmplKey==='TEST'||wk.deload||!['B1','B2','VOL','STR'].includes(wk.block))return false; // never in a deload week; not in peak/checkpoint/light/test-window weeks
   const c=calState();const today=localISO();
   if(c.defer[lift]&&today<c.defer[lift])return false;
   if(c.last[lift]&&daysBetween(c.last[lift],today)<CAL_EVERY_DAYS)return false;
@@ -1600,6 +1708,7 @@ function migrateBars0928(){
 function restForTier(ex){
   if(SET.simple)return S.restPreset;
   const R=SET.restTier||DEFAULT_SETTINGS.restTier;
+  if(ex.slot==='sat_squat_vol')return R.SQV||DEFAULT_SETTINGS.restTier.SQV; // v5.3: high-rep SSB sets get their own rest
   if(ex.tier==='P1')return R.P1;
   if(ex.tier==='S2'||ex.tier==='S2R')return R.S2;
   if(ex.tier==='C')return R.C;
@@ -1642,6 +1751,26 @@ function seedDurations(){
 // on 21 Sep but the app kept 60, so bench e1RM stayed at 86.33 (from a back-off) instead of 87.5. Runs once.
 // v5.2 one-off: the e1RM logged since the last calibration was set from raw RPE (the offset was stored but unused).
 // Re-score that latest entry with the one-way offset. Only touches the latest entry, only if it is still the current e1RM.
+// v5.3 one-off: the 100 kg bench single on Fri 23 Oct 2026 was done outside the app. Record it as a tested max so the
+// bench e1RM reads 100 (it said 99.2). Only if nothing newer is in the e1RM history. Runs once.
+function fixBenchTest1023(){
+  if(ls('gym_fix_v53test')||localISO()<'2026-10-23')return;
+  const rec=S.e1.bench;
+  if(rec&&rec.hist&&!rec.hist.some(h=>String(h.date)>='2026-10-23')){
+    rec.hist.push({date:'2026-10-23',v:100,src:'test'});if(rec.hist.length>HIST_CAP)rec.hist.splice(1,1);
+    rec.cur=100;saveData();
+  }
+  ls('gym_fix_v53test','1');
+}
+// v5.4 one-off: pull-ups and chin-ups unlocked by hand (25 Oct: dead hangs at 25 s / 40 s, shoulder fine); the warehouse
+// closure defaults to 1 Dec – 31 Jan (Settings can change it); the Gym Nano starts at "off". Runs once.
+function fixV54(){
+  if(ls('gym_fix_v54'))return;
+  const h=hangState();if(!h.reached30){h.reached30=true;saveHang(h);}
+  if(!SET.whClosed||!SET.whClosed.from)SET.whClosed={from:'2026-12-01',to:'2027-01-31'};
+  if(!SET.nano)SET.nano='off';
+  saveSettings();ls('gym_fix_v54','1');
+}
 function fixOffsetV52(){
   if(ls('gym_fix_v52off'))return;
   const c=calState();let changed=false;
@@ -1705,8 +1834,8 @@ function renderHome(){
   // program card
   const [ws,we]=weekDates(wk.w);
   const pct=wk.w===0?0:Math.min(100,Math.round((wk.w/PROGRAM.weeks)*100));
-  const blockName={PRE:'CALIBRATION WEEK',B1:'BLOCK 1 · BUILD',B2:'BLOCK 2 · STRENGTH',B3:'BLOCK 3 · PEAK & TEST',POST:'BLOCK COMPLETE'}[wk.block];
-  const sub=wk.block==='PRE'?`${fmtRange(ws,we)} · Block 1 starts mon 28 sep`:wk.post?'plan the next block':`${fmtRange(ws,we)} · tests: SSB sat 12 dec · bench wed 16 dec`;
+  const blockName=BLOCK_NAME[wk.block]||wk.block;
+  const sub=wk.block==='PRE'?`${fmtRange(ws,we)} · Block 1 starts mon 28 sep`:wk.post?'plan the next block':`${fmtRange(ws,we)} · ${wk.w<=12?'SSB test sat 12 dec · bench checkpoint mon 14 dec':'bench test window wk 24 (8–14 mar) if M2 is met'}${whClosed(today)?' · warehouse closed':''}`;
   document.getElementById('prog-wrap').innerHTML=`<div class="prog-card"><div class="prog-top">
       <div><div class="wk-num">${wk.w}<span style="font-size:10px;color:var(--txt3)"> / ${PROGRAM.weeks}</span></div></div>
       <div style="flex:1"><div class="prog-ph">${blockName} · ${wk.ph}</div><div class="prog-sub">${sub}</div>
@@ -1723,23 +1852,23 @@ function renderHome(){
       ${g?`<div class="goal-bar"><div class="goal-fill" style="width:${fill}%"></div></div>`:''}
       <div class="goal-delta${dl<0?' neg':''}">${dl>=0?'+':''}${fmtE1(dl)} since start${g?' · '+fmtE1(g-cur)+' to go':''}</div></div>`;
   };
-  document.getElementById('goals-wrap').innerHTML=`<div class="goal-row">${goal('bench','BENCH')}${goal('ssb_w','SSB WEDGE')}${goal('ssb_pause','PAUSE SQUAT')}</div>`;
+  document.getElementById('goals-wrap').innerHTML=`<div class="goal-row">${goal('bench','BENCH')}${goal('ssb_w','SSB WEDGE')}</div>`+milestoneCard();
   // week strip
   const mon=mondayOf(today);let strip='<div class="week-strip">';
   for(let i=0;i<7;i++){
     const iso=addDays(mon,i);const dd=parseLocal(iso);const plan=DOW_PLAN[dd.getDay()];
     let lbl='·',cls='rest';
-    if(plan.lift){lbl=plan.lift==='WED'&&weekInfo(iso).testWeek?'T':TPL()[plan.lift].letter;cls='gym'+(TPL()[plan.lift].optional?' gym-opt':'');}
+    if(plan.lift){lbl=TPL()[plan.lift].letter;cls='gym'+(TPL()[plan.lift].optional?' gym-opt':'')+(homeLoc(TPL()[plan.lift],iso)!==TPL()[plan.lift].loc?' gym-moved':'');}
     else if(plan.ride){lbl='🚴';cls='zw'+((plan.ride==='hard'||(plan.ride==='tue'&&tueInfo(iso).eff==='A'))?' zw-hard':plan.ride==='opt'?' zw-opt':'');}
     const gymDone=(S.sessionDates[iso]||[]).length>0;
     const rideDone=!!(rideLoggedOn(iso)||rideDoneMap()[iso]);
     const mark=(gymDone?'✓':'')+(plan.lift&&plan.ride?'<span class="ws-bike">🚴</span>':'')+(rideDone?'<span class="ws-ride-done">✓</span>':'');
     strip+=`<div class="ws-day${iso===today?' today':''}"><div class="ws-dn">${DAYS[dd.getDay()].slice(0,2)}</div><div class="ws-s ${cls}">${lbl}</div><div class="ws-mark">${mark}</div></div>`;
   }
-  document.getElementById('week-strip-wrap').innerHTML=strip+'</div>';
+  document.getElementById('week-strip-wrap').innerHTML=strip+'</div>'+weekReviewCard(mon,today);
   // readiness
   const todayPlan=DOW_PLAN[d.getDay()];
-  const todayKey=todayPlan.lift?(todayPlan.lift==='WED'&&wk.testWeek?'TEST':todayPlan.lift):null;
+  const todayKey=todayPlan.lift||null;
   const rd=readiness(todayKey);
   let rc='<div class="ready-card"><div class="ready-row"><div class="ready-lbl">ZWIFT · READINESS</div>';
   if(rd.online){
@@ -1759,8 +1888,9 @@ function renderHome(){
   let cards='';const items=[];const monW=mondayOf(today);const ord=dw=>(dw+6)%7;
   templatesFor(wk).forEach(k=>{
     const def=tmplDef(k);const isToday=todayKey===k;const dw=TMPL_DOW[k]!=null?TMPL_DOW[k]:(def.dow||1);
-    const lineup=def.slots.filter(s=>(!s.opt||s.on)&&slotActive(s,wk)&&(s.tier==='P1'||slotRx(s,slotDefault(s,wk),wk,k))).slice(0,4).map(s=>{
-      const id=slotAt(s,def.loc,wk)||slotDefault(s,wk);
+    const dayIso=addDays(monW,ord(dw));const L=homeLoc(def,dayIso)||def.loc; // v5.4: warehouse closed → home version
+    const lineup=def.slots.filter(s=>(!s.opt||s.on)&&slotActive(s,wk)&&(s.tier==='P1'||slotRx(s,slotDefault(s,wk),wk,k))&&(L===def.loc||slotAt(s,L,wk))).slice(0,4).map(s=>{
+      const id=slotAt(s,L,wk)||slotDefault(s,wk);
       return (s.tier==='P1'?'<b>':'')+escHtml(shortName(id))+(s.tier==='P1'?' '+p1Short(s.lift,wk,k)+'</b>':'');
     }).join(' · ');
     const last=lastDoneFor(k);const lastMin=lastDurationFor(k);
@@ -1775,7 +1905,7 @@ function renderHome(){
         chip=`<div class="ride-chip${st.done?' done':''}" onclick="event.stopPropagation()">+ TUESDAY MISSED → EASY RIDE AFTER BENCH · 45–60 min @ 130–145 W <span class="ride-chip-st">${st.html}</span></div>`;}
     }
     items.push({o:ord(dw),html:`<div class="dc" onclick="startSession('${k}')"><div class="dc-tag push-a-tag">${tmplLabel(k)} · ${escHtml(def.title.toUpperCase())}${isToday?'<span class="dc-today">TODAY</span>':''}</div>
-      <div class="dc-muscles"><span class="loc-chip ${def.loc}">${def.loc==='H'?'HOME':'WAREHOUSE'}</span> ${estMinutes(def,wk,k)}${lastMin!=null?' · last '+lastMin+' min':''}</div><div class="dc-rx">${lineup}</div>${chip}<div class="dc-last">last: ${last||'—'}${def.optional?' · never counts as missed':''}</div></div>`});
+      <div class="dc-muscles"><span class="loc-chip ${L}">${L==='H'?'HOME':'WAREHOUSE'}</span>${L!==def.loc?'<span class="loc-alt">warehouse closed</span>':''} ${estMinutes(def,wk,k)}${lastMin!=null?' · last '+lastMin+' min':''}</div><div class="dc-rx">${lineup}</div>${chip}<div class="dc-last">last: ${last||'—'}${def.optional?' · never counts as missed':''}</div></div>`});
   });
   // ride-only days: full cards for hard/easy, a slim row for the optional Sunday ride
   for(let i=0;i<7;i++){
@@ -1799,6 +1929,12 @@ function renderHome(){
     }
   }
   items.sort((a,b)=>a.o-b.o).forEach(it=>cards+=it.html);
+  if(!isT()&&SET.nano==='preview'){ // v5.4: Programme B preview — START stays off until the Nano is installed
+    cards+=`<div class="nano-hd">GYM NANO · PREVIEW (Programme B)</div>`;
+    ['PV_WED','PV_THU'].forEach(k=>{const def=tmplDef(k);const lineup=def.slots.filter(s=>!s.opt||s.on).map(s=>slotAt(s,homeLoc(def),wk)||slotDefault(s,wk)).filter(id=>EX[id]&&EX[id].nano).map(id=>escHtml(shortName(id))).join(' · ');
+      cards+=`<div class="dc dc-nano" onclick="startSession('${k}')"><div class="dc-tag">${tmplLabel(k)} · ${escHtml(def.title.toUpperCase())}</div><div class="dc-muscles"><span class="loc-chip H">HOME</span> preview only · START off</div><div class="dc-rx">${lineup}</div></div>`;});
+  }
+  if(!isT())cards+=`<div class="dc dc-ride dc-opt dc-test" onclick="startSession('TEST')"><div class="dc-ride-row"><span class="dc-ride-tag">BENCH TEST · ANY DAY</span></div><div class="dc-ride-sub">Singles at 90 → 95 → 100 → 102.5% of e1RM ${fmtDisp(e1Cur('bench'))} · your best single becomes the bench e1RM${lastDoneFor('TEST')?' · last: '+lastDoneFor('TEST'):''}</div></div>`; // v5.3
   if(SET.showLegacy){
     Object.keys(LEGACY).forEach(k=>{cards+=`<div class="dc dc-legacy" onclick="startSession('${k}')"><div class="dc-tag pull-a-tag">${k}</div><div class="dc-muscles">ARCHIVED PUSH/PULL · WAREHOUSE</div><div class="dc-last">last: ${lastDoneFor(k)||'—'}</div></div>`;});
   }
@@ -1806,6 +1942,68 @@ function renderHome(){
   showNotionUI(!!(S.notionKey&&S.notionDb));
 }
 // ─── SIMPLE MODE HOME (T) ──────────────────────────────────────────────
+// ─── v5.4: BENCH MILESTONES ─────────────────────────────────────────────────
+// Judged from logged BD bench sets (competition-style, still pause) and tested singles. Implied e1RM from the RPE table.
+const MILESTONES=[
+  {id:'M1',t:'100 established',d:'90 × 3 @ RPE ≤ 9 (or 100 × 1 @ ≤ 9)',e1:101,ok:s=>s.rpe!=null&&s.rpe<=9&&((s.total>=90&&s.reps>=3)||(s.total>=100&&s.reps>=1))},
+  {id:'M2',t:'Rep standards',d:'92.5 × 3 or 90 × 5 @ ≤ 9 · or 80 × 10',e1:103.5,ok:s=>(s.rpe!=null&&s.rpe<=9&&((s.total>=92.5&&s.reps>=3)||(s.total>=90&&s.reps>=5)))||(s.total>=80&&s.reps>=10)},
+  {id:'M3',t:'105 × 1',d:'test only when two top sets imply ≥ 104',e1:105,ok:s=>s.total>=105&&s.reps>=1},
+  {id:'M4',t:'107.5 × 1 / 95 × 3',d:'95 × 3 @ ≤ 9 counts',e1:107.5,ok:s=>(s.total>=107.5&&s.reps>=1)||(s.rpe!=null&&s.rpe<=9&&s.total>=95&&s.reps>=3)},
+  {id:'M5',t:'110 × 1',d:'long-term goal',e1:110,ok:s=>s.total>=110&&s.reps>=1}
+];
+function milestoneState(){
+  const all=[];
+  (S.history.bench_bd||[]).forEach(e=>(e.sets||[]).forEach(x=>{if(!sWU(x)&&x.reps&&sTotal(x))all.push({total:sTotal(x),reps:x.reps,rpe:x.rpe,day:e.day||String(e.date||'').slice(0,10)});}));
+  ((S.e1.bench||{}).hist||[]).filter(h=>h.src==='test').forEach(h=>all.push({total:h.v,reps:1,rpe:10,day:h.date}));
+  const hist=((S.e1.bench||{}).hist||[]).filter(h=>h.src!=='seed'&&h.src!=='manual');
+  const last2=hist.slice(-2);const ready104=last2.length===2&&last2.every(h=>h.v>=104);
+  return MILESTONES.map(m=>{const hit=all.filter(m.ok).sort((a,b)=>String(a.day).localeCompare(String(b.day)))[0];return Object.assign({},m,{done:!!hit,day:hit?hit.day:null,ready:m.id==='M3'&&ready104});});
+}
+function milestoneCard(){
+  if(isT())return '';
+  const ms=milestoneState();const next=ms.find(m=>!m.done);const cur=e1Cur('bench');
+  return `<div class="ms-card"><div class="ms-hd">BENCH MILESTONES <span>e1RM ${cur!=null?fmtE1(cur):'—'}</span></div>`+ms.map(m=>`<div class="ms-row${m.done?' ms-done':''}${m===next?' ms-next':''}"><span class="ms-id">${m.id}</span><span class="ms-t">${escHtml(m.t)}<small>${escHtml(m.d)}</small></span><span class="ms-st">${m.done?'✓ '+fmtShort(parseLocal(String(m.day).slice(0,10))):m.ready?'ready to test':'≈ e1RM '+fmtDisp(m.e1)}</span></div>`).join('')+`</div>`;
+}
+// ─── v5.4: WEEKLY REVIEW ────────────────────────────────────────────────────
+// Working sets logged Mon–Sun per muscle group vs the plan (essential sets of Programme A), plus the Tuesday ride.
+const MUSCLE_TARGETS=[['Bench press',11],['Incline press',3],['Overhead press',3],['Chest fly',3],['Triceps',8],['Rows',9],['Vertical pull',6],['Rear delts',5],['Side delts',5],['Biceps',3],['Squat',6],['Hinge',3],['Ham curl',3],['Quads iso',2],['Calves',3]];
+function muscleOf(id){
+  const s=(id+' '+((EX[id]||{}).n||'')).toLowerCase();
+  if(/calf/.test(s))return 'Calves';
+  if(/leg_curl|leg curl/.test(s))return 'Ham curl';
+  if(/leg_ext|leg extension|single-leg extension/.test(s))return 'Quads iso';
+  if(/rdl|trap_dl|hip_thrust|hip thrust|swing|good morning|pull-through/.test(s))return 'Hinge';
+  if(/squat|^ssb_/.test(s))return 'Squat';
+  if(/rear|reverse fly|face ?pull|facepull|pull-apart|pullapart|prone_y|nano_face/.test(s))return 'Rear delts';
+  if(/lateral|y_raise|y-raise/.test(s))return 'Side delts';
+  if(/fly/.test(s))return 'Chest fly';
+  if(/skull|jm|oh_ext|ohe_|overhead (strap )?extension|overhead extension|pushdown|nano_push|dips|crossbody_ext/.test(s))return 'Triceps';
+  if(/curl|hammer|bayesian/.test(s))return 'Biceps';
+  if(/pulldown|pullup|pull-up|chinup|chin-up|straight_arm|straight-arm|nano_pd/.test(s))return 'Vertical pull';
+  if(/row/.test(s))return 'Rows';
+  if(/incline|landmine_press/.test(s))return 'Incline press';
+  if(/ohp|seated_press|seated press|1arm_press|seated_flat/.test(s))return 'Overhead press';
+  if(/bench|spoto|larsen|db_flat|smith_flat|camber_(mid|close|wide)/.test(s))return 'Bench press';
+  return null;
+}
+function weekSets(mon){
+  const end=addDays(mon,6);const n={};
+  Object.entries(S.history).forEach(([k,arr])=>(arr||[]).forEach(e=>{
+    const d=e.day||String(e.date||'').slice(0,10);if(d<mon||d>end)return;
+    const g=muscleOf(k);if(!g)return;
+    n[g]=(n[g]||0)+(e.sets||[]).filter(x=>!sWU(x)&&x.reps!=null).length;
+  }));
+  return n;
+}
+function weekReviewCard(mon,today){
+  if(isT())return '';
+  const n=weekSets(mon);const tue=addDays(mon,1);
+  const ride=tue>today?'Tue ride: upcoming':tueIsDone(tue)?'Tue ride ✓':'Tue ride — not logged';
+  const ci=Object.entries(lsJSON('gym_checkins',{})).filter(([k])=>k.slice(0,10)>=mon&&k.slice(0,10)<=addDays(mon,6)).map(([,v])=>v.enjoy).filter(v=>v!=null);
+  const enj=ci.length?` · enjoyment ${fmtDisp(r2(ci.reduce((a,b)=>a+b,0)/ci.length))}/5`:'';
+  return `<div class="wr-card"><div class="wr-hd">THIS WEEK · sets vs plan <span>${ride}${enj}</span></div><div class="wr-grid">`+
+    MUSCLE_TARGETS.map(([g,t])=>{const v=n[g]||0;return `<div class="wr-c${v>=t?' ok':v>0?' part':''}"><span>${g}</span><b>${v}/${t}</b></div>`;}).join('')+`</div></div>`;
+}
 function renderHomeSimple(){
   const d=new Date();const today=localISO();const wk=weekInfo(today);
   document.getElementById('home-date').textContent=['日','月','火','水','木','金','土'][d.getDay()]+'曜日 · '+fmtJP(today);
@@ -1870,7 +2068,8 @@ function lastDoneForJP(k){
 function shortName(id){return exName(id).replace(/ — competition grip| \(long bar, widest notch\)| \(neoprene strap\)| — wedge/g,'').replace(/ — /,' ');}
 function p1Short(lift,wk,k){
   const p=p1Plan(lift,wk,k);if(p.test)return 'TEST';
-  const top=p.sets.find(s=>s.kind==='top');const back=p.sets.filter(s=>s.kind==='back');const pct=p.sets.filter(s=>s.kind==='pct');
+  const top=p.sets.find(s=>s.kind==='top');const back=p.sets.filter(s=>s.kind==='back');const pct=p.sets.filter(s=>s.kind==='pct'&&!s.single);
+  if(top&&p.sets.some(s=>s.single))return `1@90% + 1×${top.r}@${top.rpe}${back.length?' +'+back.length+'×'+back[0].r:''}`;
   if(pct.length)return `${pct.length}×${pct[0].r} @${Math.round(pct[0].pct*100)}%`;
   return `1×${top.r}@${top.rpe}${back.length?' +'+back.length+'×'+back[0].r:''}`;
 }
@@ -1888,7 +2087,30 @@ function estMinutes(def,wk,k){
 const sIn=s=>s.in!==undefined&&s.in!==null?s.in:(s.kg!==undefined?s.kg:null);
 const sTotal=s=>s.total!==undefined&&s.total!==null?s.total:sIn(s);
 const sWU=s=>s.wu||s.kind==='wu';
-function histKey(ex){return ex.exId||ex.currentName;}
+function histKey(ex){return ex.fam?curVar(ex):(ex.exId||ex.currentName);}
+// v5.4 per-set variants: a family exercise (camber bar handles, cable attachments) logs each set under its variant's own
+// exercise id, so every variant keeps its own history, suggestions and PRs. The old single-grip ids ARE the variants.
+function curVar(ex){const ws=workingSets(ex);const eq=exEq(ex);const n=ws.find(s=>!isLogged(eq,s));return (n&&n.v)||(ws.length&&ws[ws.length-1].v)||(EX[ex.exId]||{}).famDef;}
+function setKey(ex,si){const s=ex.sets[si];return ex.fam&&s&&s.v?s.v:histKey(ex);}
+function famLast(id){const v=lsJSON('gym_varlast',{})[id];const E=EX[id]||{};return E.fam&&E.fam.includes(v)?v:E.famDef;}
+function initVariants(ex){const v0=famLast(ex.exId);ex.sets.forEach(s=>{s.v=v0;});}
+function varShort(v){return (EX[v]||{}).vs||'·';}
+function varLabel(v){return (EX[v]||{}).vl||exName(v);}
+// split a family exercise into one pseudo-exercise per variant used (history, PRs, progression flags)
+function expandFam(list){
+  const out=[];
+  list.forEach(ex=>{
+    if(!ex.fam||ex.skipped){out.push(ex);return;}
+    const groups=new Map();
+    ex.sets.forEach(s=>{if(s.kind==='wu')return;const v=s.v||EX[ex.exId].famDef;if(!groups.has(v))groups.set(v,[]);groups.get(v).push(s);});
+    const wu=ex.hasWU?ex.sets.find(s=>s.kind==='wu'):null;let first=true;
+    groups.forEach((sets,v)=>{
+      const withWU=!!(wu&&first);first=false;
+      out.push(Object.assign({},ex,{exId:v,fam:null,famOf:ex.exId,currentName:exName(v),hasWU:withWU,sets:(withWU?[wu]:[]).concat(sets)}));
+    });
+  });
+  return out;
+}
 function lastEntry(key){const h=S.history[key];return h&&h.length?h[h.length-1]:null;}
 function lastWork(key){const l=lastEntry(key);return l?l.sets.filter(s=>!sWU(s)&&sIn(s)!==null):[];}
 function lastWorkAny(key){const l=lastEntry(key);return l?l.sets.filter(s=>!sWU(s)&&(sIn(s)!==null||s.reps!=null)):[];}
@@ -1950,7 +2172,7 @@ function makeSlotExercise(slot,tmplKey,wk,adj,loc,tmplLoc){
     lift:slot.tier==='P1'&&exId===LIFT_EX[slot.lift]?slot.lift:null,
     rx,noProg:!!(rx&&rx.noProg),rxNote:rx&&rx.note||'',
     opt:!!slot.opt,extra:!!slot.extra,hang:!!slot.hang,cal:!!slot.cal,skipped:false,note:'',hasWU:!!E.wu&&!SET.simple, // simple mode: no separate warm-up chip
-    acc:E.acc||[],rot:E.rot||null
+    acc:E.acc||[],rot:E.rot||null,fam:E.fam?E.fam.slice():null,famLbl:E.famLbl||null
   };
   if(slot.tier==='P1'&&!ex.lift)ex.note=`stand-in at this location: tracked separately, doesn't update ${slot.lift==='bench'?'bench':'SSB'} e1RM`;
   if(dropped){ex.skipped=true;ex.note='no option at this location — dropped';}
@@ -1963,6 +2185,7 @@ function makeSlotExercise(slot,tmplKey,wk,adj,loc,tmplLoc){
     ex.note=`fixed load ${fmtDisp(f.load)} kg · 4×${f.reps} @ RPE 7–${FIX_RPE_MAX} · add reps before load`;
   }
   if(ex.hasWU)ex.sets.unshift(mkSet('wu',{}));
+  if(ex.fam)initVariants(ex);
   const key=exId;
   ex.accOn=Object.fromEntries(ex.acc.map(a=>[a,!!((S.accState[key]||{})[a])]));
   ex.accPerSet=Object.fromEntries(ex.acc.map(a=>[a,((S.accState[key]||{})[a])?ex.sets.map((_,i)=>i):[]]));
@@ -1988,10 +2211,10 @@ function workingSets(ex){return ex.hasWU?ex.sets.slice(1):ex.sets;}
 
 // ─── PROGRESSION ────────────────────────────────────────────────────────────
 // Double progression (S2 / A3 / core / legacy): all sets at the top of the range at ≤ RPE cap → next real weight step
-function accessoryOverload(ex){
+function accessoryOverload(ex,key){
   if(!isDouble(ex)||ex.noProg||ex.hang)return null;
   const eq=exEq(ex);
-  const ws=lastWorkAny(histKey(ex));if(!ws.length)return null;
+  const ws=lastWorkAny(key||histKey(ex));if(!ws.length)return null;
   let ready;
   if(ex.legacyRule&&ws.every(s=>s.reps==null)){ready=ws.every(s=>s.rpe!=null&&s.rpe<=7);}
   else{
@@ -2008,7 +2231,9 @@ function accessoryOverload(ex){
   const top=Math.max(...ws.map(s=>sIn(s)||0));
   const snappedTop=snapW(eq,top,'down');
   const next=stepW(eq,snappedTop,1);
-  if(next<=snappedTop+1e-9)return{reps:true,msg:'top of range hit at the heaviest weight available — add reps or slow the tempo'};
+  if(next<=snappedTop+1e-9)return eq.type==='db'
+    ?{reps:true,ceiling:true,msg:`${fmtDisp(snappedTop)} kg is your heaviest DB — next time lower in 3 s or pause 1 s at the bottom (counted as a DB ceiling hit)`}
+    :{reps:true,msg:'top of range hit at the heaviest weight available — add reps or slow the tempo'};
   const t0=toTotal(eq,snappedTop)||snappedTop,t1=toTotal(eq,next);
   const pct=t0>0?(t1-t0)/t0:0;
   return{next,pct,big:pct>0.075};
@@ -2053,7 +2278,7 @@ function suggestFor(ex,si){
     return null;
   }
   const wi=workIdx(ex,si);
-  const prev=workingSets(ex).slice(0,wi).filter(s=>s.in!=null);
+  const prev=workingSets(ex).slice(0,wi).filter(s=>s.in!=null&&(!ex.fam||s.v===set.v)); // v5.4: same variant only
   if(isP1(ex)){
     const e1=liftE1(ex);
     const top=ex.sets.find(s=>s.kind==='top');
@@ -2091,19 +2316,21 @@ function suggestFor(ex,si){
   }
   if(prev.length)return{v:prev[prev.length-1].in,why:'same as previous set'};
   if(ex.tier==='S2R')return rpeCapSuggest(ex);
-  const ol=accessoryOverload(ex);
+  const K=setKey(ex,si);
+  const ol=accessoryOverload(ex,K);
   if(ol&&!ol.reps)return{v:ol.next,why:ol.msg||`↑ progression (+${Math.round(ol.pct*100)}%)`,ol};
-  const ws=lastWork(histKey(ex));
-  if(ws.length){const s=ws[Math.min(wi,ws.length-1)];if(sIn(s)!=null)return{v:snapW(eq,sIn(s)),why:ex.noProg?'same as last time (deload/peak)':'last session'};}
+  const ws=lastWork(K);
+  if(ws.length){const s=ws[Math.min(wi,ws.length-1)];if(sIn(s)!=null)return{v:snapW(eq,sIn(s)),why:(ex.noProg?'same as last time (deload/peak)':'last session')+(ex.fam?' · '+varLabel(K).toLowerCase():'')};}
   return null;
 }
 function suggestedReps(ex,si){
   const set=ex.sets[si];
   if(set.kind==='wu')return null;
   if(set.lo!=null){
-    const ol=accessoryOverload(ex);if(ol&&!ol.reps)return set.lo;
-    const ws=lastWork(histKey(ex));const s=ws[workIdx(ex,si)];
-    if(s&&s.reps!=null)return Math.max(set.lo,Math.min(set.hi,s.reps+(ex.noProg?0:(easyNudge(ex)?3:1))));
+    const K=setKey(ex,si);const ol=accessoryOverload(ex,K);if(ol&&!ol.reps)return set.lo;
+    const ws=lastWork(K);const s=ws[workIdx(ex,si)];
+    const s2=s||(ex.fam&&ws.length?ws[ws.length-1]:null); // v5.4: a variant used for fewer sets last time → its last set
+    if(s2&&s2.reps!=null)return Math.max(set.lo,Math.min(set.hi,s2.reps+(ex.noProg?0:(easyNudge(ex)?3:1))));
     return set.lo;
   }
   return set.r;
@@ -2123,13 +2350,14 @@ function beginSession(key,opts){
   const legacy=isLegacyKey(key);
   const today=localISO();const wk=weekInfo(today);
   const rd=legacy?{adj:{},warn:[]}:readiness(key);
+  S.nanoPreview=false;
   Object.assign(S,{day:key,week:legacy?null:wk.w,wk:legacy?null:wk,ended:false,previewing:true,warmupType:null,warmupStart:null,warmupElapsed:0,warmupDismissed:false,warmupEditing:false,midNotes:'',sessionType:'GYM',
     adjust:rd.warn.slice(),prSnap:JSON.parse(JSON.stringify(S.prs)),e1Start:{bench:e1Cur('bench'),ssb_w:e1Cur('ssb_w'),ssb_pause:e1Cur('ssb_pause')},calApplied:{},sessionStart:null});
   if(legacy){S.sessLoc='W';S.exercises=sessionDef(key).ex.map(makeLegacyExercise);}
   else{
-    const def=tmplDef(key);const loc=opts.loc||def.loc;S.sessLoc=loc;
+    const def=tmplDef(key);const loc=opts.loc||homeLoc(def);S.sessLoc=loc;S.nanoPreview=!!def.preview;
     S.exercises=def.slots.map(sl=>makeSlotExercise(sl,key,wk,rd.adj,loc,def.loc)).filter(Boolean);
-    if(loc!==def.loc)S.adjust.unshift(`${loc==='W'?'Warehouse':'Home'} version of ${tmplLabel(key)}: each slot uses its ${loc==='W'?'warehouse':'home'} option; stand-ins keep their own history.`);
+    if(loc!==def.loc)S.adjust.unshift(!opts.loc&&def.loc==='W'&&whClosed()?`Warehouse closed (Settings: ${SET.whClosed.from} → ${SET.whClosed.to}) → home version of ${tmplLabel(key)}. Each slot uses its home option; stand-ins keep their own history.`:`${loc==='W'?'Warehouse':'Home'} version of ${tmplLabel(key)}: each slot uses its ${loc==='W'?'warehouse':'home'} option; stand-ins keep their own history.`);
     if(opts.swapNote)S.adjust.unshift(opts.swapNote);
     const rn=S.exercises.find(e=>e.rxNote);if(rn)S.adjust.push(rn.rxNote);
   }
@@ -2155,7 +2383,9 @@ function updateSessionNav(){
   const pill=document.getElementById('session-notion');if(pill)pill.style.display=pv?'none':(S.notionKey&&S.notionDb?'flex':'none');
 }
 function sessNavGo(){if(S.previewing)startLive();}
+function nanoPreviewStop(){gymConfirm('Gym Nano preview — START and logging are off.\nTurn on Settings → Gym Nano → Installed when the unit is mounted.',()=>renderSession(),()=>renderSession());}
 function startLive(){
+  if(S.nanoPreview){nanoPreviewStop();return;}
   if(!S.previewing)return;
   S.previewing=false;S.sessionStart=Date.now();
   updateSessionNav();saveActive();tickSession();
@@ -2187,7 +2417,7 @@ function openLocSwitch(){
   const opts=[];
   if(target!==def.loc||S.sessLoc!==def.loc){/* switching back to default is a plain rebuild */}
   templatesFor(wk).forEach(k=>{
-    if(k===S.day||doneThisWeek.has(k))return;const t=tmplDef(k);if(t.loc!==target)return;
+    if(k===S.day||doneThisWeek.has(k))return;const t=tmplDef(k);if(homeLoc(t)!==target)return;
     const legs=t.slots.some(s=>(s.tier==='P1'&&s.lift==='ssb_w')||s.hinge);
     opts.push({label:`Swap: do ${tmplLabel(k)} · ${t.title} today`,sub:`keeps priority lifts on the real bars · do ${tmplLabel(S.day)} at ${def.loc==='H'?'home':'the warehouse'} on another day`,
       fn:()=>beginSession(k,{swapNote:`Swapped: ${tmplLabel(k)} today instead of ${tmplLabel(S.day)} — do ${tmplLabel(S.day)} later this week at ${def.loc==='H'?'home':'the warehouse'}.`})});
@@ -2212,6 +2442,7 @@ function rxLineCore(ex,ws,eq,f){
   const load=sg0?` · ~${fmtDisp(sg0.v)}${unitLbl(eq)}${eq.type==='sleeve'||eq.type==='perSide'||eq.type==='perSideStack'?' = '+fmtDisp(toTotal(eq,sg0.v))+'kg':''}`:'';
   if(f.kind==='test')return `<b>TEST</b> · singles at 90% → 95% → 100% → 102.5% of e1RM ${fmtDisp(liftE1(ex))} · stop at RPE 10`;
   if(f.kind==='cal')return `<b>CALIBRATION · optional</b> · replaces the last back-off · predict reps before, log actual after · cap 12${load}`;
+  if(f.kind==='pct'&&f.single){const tp=ws.find(s=>s.kind==='top');if(tp)return `<b>SINGLE @ ~${Math.round(f.pct*100)}%</b> of e1RM (RPE ~${f.rpe}, still pause)${load}<br>then `+rxLineCore(ex,ws.slice(ws.indexOf(tp)),eq,tp);}
   if(f.kind==='pct')return `<b>PRIMER ${ws.length}×${f.r} @ ${Math.round(f.pct*100)}%</b> of e1RM · no single today${load}`;
   if(f.kind==='top'){
     const back=ws.filter(s=>s.kind==='back');const calS=ws.find(s=>s.kind==='cal');
@@ -2225,6 +2456,7 @@ function rxLineCore(ex,ws,eq,f){
     if(calS)t+=`<br>+ <b>optional calibration set</b> in place of the last back-off`;
     return t;
   }
+  if(f.cap&&ex.fixed)return `<b>${ws.length}×${f.r} @ RPE 7–${f.rpe}</b> · one fixed load · every set ≤ ${f.rpe} → +1 rep next week${load}`; // v5.3: matches the progression check
   if(f.cap)return `<b>${ws.length}×${f.r} @ RPE ≤ ${f.rpe}</b> · load moves only when RPE says so${load}`;
   if(f.lo!=null){
     const u=f.unit==='sec'?' s':(EX[ex.exId]&&EX[ex.exId].side?'/side':'');
@@ -2232,24 +2464,48 @@ function rxLineCore(ex,ws,eq,f){
   }
   return `<b>${ws.length}×${f.r} @ RPE ${f.rpe}</b>${load}`;
 }
-function wuLadder(ex){
-  const eq=exEq(ex);if(eq.type!=='sleeve'||!isP1(ex))return '';
-  const fi=ex.hasWU?1:0;const s=suggestFor(ex,fi);if(!s)return '';
-  const T=toTotal(eq,s.v);
-  const steps=[[0,8],[.5,5],[.7,3],[.85,1]];
-  const parts=steps.map(([p,r])=>{
-    if(p===0)return `bar×${r}`;
+// v5.3 warm-up ladder — every lift with a warm-up chip, not just P1 barbell lifts.
+// First lift of the session: bar×8 → 50%×5 → 70%×3 → 85%×1 (P1 top-set day) or 85%×2 (everything else).
+// Later lifts (already warm): 60%×5 → 80%×2. Percentages of the first working set's suggested load.
+function isFirstLift(ex){return S.exercises.find(e=>!e.skipped)===ex;}
+function wuSteps(ex){
+  if(!ex.hasWU)return null;
+  const eq=exEq(ex);if(eq.type==='none'||eq.type==='bw')return null;
+  const s=suggestFor(ex,1);if(!s)return null;
+  const T=toTotal(eq,s.v);if(!(T>0))return null;
+  const first=isFirstLift(ex);const barbell=eq.type==='sleeve'||eq.type==='perSide';
+  const plan=first?[[0,8],[.5,5],[.7,3],[.85,isP1(ex)?1:2]]:[[.6,5],[.8,2]];
+  const steps=[];
+  plan.forEach(([p,r])=>{
+    if(p===0){if(barbell)steps.push({v:0,r,bar:true});return;}
     const v=snapW(eq,Math.max(0,fromTotal(eq,T*p)),'down');
-    return `${fmtDisp(v)}×${r}`;
+    const prev=steps[steps.length-1];
+    if(prev&&v<=prev.v){prev.r=r;return;}   // light loads: 50% can round to the empty bar — keep one step, the later rep count
+    if(barbell&&v<=0){steps.push({v:0,r,bar:true});return;}
+    steps.push({v,r});
   });
-  return `<div class="wu-ladder">warm-up: ${parts.join(' → ')} <span style="color:#666">(per sleeve)</span></div>`;
+  return steps.length?{steps,single:steps[steps.length-1].r===1,first}:null;
+}
+function wuLadderText(ex){
+  const w=wuSteps(ex);if(!w)return '';
+  const eq=exEq(ex);
+  const unit={sleeve:'per sleeve',perSide:'per side',perSideStack:'per side',db:'kg per DB'}[eq.type]||'kg';
+  return `warm-up: ${w.steps.map(s=>(s.bar?'bar':fmtDisp(s.v))+'×'+s.r).join(' → ')} (${unit}) · tap WU when done → S1 timer`;
+}
+function wuLadder(ex){
+  const t=wuLadderText(ex);if(!t)return '';
+  return `<div class="wu-ladder">${escHtml(t)}</div>`;
+}
+function wuRestSecs(ex){
+  const R=SET.restTier||DEFAULT_SETTINGS.restTier;const w=wuSteps(ex);
+  return w&&w.single?(R.WU1||DEFAULT_SETTINGS.restTier.WU1):(R.WU||DEFAULT_SETTINGS.restTier.WU);
 }
 function setLabel(ex,si){
   const s=ex.sets[si];if(s.kind==='wu')return 'WU';
   const ws=workingSets(ex);const wi=workIdx(ex,si);
   if(s.kind==='top')return 'TOP';
   if(s.kind==='test')return 'T'+(wi+1);
-  if(s.kind==='pct')return 'P'+(wi+1);
+  if(s.kind==='pct')return s.single?'SGL':'P'+(wi+1);
   if(s.kind==='cal')return 'CAL';
   if(s.kind==='back')return 'B'+(ws.filter((x,i)=>x.kind==='back'&&i<=wi).length)+(s.pause?'·p':'');
   return 'S'+(wi+1);
@@ -2259,10 +2515,28 @@ function prVal(eq,s){if(sIn(s)==null)return null;return eq.type==='sleeve'?sTota
 function prEligible(eq){return !['bw','none','landmine'].includes(eq.type);}
 function isNewPR(ex,s){
   const eq=exEq(ex);if(s.kind==='wu'||s.in==null||!prEligible(eq))return false;
-  const prev=S.prSnap[histKey(ex)];
+  const prev=S.prSnap[ex.fam&&s.v?s.v:histKey(ex)];
   return prev!=null&&prVal(eq,s)>prev+1e-9;
 }
 function isLogged(eq,s){return eq.type==='none'?s.reps!=null:s.in!=null;}
+// ─── v5.4: SETUP TAGS ───────────────────────────────────────────────────────
+// su.b = AB-4100 angle · su.r = rack J-cup height · su.a = Nano anchor. A warning shows when the order makes you
+// change a setting back to one you already used (grouping those exercises saves a change).
+function exSetup(ex){const E=EX[ex.exId]||{};if(E.su)return E.su;if(ex.fam){const v=curVar(ex);return (EX[v]||{}).su||null;}return null;}
+function setupTxt(su){if(!su)return '';const p=[];if(su.b)p.push('AB-4100 '+su.b);if(su.r)p.push('J-cups at '+su.r+' height');if(su.a)p.push('Nano '+su.a+' anchor');return p.join(' · ');}
+function changeoverWarn(){
+  const list=S.exercises.filter(e=>!e.skipped).map(e=>({n:e.currentName,su:exSetup(e)||{}}));
+  const out=[];const L={b:'AB-4100 angle',r:'rack height',a:'Nano anchor'};
+  ['b','r','a'].forEach(k=>{
+    const seq=list.filter(x=>x.su[k]).map(x=>({v:x.su[k],n:x.n}));if(seq.length<3)return;
+    let changes=0;for(let i=1;i<seq.length;i++)if(seq[i].v!==seq[i-1].v)changes++;
+    const need=new Set(seq.map(x=>x.v)).size-1;if(changes<=need)return;
+    const last=new Map();let tip='';
+    for(let i=0;i<seq.length;i++){const v=seq[i].v;if(i&&last.has(v)&&seq[i-1].v!==v){tip=`move ${seq[i].n} next to ${last.get(v)}`;break;}last.set(v,seq[i].n);}
+    out.push(`${L[k]}: ${seq.map(x=>x.v).join(' → ')} · ${changes} changes where ${need} would do — ${tip} (drag ⠿ to reorder)`);
+  });
+  return out;
+}
 function slotHeader(ex){
   if(ex.legacy)return `<div class="sec-hdr">${escHtml(ex.slotName||'')}</div>`;
   return `<div class="slot-hdr"><span class="tier-b t-${ex.tier}">${ex.tier}</span><span>${escHtml(ex.slotName.toUpperCase())}</span><span class="slot-prog">${TIER_INFO[ex.tier]||''}</span></div>`;
@@ -2316,10 +2590,12 @@ function renderSession(){
   if(S.previewing){
     html+=SET.simple
       ?`<div class="preview-banner"><div><div class="pv-t">プレビュー · タイマーは動いていません</div><div class="pv-s">種目を入れ替えたり、順番を変えられます。セットを記録するとスタートします。</div></div><button class="pv-btn" onclick="startLive()">▶ はじめる</button></div>`
+      :S.nanoPreview?`<div class="preview-banner nano-pv"><div><div class="pv-t">GYM NANO PREVIEW · Programme B</div><div class="pv-s">look through the Nano version of this day. START and logging stay off until Settings → Gym Nano → Installed.</div></div><button class="pv-btn" disabled>START OFF</button></div>`
       :`<div class="preview-banner"><div><div class="pv-t">PREVIEW · timer not running</div><div class="pv-s">swap exercises, reorder, check weights & plates. Logging a set or picking a warm-up also starts the session.</div></div><button class="pv-btn" onclick="startLive()">▶ START</button></div>`;
     if(!isLegacyKey(S.day)&&!SET.simple){const def=tmplDef(S.day);html+=`<div class="loc-row"><span class="loc-chip ${S.sessLoc}">${S.sessLoc==='H'?'HOME':'WAREHOUSE'}</span>${S.sessLoc!==def.loc?'<span class="loc-alt">location version</span>':''}<button class="loc-btn" onclick="openLocSwitch()">at the ${S.sessLoc==='H'?'warehouse':'home gym'} instead? ⇄</button></div>`;}
   }
   if(S.adjust&&S.adjust.length)html+=`<div class="adj-banner">⚠ TODAY'S ADJUSTMENTS<br>${S.adjust.map(escHtml).join('<br>')}</div>`;
+  if(!SET.simple&&!isLegacyKey(S.day)){const cw=changeoverWarn();if(cw.length)html+=`<div class="setup-warn">⇄ SETUP CHANGES<br>${cw.map(escHtml).join('<br>')}</div>`;}
   if(!S.warmupDismissed){
     const opts=warmupOptions();
     html+=`<div class="warmup-card"><div class="warmup-inner"><div class="warmup-lbl">${SET.simple?'ウォームアップ':'WARMUP'}</div><div class="warmup-opts">`;
@@ -2355,6 +2631,8 @@ function renderSession(){
     if(ex.note)html+=`<div class="ex-note">${escHtml(ex.note)}</div>`;
     const EXd=EX[ex.exId]||{};
     if(EXd.cue&&!ex.skipped)html+=`<div class="ex-cue">${escHtml(EXd.cue)}</div>`;
+    if(!SET.simple&&!ex.skipped){const st=setupTxt(exSetup(ex));if(st)html+=`<div class="ex-setup">setup: ${escHtml(st)}</div>`;}
+    if(ex.fam&&!ex.skipped&&!SET.simple)html+=`<div class="var-line">${escHtml(ex.famLbl||'VARIANT')} set by set · tap a set to change · next: <b>${escHtml(varLabel(curVar(ex)))}</b></div>`;
     if(isP1(ex)){const top=ex.sets.find(s=>s.kind==='top');
       if(top&&top.total!=null&&ex.sets.some(s=>s.kind==='back'&&s.total!=null&&s.total>top.total*1.02))
         html+=`<div class="ex-warn">A back-off is heavier than the TOP set. If the TOP weight was mis-entered, tap it and fix it before finishing — back-offs and e1RM use it.</div>`;}
@@ -2362,7 +2640,7 @@ function renderSession(){
     if(ex.hang&&!ex.skipped&&!SET.simple)html+=`<div class="acc-row"><div class="acc-chip ${ex.wrist?'on':'off'}" onclick="toggleWrist(${ei})"><div class="acc-tick${ex.wrist?' ticked':''}"></div>wrist pain</div></div>`;
     if(!ex.skipped){
       html+=`<div class="ex-body"><div class="rx-line">${SET.simple?rxLineSimple(ex):rxLine(ex)}</div>`;
-      if(ex.hasWU&&ex.sets[0].in==null)html+=wuLadder(ex);
+      if(ex.hasWU&&ex.sets[1]&&!isLogged(exEq(ex),ex.sets[1]))html+=wuLadder(ex); // v5.3: stays up until set 1 is logged
       if(ex.acc.length&&!SET.simple){
         html+=`<div class="acc-row">`;
         ex.acc.forEach(a=>{const on=ex.accOn[a];html+=`<div class="acc-chip ${on?'on':'off'}" onclick="toggleAcc(${ei},'${a}')"><div class="acc-tick${on?' ticked':''}"></div>${a}</div>`;});
@@ -2390,7 +2668,7 @@ function renderSession(){
         const pr=logged&&isNewPR(ex,s);
         let cls='sc';if(s.kind==='wu')cls+=' wu-chip';
         if(logged)cls+=pr?' pr-chip':' logged';else if(si===nextEmpty)cls+=' active-chip';
-        html+=`<div class="${cls}" onclick="openModal(${ei},${si})"><div class="sc-lbl${s.kind==='wu'?' wu-lbl':''}">${setLabel(ex,si)}</div>`;
+        html+=`<div class="${cls}" onclick="openModal(${ei},${si})"><div class="sc-lbl${s.kind==='wu'?' wu-lbl':''}">${setLabel(ex,si)}${ex.fam&&s.v?'<span class="sc-v">'+escHtml(varShort(s.v))+'</span>':''}</div>`;
         if(logged){
           const main=eq.type==='none'?s.reps+(s.unit==='sec'?'s':''):fmtDisp(s.in);
           html+=pr?`<div class="sc-wt"><div class="sc-pr-ring" style="font-size:9px">${main}</div></div>`:`<div class="sc-wt">${main}</div>`;
@@ -2432,10 +2710,10 @@ function swapAltSel(ei,sel){
   const logged=ex.sets.some(s=>isLogged(exEq(ex),s));
   const apply=()=>{
     const E=EX[id];
-    Object.assign(ex,{exId:id,currentName:exName(id),eqKey:E.eq,exLoc:E.loc,hasWU:!!E.wu&&!SET.simple,acc:E.acc||[],rot:E.rot||null,note:''});
+    Object.assign(ex,{exId:id,currentName:exName(id),eqKey:E.eq,exLoc:E.loc,hasWU:!!E.wu&&!SET.simple,acc:E.acc||[],rot:E.rot||null,note:'',fam:E.fam?E.fam.slice():null,famLbl:E.famLbl||null});
     if(isP1(ex)){ex.lift=id===LIFT_EX[ex.slotLift]?ex.slotLift:null;if(!ex.lift)ex.note=`variation: tracked separately, doesn't update ${ex.slotLift==='bench'?'bench':'SSB'} e1RM`;}
     else{const slot=findSlot(ex);ex.rx=slotRx(slot,id,S.wk,ex.tmpl)||ex.rx;}
-    ex.sets=buildSets(ex,readiness(S.day).adj);if(ex.cal&&ex.lift)applyCalibration(ex,S.wk,ex.tmpl);if(ex.hasWU)ex.sets.unshift(mkSet('wu',{}));
+    ex.sets=buildSets(ex,readiness(S.day).adj);if(ex.cal&&ex.lift)applyCalibration(ex,S.wk,ex.tmpl);if(ex.hasWU)ex.sets.unshift(mkSet('wu',{}));if(ex.fam)initVariants(ex);
     ex.accOn=Object.fromEntries(ex.acc.map(a=>[a,!!((S.accState[id]||{})[a])]));
     ex.accPerSet=Object.fromEntries(ex.acc.map(a=>[a,((S.accState[id]||{})[a])?ex.sets.map((_,i)=>i):[]]));
     ex.rotStage=(S.rotState[id]||{}).stage||null;
@@ -2462,7 +2740,7 @@ function adjSets(ei,d){
 function toggleAcc(ei,a){const ex=S.exercises[ei];ex.accOn[a]=!ex.accOn[a];ex.accPerSet[a]=ex.accOn[a]?ex.sets.map((_,i)=>i):[];saveActive();renderSession();}
 function toggleAccPerSet(ei,a,si){const ex=S.exercises[ei];const ps=ex.accPerSet[a]||[];const i=ps.indexOf(si);if(i>=0)ps.splice(i,1);else ps.push(si);ex.accPerSet[a]=ps;saveActive();renderSession();}
 function setRotStage(ei,st){S.exercises[ei].rotStage=st;saveActive();renderSession();}
-function selectWarmup(type){if(S.previewing)startLive();S.warmupType=type;if(!S.warmupStart)S.warmupStart=Date.now();saveActive();openWarmupTimer();}
+function selectWarmup(type){if(S.nanoPreview)return nanoPreviewStop();if(S.previewing)startLive();S.warmupType=type;if(!S.warmupStart)S.warmupStart=Date.now();saveActive();openWarmupTimer();}
 function openWarmupTimer(){
   document.getElementById('wt-type-lbl').textContent=S.warmupType||'WARMUP';
   document.getElementById('wt-meta').textContent=sessionLabel(S.day)+' · '+fmtShort(new Date()).toUpperCase();
@@ -2535,16 +2813,22 @@ function openModal(ei,si){
     const side=EX[ex.exId]&&EX[ex.exId].side?' per side':'';
     if(set.lo!=null)tgt=`target <b>${set.lo}${set.hi!==set.lo?'–'+set.hi:''}${set.unit==='sec'?' sec':' reps'}${side}</b>${set.rpe?' @ RPE ≤ '+set.rpe:''}`;
     else if(isCal)tgt=S.modal.cal===1?`<b>CALIBRATION · optional</b> · predict how many reps you will get`:`<b>CALIBRATION</b> · predicted <b>${set.pred}</b> · log the reps you actually got (cap 12)`;
-    else if(set.cap)tgt=`target <b>${set.r} reps @ RPE ≤ ${set.rpe}</b>`;
+    else if(set.cap)tgt=ex.fixed?`target <b>${set.r} reps @ RPE 7–${set.rpe}</b> · over ${set.rpe} on any set holds the reps next week`:`target <b>${set.r} reps @ RPE ≤ ${set.rpe}</b>`;
     else if(set.kind==='back')tgt=`target <b>${set.r} reps</b> · ${Math.round(set.pct*100)}% of top set${set.pause?' · <b>2 s pause</b>':''}`;
     else if(set.kind==='test')tgt=`<b>single</b> · ${Math.round(set.pct*100)}% of e1RM`;
     else if(set.kind==='pct')tgt=`<b>${set.r} reps</b> · ${Math.round(set.pct*100)}% of e1RM`;
     else tgt=`target <b>${set.r} reps @ RPE ${set.rpe}</b>`;
   }
   document.getElementById('modal-target').innerHTML=tgt;
+  const vEl=document.getElementById('modal-var'); // v5.4: grip / attachment for THIS set
+  if(ex.fam&&!SET.simple){
+    vEl.style.display='block';
+    vEl.innerHTML=`<div class="var-lbl">${escHtml(ex.famLbl||'VARIANT')} · this set${isLogged(eq,set)?'':' · later sets follow'}</div><div class="var-opts">`+
+      ex.fam.filter(v=>EX[v]).map(v=>`<button class="var-o ${set.v===v?'von':'voff'}" onclick="setSetVar('${v}')">${escHtml(varLabel(v))}</button>`).join('')+`</div>`;
+  }else vEl.style.display='none';
   const wuEl=document.getElementById('modal-wu');
   if(isCal&&S.modal.cal===1){wuEl.textContent=CAL_REMINDER;wuEl.style.display='block';}
-  else if(isWU&&isP1(ex)&&eq.type==='sleeve'){wuEl.innerHTML=wuLadder(ex).replace(/<[^>]+>/g,'');wuEl.style.display='block';}else wuEl.style.display='none';
+  else if(isWU&&wuLadderText(ex)){wuEl.textContent=wuLadderText(ex);wuEl.style.display='block';}else wuEl.style.display='none';
   // log / cancel buttons (calibration changes them; every other set restores the defaults)
   const logBtn=document.getElementById('modal-log'),cancelBtn=document.getElementById('modal-cancel');
   logBtn.textContent=isCal?(S.modal.cal===1?'SAVE PREDICTION · START SET':'LOG CALIBRATION SET'):(SET.simple?'記録する':'LOG SET');
@@ -2557,7 +2841,7 @@ function openModal(ei,si){
     document.getElementById('kg-unit').textContent=SET.simple?(eq.type==='db'?'kg（ダンベル1個）':eq.type==='perSide'||eq.type==='perSideStack'?'kg（片側）':'kg'):unitLong(eq);
     const sEl=document.getElementById('modal-suggest');
     sEl.textContent=sg?(SET.simple?`目安 ${fmtDisp(sg.v)} kg`:`suggested ${fmtDisp(sg.v)}${unitLbl(eq)} · ${sg.why}`):'';
-    const lastS=lastWork(histKey(ex))[Math.max(0,workIdx(ex,si))];
+    const lastS=lastWork(setKey(ex,si))[Math.max(0,workIdx(ex,si))];
     const ghost=document.getElementById('kg-ghost');
     ghost.textContent=lastS&&!isWU?(SET.simple?`前回: ${fmtDisp(sIn(lastS))}kg × ${lastS.reps!=null?lastS.reps:'—'}`:`last time: ${fmtDisp(sIn(lastS))}${unitLbl(eq)}${lastS.reps!=null?' ×'+lastS.reps:''}${lastS.rpe!=null?' @'+lastS.rpe:''}`):'';
     const isGrid=eq.type==='db'||eq.type==='bw';
@@ -2579,6 +2863,10 @@ function openModal(ei,si){
   ['rpe-grid','rpe-lbl','rpe-scale'].forEach(id=>document.getElementById(id).style.display=showRpe?'':'none');
   updateKgDisplay();updateRepsDisplay();
   show('modal');
+}
+function setSetVar(v){
+  const {ei,si}=S.modal;const ex=S.exercises[ei];const set=ex.sets[si];if(!ex.fam||!EX[v])return;
+  set.v=v;saveActive();openModal(ei,si); // an unlogged set re-suggests from this variant's own history
 }
 function applySuggestion(){if(S.modal.sg){S.currentKg=S.modal.sg.v;updateKgDisplay();}}
 function renderDbGrid(){
@@ -2618,6 +2906,7 @@ function adjReps(d){const set=S.exercises[S.modal.ei].sets[S.modal.si];const ste
 function updateRepsDisplay(){document.getElementById('reps-display').textContent=S.currentReps;}
 
 function logSet(){
+  if(S.nanoPreview){closeModal();return nanoPreviewStop();}
   const {ei,si}=S.modal;const ex=S.exercises[ei];const set=ex.sets[si];const eq=exEq(ex);
   if(set.kind==='cal')return logCalSet(ei,si);
   const isWU=set.kind==='wu';
@@ -2626,24 +2915,27 @@ function logSet(){
   if(S.previewing)startLive();
   if(eq.type!=='none'){set.in=S.currentKg;set.total=toTotal(eq,S.currentKg);}
   set.reps=isWU?null:S.currentReps;set.rpe=isWU||eq.type==='none'?null:S.currentRpe;set.at=Date.now();set.eq=ex.eqKey;
+  if(ex.fam&&set.v){ex.sets.forEach((x,i)=>{if(i>si&&!isLogged(eq,x))x.v=set.v;});const m=lsJSON('gym_varlast',{});m[ex.exId]=set.v;ls('gym_varlast',JSON.stringify(m));} // v5.4: later sets carry this set's variant
   const key=histKey(ex);S.accState[key]=ex.accOn;S.rotState[key]={stage:ex.rotStage};
   saveData();saveActive();
   if(SET.simple&&exDone(ex)){closeModal();return;}          // last set → feedback panel instead of the rest timer
-  if(S.restEnabled&&!isWU){S.restCurrentExIdx=ei;S.restCurrentSetIdx=si;showRest(ex,set);}
+  // v5.3: the warm-up chip starts a short "→ S1" countdown (no timer between ladder steps — that time goes on plate changes)
+  const wuTimer=isWU&&!workingSets(ex).some(s=>isLogged(eq,s));
+  if(S.restEnabled&&(!isWU||wuTimer)){S.restCurrentExIdx=ei;S.restCurrentSetIdx=si;showRest(ex,set,isWU?wuRestSecs(ex):null);}
   else closeModal();
 }
 function closeModal(){show('session');renderSession();}
 
 // ─── REST (timestamp-based: survives phone lock) ────────────────────────────
-function showRest(ex,set){
-  const eq=exEq(ex);
+function showRest(ex,set,presetOverride){
+  const eq=exEq(ex);const isWU=set.kind==='wu';
   document.getElementById('rest-title').textContent=sessionLabel(S.day);
   document.getElementById('rest-sub').textContent=fmtShort(new Date()).toUpperCase();
   document.getElementById('rest-ex').textContent=ex.currentName.toUpperCase();
   const wt=eq.type==='none'?'':fmtDisp(set.in)+unitLbl(eq)+(eq.type==='sleeve'?' ('+fmtDisp(set.total)+'kg)':'')+' · ';
   const e1=ex.lift&&set.kind!=='wu'?' · e1RM '+fmtE1(e1rmOf(set.total,set.reps,adjRpe(ex.lift,set.rpe)))+(rpeAdj(ex.lift)?' (RPE offset applied)':''):'';
-  document.getElementById('rest-logged').textContent='logged · '+wt+'×'+set.reps+(set.rpe?' @ RPE '+set.rpe:'')+e1;
-  const preset=restForTier(ex);
+  document.getElementById('rest-logged').textContent=isWU?'warm-up done'+(eq.type==='none'?'':' · '+wt.replace(/ · $/,''))+' · → S1':'logged · '+wt+'×'+set.reps+(set.rpe?' @ RPE '+set.rpe:'')+e1;
+  const preset=presetOverride||restForTier(ex);
   S.restTotal=preset;S.restEnd=Date.now()+preset*1000;S.restBeeped=false;
   clearInterval(S.restTimerInt);S.restTimerInt=setInterval(tickRest,250);
   buildRestPresets();updateRestUI();updateRestToggleLabel();renderNextUp(S.restCurrentExIdx,S.restCurrentSetIdx);
@@ -2714,7 +3006,7 @@ function endSession(){
   if(!S.day)return goHome();
   const iso=sessionIso();
   const flags=[];let prCount=0;const e1Changes={};
-  S.exercises.forEach(ex=>{
+  expandFam(S.exercises).forEach(ex=>{ // v5.4: a family exercise is saved once per variant used
     if(ex.skipped)return;const eq=exEq(ex);const key=histKey(ex);
     const logged=ex.sets.filter(s=>isLogged(eq,s));if(!logged.length)return;
     const ws=workingSets(ex).filter(s=>isLogged(eq,s));
@@ -2731,7 +3023,14 @@ function endSession(){
       if(best>0){if(prev!=null&&best>prev+1e-9)prCount++;if(S.prs[key]==null||best>S.prs[key])S.prs[key]=best;}
     }
     // e1RM — only the real priority lift updates it
-    if(ex.lift&&ex.exId===LIFT_EX[ex.lift]){
+    const testSingles=S.day==='TEST'&&ex.lift==='bench'&&ex.exId===LIFT_EX.bench?ws.filter(s=>s.kind==='test'&&s.reps>=1&&s.total>0):[];
+    if(testSingles.length){ // v5.3: a tested max is the e1RM — no RPE estimate, no offset
+      const best=Math.max(...testSingles.map(s=>s.total));const before=e1Cur('bench');
+      if(!S.e1.bench||!S.e1.bench.hist)S.e1.bench={cur:null,hist:[]};
+      S.e1.bench.cur=best;S.e1.bench.hist.push({date:iso,v:best,src:'test'});if(S.e1.bench.hist.length>HIST_CAP)S.e1.bench.hist.splice(1,1);
+      e1Changes.bench={from:before,to:best};
+      S.adjust.push(`Bench test: best single ${fmtDisp(best)} kg → bench e1RM set to ${fmtE1(best)} (was ${before!=null?fmtE1(before):'—'}). Tested max replaces the estimate.`);
+    }else if(ex.lift&&ex.exId===LIFT_EX[ex.lift]){
       const est=ws.filter(s=>s.kind!=='cal'&&s.rpe!=null&&s.reps&&s.reps<=10);
       const ests=est.map(s=>e1rmOf(s.total,s.reps,adjRpe(ex.lift,s.rpe)));
       const raw=est.length?Math.max(...est.map(s=>e1rmOf(s.total,s.reps,s.rpe))):null;
@@ -2749,7 +3048,7 @@ function endSession(){
     }
     if(!S.history[key])S.history[key]=[];
     S.history[key].push({date:new Date(S.sessionStart).toISOString(),day:iso,session:S.day,week:S.week,block:S.wk?S.wk.block:null,
-      slot:ex.slot||null,tier:ex.tier||null,loc:S.sessLoc,eq:ex.eqKey,name:ex.currentName,
+      slot:ex.slot||null,tier:ex.tier||null,loc:S.sessLoc,eq:ex.eqKey,name:ex.currentName,fam:ex.famOf||undefined,
       sets:logged.map(s=>({kind:s.kind,wu:s.kind==='wu',in:s.in,total:s.total,kg:s.in,reps:s.reps,rpe:s.rpe,pause:s.pause||undefined,at:s.at||undefined})),
       acc:ex.accOn,rotStage:ex.rotStage});
     if(S.history[key].length>HIST_CAP)S.history[key].shift();
@@ -2773,7 +3072,11 @@ function endSession(){
   S.ended=true;S.savedToNotion=false;S.sessionEnd=Date.now();
   saveData();clearActive();
   // progression for next time (history now includes this session)
-  S.exercises.forEach(ex=>{if(ex.skipped||!isDouble(ex))return;const ol=accessoryOverload(ex);if(ol&&workingSets(ex).some(s=>isLogged(exEq(ex),s)))
+  const DBC=lsJSON('gym_db_ceiling',{});
+  expandFam(S.exercises).forEach(ex=>{if(ex.skipped||!isDouble(ex))return;
+    if(dbCeilingHit(ex)){const r=DBC[ex.exId]||{n:0};r.n++;r.last=iso;DBC[ex.exId]=r;ls('gym_db_ceiling',JSON.stringify(DBC));
+      flags.push({c:'fl-amber',t:`DB ceiling · ${ex.currentName}: every set at ${fmtDisp(Math.max(...validWeights(exEq(ex))))} kg reached the top of the range (hit ${r.n}×). Next time lower in 3 s or pause 1 s at the bottom.`});return;}
+    const ol=accessoryOverload(ex);if(ol&&workingSets(ex).some(s=>isLogged(exEq(ex),s)))
     flags.push({c:'fl-green',t:ol.reps||ol.msg&&ol.next==null?`↑ ${ex.currentName} — ${ol.msg}`:`↑ ${ex.currentName} — next time ${fmtDisp(ol.next)}${unitLbl(exEq(ex))}${ol.big?' (big jump: start at bottom of range)':''}`});});
   const mins=Math.round((S.sessionEnd-S.sessionStart)/60000);
   if(!isLegacyKey(S.day)){const D=durMap();D[iso+'|'+S.day]=mins;ls('gym_durations',JSON.stringify(D));}
@@ -2785,6 +3088,14 @@ function endSession(){
   if(S.day==='MON'){const rec=syncTueDowngrade(addDays(iso,1),true);if(rec)flags.push({c:'fl-amber',t:`Tuesday ride downgraded to an easy ride (${rec.reasons.join('; ')}). Sweet spot moves to ${fmtShort(parseLocal(rec.movesTo))}.`});}
   S.lastSummary={prCount,e1Changes,mins,flags};
   renderDone();
+}
+// v5.4: a DB exercise whose every logged set used the heaviest DB and reached the top of the rep range
+function dbCeilingHit(ex){
+  const eq=exEq(ex);if(eq.type!=='db'||!isDouble(ex)||ex.noProg)return false;
+  const w0=workingSets(ex)[0];if(!w0||w0.hi==null)return false;
+  const ws=workingSets(ex).filter(s=>isLogged(eq,s));if(ws.length<Math.min(2,workingSets(ex).length))return false;
+  const max=Math.max(...validWeights(eq));
+  return ws.every(s=>s.in>=max-1e-9&&s.reps>=w0.hi);
 }
 function sessionStats(){
   let exCount=0,sets=0,vol=0;const rpes=[];
@@ -2818,12 +3129,13 @@ function renderDone(){
     logged.forEach(([s,si])=>{
       const pr=isNewPR(ex,s);
       const w=eq.type==='none'?'':fmtDisp(s.in)+(eq.type==='sleeve'?'('+fmtDisp(s.total)+')':'');
-      exHtml+=`<div class="done-chip${s.kind==='wu'?' wu-d':pr?' pr-d':''}">${setLabel(ex,si)} ${w}${s.kind==='wu'?'':' ×'+s.reps+(s.rpe!=null?' R'+s.rpe:'')}${pr?'★':''}</div>`;
+      exHtml+=`<div class="done-chip${s.kind==='wu'?' wu-d':pr?' pr-d':''}">${setLabel(ex,si)}${ex.fam&&s.v?'·'+escHtml(varShort(s.v)):''} ${w}${s.kind==='wu'?'':' ×'+s.reps+(s.rpe!=null?' R'+s.rpe:'')}${pr?'★':''}</div>`;
     });
     exHtml+=`</div>`;
   });
   document.getElementById('done-exercises').innerHTML=exHtml;
   document.getElementById('done-flags').innerHTML=sm.flags.map(f=>`<div class="done-flag ${f.c}">${escHtml(f.t)}</div>`).join('')+(S.day==='MON'&&!SET.simple?`<div class="done-flag"><button class="ride-btn" onclick="toggleLegsHeavy('${sessionIso()}')">${legsHeavyMap()[sessionIso()]?'✓ LEGS HEAVY (tap to undo)':'LEGS HEAVY?'}</button> <span class="ride-hint">tap if so: Tuesday's sweet spot drops to the easy ride</span></div>`:'');
+  S.checkin=checkinGet();renderCheckin();
   document.getElementById('done-notes').value=S.midNotes||'';
   document.getElementById('done-bw').value='';
   { // v5.0: optional weekly weigh-in on Mondays (no goal, skippable; writes the existing Body Weight (kg) field)
@@ -2837,6 +3149,18 @@ function renderDone(){
   if(SET.simple)btn.textContent='Notionに保存';
   if(!S.notionKey||!S.notionDb){btn.textContent=SET.simple?'Notion 未接続':'NOTION NOT CONNECTED';btn.disabled=true;}
   show('done');
+}
+// ─── v5.4: POST-SESSION CHECK-IN (enjoyment 1–5 · worst joint 0–10) ──────────
+function checkinKey(){return sessionIso()+'|'+S.day;}
+function checkinGet(){return Object.assign({enjoy:null,joint:null},lsJSON('gym_checkins',{})[checkinKey()]||{});}
+function setCheckin(k,v){S.checkin=Object.assign(checkinGet(),{[k]:v});const m=lsJSON('gym_checkins',{});m[checkinKey()]=S.checkin;ls('gym_checkins',JSON.stringify(m));renderCheckin();}
+function renderCheckin(){
+  const el=document.getElementById('done-checkin');if(!el)return;
+  if(SET.simple||isLegacyKey(S.day)){el.innerHTML='';return;}
+  const c=S.checkin||{};
+  const btns=(k,vals)=>vals.map(v=>`<button class="ci-b${c[k]===v?' ci-on':''}" onclick="setCheckin('${k}',${v})">${v}</button>`).join('');
+  el.innerHTML=`<div class="checkin"><div class="ci-row"><div class="ci-lbl">ENJOYED IT? <span>1 = no · 5 = loved it</span></div><div class="ci-btns">${btns('enjoy',[1,2,3,4,5])}</div></div>
+    <div class="ci-row"><div class="ci-lbl">WORST JOINT <span>0 = nothing · 10 = stop (wrist, elbow, shoulder…)</span></div><div class="ci-btns ci-11">${btns('joint',[0,1,2,3,4,5,6,7,8,9,10])}</div></div></div>`;
 }
 function leaveDone(){
   const go=()=>{S.day=null;S.exercises=[];goHome();};
@@ -2908,11 +3232,12 @@ function buildNotionPayload(){
   const notes=document.getElementById('done-notes').value.trim();
   const bw=parseFloat(document.getElementById('done-bw').value);
   const lines=[];
-  if(S.wk)lines.push(`${PROGRAM.name} · Week ${S.wk.w} of ${PROGRAM.weeks} · ${S.wk.block} · ${S.wk.ph} · ${st.location}`);
+  if(S.wk)lines.push(`${PROGRAM.name} · Week ${S.wk.w} of ${PROGRAM.weeks} · ${blockLabel(S.wk.block)} · ${S.wk.ph} · ${st.location}`);
+  const ci=S.checkin||{};if(ci.enjoy!=null||ci.joint!=null)lines.push(`Check-in: enjoyment ${ci.enjoy??'—'}/5 · worst joint ${ci.joint??'—'}/10`);
   if(S.warmupType)lines.push(`Warmup: ${S.warmupType} ${mmss(S.warmupElapsed||0)}`);
   if(notes)lines.push('',notes);
   lines.push('');
-  const rows=[['Slot','Exercise','Set','Logged','Total kg','Reps','RPE','Time','Rest']];
+  const rows=[['Slot','Exercise','Variant','Set','Logged','Total kg','Reps','RPE','Time','Rest']];
   // rest = time since the previous logged set of the session (any exercise), from the per-set timestamps
   const stamps=[];S.exercises.forEach(ex=>{if(ex.skipped)return;const eq=exEq(ex);ex.sets.forEach(s=>{if(isLogged(eq,s)&&s.at)stamps.push({s,ex});});});
   stamps.sort((a,b)=>a.s.at-b.s.at);const restOf=new Map();const byTier={};
@@ -2926,8 +3251,9 @@ function buildNotionPayload(){
     const slotLbl=ex.legacy?(ex.slotName||''):`${ex.tier} ${ex.slotName}`;
     const parts=logged.map(([s,si])=>{
       const w=eq.type==='none'?'':fmtDisp(s.in)+unitLbl(eq)+(eq.type==='sleeve'?` (${fmtDisp(s.total)}kg)`:'');
-      rows.push([slotLbl,ex.currentName,setLabel(ex,si),eq.type==='none'?'—':fmtDisp(s.in)+unitLbl(eq),s.total!=null&&eq.type!=='bw'&&eq.type!=='landmine'?fmtDisp(eq.type==='db'?s.in:s.total):'',s.reps!=null?String(s.reps)+(s.unit==='sec'?'s':''):'',s.rpe!=null?String(s.rpe):'',s.at?fmtTime(new Date(s.at)):'',restOf.get(s)!=null?mmssShort(restOf.get(s)):'']);
-      return s.kind==='wu'?`WU ${w}`:`${setLabel(ex,si)} ${w}×${s.reps}${s.rpe!=null?'@'+s.rpe:''}`;
+      rows.push([slotLbl,ex.currentName,ex.fam&&s.v?varLabel(s.v).toLowerCase():'',setLabel(ex,si),eq.type==='none'?'—':fmtDisp(s.in)+unitLbl(eq),s.total!=null&&eq.type!=='bw'&&eq.type!=='landmine'?fmtDisp(eq.type==='db'?s.in:s.total):'',s.reps!=null?String(s.reps)+(s.unit==='sec'?'s':''):'',s.rpe!=null?String(s.rpe):'',s.at?fmtTime(new Date(s.at)):'',restOf.get(s)!=null?mmssShort(restOf.get(s)):'']);
+      const vv=ex.fam&&s.v?` [${varLabel(s.v).toLowerCase()}]`:'';
+      return s.kind==='wu'?`WU ${w}${vv}`:`${setLabel(ex,si)} ${w}×${s.reps}${s.rpe!=null?'@'+s.rpe:''}${vv}`;
     });
     const extra=[Object.entries(ex.accOn||{}).filter(([,v])=>v).map(([k])=>k).join(', '),ex.rotStage?'RO-T8 setting '+ex.rotStage:''].filter(Boolean).join(' · ');
     lines.push(`${ex.currentName}: ${parts.join(' · ')}${extra?' · '+extra:''}`);
@@ -2944,14 +3270,16 @@ function buildNotionPayload(){
     'Volume (kg)':{number:st.vol},
     'Bench e1RM':{number:e1Cur('bench')!=null?Math.round(e1Cur('bench')*10)/10:null}
   };
-  if(e1Cur('ssb_w')!=null)props['SSB e1RM']={number:Math.round(e1Cur('ssb_w')*10)/10};
-  if(S.wk){props.Week={number:S.wk.w};if(SET.notionBlock)props.Block={select:{name:S.wk.block}};}
+  if(e1Cur('ssb_w')!=null)props['SSB e1RM']={number:Math.round(e1Cur('ssb_w')*10)/10}; // v5.4: Saturday SSB (wedge) top set — moves every week
+  if(e1Cur('ssb_pause')!=null)props['Pause squat e1RM']={number:Math.round(e1Cur('ssb_pause')*10)/10}; // v5.4: record only (Monday's pause squat is light now)
+  if(S.wk){props.Week={number:S.wk.w};if(SET.notionBlock)props.Block={select:{name:blockLabel(S.wk.block)}};}
+  if(ci.enjoy!=null)props.Enjoyment={number:ci.enjoy};if(ci.joint!=null)props['Joint pain']={number:ci.joint}; // v5.4 columns
   if(!isNaN(bw)&&bw>0)props['Body Weight (kg)']={number:bw};
   if(S.adjust&&S.adjust.length)props.Adjustments={rich_text:rtChunks(S.adjust.join('\n'))};
   const tableRows=rows.slice(0,99).map(r=>({type:'table_row',table_row:{cells:r.map(c=>[rt(c)])}}));
   const children=[
     {object:'block',type:'heading_3',heading_3:{rich_text:[rt('Sets')]}},
-    {object:'block',type:'table',table:{table_width:9,has_column_header:true,has_row_header:false,children:tableRows}}
+    {object:'block',type:'table',table:{table_width:10,has_column_header:true,has_row_header:false,children:tableRows}}
   ];
   return{parent:{database_id:S.notionDb},properties:props,children};
 }
@@ -3097,18 +3425,26 @@ function renderSettings(){
     ${row('SSB flat (history only)',num('e1_ssb',e1Cur('ssb'),0.5))}
     <div class="settings-sec-lbl">PROGRAM</div>
     ${row(PROGRAM.name,`<span style="font-size:10px;color:var(--txt3)">calibration from ${PROGRAM.pre} · Block 1 from ${PROGRAM.start} · now week ${wk.w} (${wk.block})</span>`)}
-    ${row('Tests',`<span style="font-size:10px;color:var(--txt3)">SSB (wedge) sat 12 dec · bench thu 17 dec</span>`)}
+    ${row('Tests',`<span style="font-size:10px;color:var(--txt3)">SSB (wedge) sat 12 dec · bench checkpoint mon 14 dec (top triple, no max) · bench test window wk 24 if M2 is met · BENCH TEST · ANY DAY card any time</span>`)}
     ${row('Flag sessions longer than (min, 0 = off)',num('targetMin',SET.targetMin,5))}
     <div class="settings-sec-lbl">PROFILE</div>
     ${row('Active profile',profileRow())}
     <div class="settings-sec-lbl">EQUIPMENT</div>
     ${row('Hex DB pairs · tap to move home ⇄ warehouse',`<div class="db-chips">${dbChips()}</div>`)}
+    ${row('Adjustable benches',`<span style="font-size:10px;color:var(--txt3)">REP AB-4100 at home: DB incline, seated DB press, chest-supported row, incline curl · cheap adjustable bench at the warehouse: Smith incline + Smith OHP</span>`)}
+    ${row('DB ceiling hits (heaviest DB, top of range)',`<span style="font-size:10px;color:var(--txt3)">${Object.entries(lsJSON('gym_db_ceiling',{})).map(([id,r])=>escHtml(shortName(id))+' '+r.n+'×').join(' · ')||'none yet'}</span>`)}
+    ${row('Warehouse closed from',`<input class="settings-inp wide" id="wh_from" type="date" value="${(SET.whClosed||{}).from||''}" onchange="settingChanged('wh_from',this.value)">`)}
+    ${row('… until',`<input class="settings-inp wide" id="wh_to" type="date" value="${(SET.whClosed||{}).to||''}" onchange="settingChanged('wh_to',this.value)"> <span style="font-size:9px;color:var(--txt3)">Thursday runs at home in between${whClosed()?' · closed now':''}</span>`)}
+    <div class="settings-sec-lbl">GYM NANO (pre-ordered 25 Oct)</div>
+    ${row('Status',['off','preview','installed'].map(v=>`<button class="settings-action${(SET.nano||'off')===v?' lay-on':''}" onclick="settingChanged('nano','${v}')">${v.toUpperCase()}</button>`).join(' ')+` <span style="font-size:9px;color:var(--txt3)">preview: Programme B cards on home, START off · installed: Programme B everywhere</span>`)}
     ${row('Show archived Push/Pull days',`<input type="checkbox" ${SET.showLegacy?'checked':''} onchange="settingChanged('showLegacy',this.checked)">`)}
     <div class="settings-sec-lbl">REST TIMER (seconds, by tier)</div>
     ${row('Priority lifts (P1)',num('rest_P1',SET.restTier.P1,15))}
     ${row('Secondary + light squat (S2)',num('rest_S2',SET.restTier.S2,15))}
     ${row('Accessories (A3)',num('rest_A3',SET.restTier.A3,15))}
     ${row('Core (C)',num('rest_C',SET.restTier.C,15))}
+    ${row('Warm-up → first set',num('rest_WU',SET.restTier.WU,15))}
+    ${row('Warm-up → first set, after an 85% single',num('rest_WU1',SET.restTier.WU1,15))}
     ${row('Enabled',`<span style="font-size:10px;color:var(--txt3)">${S.restEnabled?'on':'off'}</span>`)}
     <div class="settings-sec-lbl">DATA</div>
     ${row('Backup (JSON, no API key)',`<button class="settings-action" onclick="exportBackup()">EXPORT</button> <button class="settings-action" onclick="document.getElementById('import-file').click()">IMPORT</button>`)}
@@ -3127,6 +3463,8 @@ function settingChanged(id,val){
   else if(id==='showLegacy')SET.showLegacy=!!val;
   else if(id==='notionBlock')SET.notionBlock=!!val;
   else if(id==='tueAnchor')SET.tueAnchor=(val==='B'?'B':'A');
+  else if(id==='nano')SET.nano=['off','preview','installed'].includes(val)?val:'off';
+  else if(id==='wh_from'||id==='wh_to'){SET.whClosed=Object.assign({from:'',to:''},SET.whClosed);SET.whClosed[id==='wh_from'?'from':'to']=val||'';}
   else if(id.startsWith('rest_')){const t=id.slice(5);const v=parseInt(val);if(v>=15&&v<=600)SET.restTier[t]=v;}
   saveSettings();renderSettings();
 }
@@ -3237,7 +3575,7 @@ function init(){
   applyWeekLayout();
   const st=lsJSON('gym_settings',{});
   SET=Object.assign(JSON.parse(JSON.stringify(DEFAULT_SETTINGS)),st);
-  ['bars','barsVerified','e1','restTier'].forEach(k=>SET[k]=Object.assign({},DEFAULT_SETTINGS[k],st[k]||{}));
+  ['bars','barsVerified','e1','restTier','whClosed'].forEach(k=>SET[k]=Object.assign({},DEFAULT_SETTINGS[k],st[k]||{}));
   if(st.simple===undefined)SET.simple=PROFILES[PROFILE].simple;            // v4.2: per-profile default
   if(!Array.isArray(SET.dbHome))SET.dbHome=st.dbHomeMax?HEX_DB.filter(w=>w<=st.dbHomeMax+1e-9):DB_HOME_DEFAULT.slice();
   if(!st.v4){SET.targetMin=0;SET.v4=true;saveSettings();} // v4: no session time cap
@@ -3252,7 +3590,7 @@ function init(){
   ['bench','ssb'].forEach(l=>{if(!S.e1[l]||!S.e1[l].hist)S.e1[l]={cur:SET.e1[l],hist:[{date:PROGRAM.pre,v:SET.e1[l],src:'seed'}]};});
   if(PROFILE==='V'&&(!S.e1.ssb_pause||S.e1.ssb_pause.cur==null))S.e1.ssb_pause={cur:124,hist:[{date:localISO(),v:124,src:'seed'}]}; // 137.5 (Saturday e1RM) × 0.90, until a calibration result replaces it
   const rc=lsJSON('gym_rides',null);if(rc){S.rides=rc.rides;S.ridesAt=rc.at;}
-  if(PROFILE==='V'){fixBench0921();fixOffsetV52();seedDurations();}
+  if(PROFILE==='V'){fixBench0921();fixOffsetV52();fixBenchTest1023();fixV54();seedDurations();}
   migrateBars0928();
   ls('gym_v4_ok','1');saveData();
   setupSwipeGestures();initA2HSBanner();localiseNav();
@@ -3260,7 +3598,7 @@ function init(){
   if((S.notionKey&&S.notionDb)||SET.simple)goHome();else show('setup');
   // resume an unfinished session (e.g. iOS closed the app)
   const act=lsJSON('gym_active',null);
-  const validKey=k=>isLegacyKey(k)||k==='TEST'||!!TPL()[k];
+  const validKey=k=>isLegacyKey(k)||k==='TEST'||(!!TPL()[k]&&!TPL()[k].retired);
   if(act&&act.day&&act.sessionStart&&Date.now()-act.sessionStart<16*3600*1000&&validKey(act.day)&&Array.isArray(act.exercises)&&act.exercises.every(e=>e.tier||e.legacy)){
     gymConfirm(SET.simple?`${sessionLabel(act.day)}（${fmtTime(new Date(act.sessionStart))}開始）を続けますか？`:`Resume ${sessionLabel(act.day)} started at ${fmtTime(new Date(act.sessionStart))}?`,()=>{Object.assign(S,act,{ended:false,previewing:false});enterSessionScreen();},()=>{clearActive();});
   }else if(act)clearActive();
