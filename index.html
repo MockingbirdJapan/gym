@@ -874,7 +874,7 @@ const SSB_WEDGE_FROM='2026-09-18'; // SSB logs on/after this date were on the AT
 // ═══════════════════════════════════════════════════════════════════════════
 // GYM v4 — Winter 2026 · core + variation · home + warehouse · Zwift-aware
 // ═══════════════════════════════════════════════════════════════════════════
-const APP_VERSION='5.4';
+const APP_VERSION='5.5';
 const PROXY='https://notion-proxy.vic-prado.workers.dev';
 const RIDES_DB_DEFAULT='2419668731db4db9a6a5bfa8d06b74b4'; // Notion "Cycling Rides" database
 const REST_PRESETS=[60,90,120,180];
@@ -2112,8 +2112,20 @@ function expandFam(list){
   return out;
 }
 function lastEntry(key){const h=S.history[key];return h&&h.length?h[h.length-1]:null;}
-function lastWork(key){const l=lastEntry(key);return l?l.sets.filter(s=>!sWU(s)&&sIn(s)!==null):[];}
-function lastWorkAny(key){const l=lastEntry(key);return l?l.sets.filter(s=>!sWU(s)&&(sIn(s)!==null||s.reps!=null)):[];}
+// v5.5: a session from a reduced week (deload, light weeks, peak) is not a fair "last time" for suggestions,
+// progression, the effort nudge or the lighter-than-last flag. Look back to the most recent normal session;
+// if an exercise only has reduced-week history, use that.
+function entryIso(e){return e?(e.day||(e.date?localISO(new Date(e.date)):null)):null;}
+function isReducedWeek(w){return !!(w&&(w.deload||(w.block==='B3'&&w.bw>=2)));}
+function isReducedEntry(e){const d=entryIso(e);if(!d)return false;try{return isReducedWeek(weekInfo(d));}catch(_){return false;}}
+function baseEntry(key){const h=S.history[key];if(!h||!h.length)return null;for(let i=h.length-1;i>=0;i--){if(!isReducedEntry(h[i]))return h[i];}return h[h.length-1];}
+function baseSkipped(key){const b=baseEntry(key);return !!b&&b!==lastEntry(key);}
+// v5.5: PR flags wait until an exercise has 2 normal sessions behind it (counts from the 3rd)
+const PR_MIN_PRIOR=2;
+function priorNormalCount(key){const cur=S.sessionStart?new Date(S.sessionStart).toISOString():null;return (S.history[key]||[]).filter(e=>e.date!==cur&&!isReducedEntry(e)).length;}
+function prReady(key){return priorNormalCount(key)>=PR_MIN_PRIOR;}
+function lastWork(key){const l=baseEntry(key);return l?l.sets.filter(s=>!sWU(s)&&sIn(s)!==null):[];}
+function lastWorkAny(key){const l=baseEntry(key);return l?l.sets.filter(s=>!sWU(s)&&(sIn(s)!==null||s.reps!=null)):[];}
 // e1RM of an exercise from its OWN most recent session (no conversion between exercises)
 function histE1(key){
   const h=S.history[key]||[];
@@ -2320,7 +2332,7 @@ function suggestFor(ex,si){
   const ol=accessoryOverload(ex,K);
   if(ol&&!ol.reps)return{v:ol.next,why:ol.msg||`↑ progression (+${Math.round(ol.pct*100)}%)`,ol};
   const ws=lastWork(K);
-  if(ws.length){const s=ws[Math.min(wi,ws.length-1)];if(sIn(s)!=null)return{v:snapW(eq,sIn(s)),why:(ex.noProg?'same as last time (deload/peak)':'last session')+(ex.fam?' · '+varLabel(K).toLowerCase():'')};}
+  if(ws.length){const s=ws[Math.min(wi,ws.length-1)];if(sIn(s)!=null)return{v:snapW(eq,sIn(s)),why:(ex.noProg?'same as last time (deload/peak)':'last session')+(baseSkipped(K)?' before deload':'')+(ex.fam?' · '+varLabel(K).toLowerCase():'')};}
   return null;
 }
 function suggestedReps(ex,si){
@@ -2329,7 +2341,7 @@ function suggestedReps(ex,si){
   if(set.lo!=null){
     const K=setKey(ex,si);const ol=accessoryOverload(ex,K);if(ol&&!ol.reps)return set.lo;
     const ws=lastWork(K);const s=ws[workIdx(ex,si)];
-    const s2=s||(ex.fam&&ws.length?ws[ws.length-1]:null); // v5.4: a variant used for fewer sets last time → its last set
+    const s2=s||(ws.length?ws[ws.length-1]:null); // v5.5: fewer sets last time (any exercise) → its last set
     if(s2&&s2.reps!=null)return Math.max(set.lo,Math.min(set.hi,s2.reps+(ex.noProg?0:(easyNudge(ex)?3:1))));
     return set.lo;
   }
@@ -2515,8 +2527,8 @@ function prVal(eq,s){if(sIn(s)==null)return null;return eq.type==='sleeve'?sTota
 function prEligible(eq){return !['bw','none','landmine'].includes(eq.type);}
 function isNewPR(ex,s){
   const eq=exEq(ex);if(s.kind==='wu'||s.in==null||!prEligible(eq))return false;
-  const prev=S.prSnap[ex.fam&&s.v?s.v:histKey(ex)];
-  return prev!=null&&prVal(eq,s)>prev+1e-9;
+  const k=ex.fam&&s.v?s.v:histKey(ex);const prev=S.prSnap[k];
+  return prev!=null&&prReady(k)&&prVal(eq,s)>prev+1e-9;
 }
 function isLogged(eq,s){return eq.type==='none'?s.reps!=null:s.in!=null;}
 // ─── v5.4: SETUP TAGS ───────────────────────────────────────────────────────
@@ -2841,9 +2853,9 @@ function openModal(ei,si){
     document.getElementById('kg-unit').textContent=SET.simple?(eq.type==='db'?'kg（ダンベル1個）':eq.type==='perSide'||eq.type==='perSideStack'?'kg（片側）':'kg'):unitLong(eq);
     const sEl=document.getElementById('modal-suggest');
     sEl.textContent=sg?(SET.simple?`目安 ${fmtDisp(sg.v)} kg`:`suggested ${fmtDisp(sg.v)}${unitLbl(eq)} · ${sg.why}`):'';
-    const lastS=lastWork(setKey(ex,si))[Math.max(0,workIdx(ex,si))];
+    const lwK=lastWork(setKey(ex,si));const lastS=lwK[Math.max(0,workIdx(ex,si))]||lwK[lwK.length-1];const preDl=baseSkipped(setKey(ex,si));
     const ghost=document.getElementById('kg-ghost');
-    ghost.textContent=lastS&&!isWU?(SET.simple?`前回: ${fmtDisp(sIn(lastS))}kg × ${lastS.reps!=null?lastS.reps:'—'}`:`last time: ${fmtDisp(sIn(lastS))}${unitLbl(eq)}${lastS.reps!=null?' ×'+lastS.reps:''}${lastS.rpe!=null?' @'+lastS.rpe:''}`):'';
+    ghost.textContent=lastS&&!isWU?(SET.simple?`前回${preDl?'（ディロード前）':''}: ${fmtDisp(sIn(lastS))}kg × ${lastS.reps!=null?lastS.reps:'—'}`:`last time${preDl?' (before deload)':''}: ${fmtDisp(sIn(lastS))}${unitLbl(eq)}${lastS.reps!=null?' ×'+lastS.reps:''}${lastS.rpe!=null?' @'+lastS.rpe:''}`):'';
     const isGrid=eq.type==='db'||eq.type==='bw';
     document.getElementById('db-grid-wrap').style.display=isGrid?'block':'none';
     document.getElementById('db-grid-lbl').textContent=SET.simple?(eq.type==='bw'?'追加の重さ':'重さを選ぶ（ダンベル1個）'):(eq.type==='bw'?'ADDED WEIGHT (DB / BELT / PLATE)':'SELECT WEIGHT (ONE DB)');
@@ -3020,7 +3032,7 @@ function endSession(){
     if(prEligible(eq)){
       const best=Math.max(...ws.map(s=>prVal(eq,s)).filter(v=>v!=null),-1);
       const prev=S.prSnap[key];
-      if(best>0){if(prev!=null&&best>prev+1e-9)prCount++;if(S.prs[key]==null||best>S.prs[key])S.prs[key]=best;}
+      if(best>0){if(prev!=null&&prReady(key)&&best>prev+1e-9)prCount++;if(S.prs[key]==null||best>S.prs[key])S.prs[key]=best;}
     }
     // e1RM — only the real priority lift updates it
     const testSingles=S.day==='TEST'&&ex.lift==='bench'&&ex.exId===LIFT_EX.bench?ws.filter(s=>s.kind==='test'&&s.reps>=1&&s.total>0):[];
