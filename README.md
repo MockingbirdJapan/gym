@@ -18,19 +18,37 @@ The original generator (`gen_program.py`) and its 152-check suite were lost with
 ```
 npm i -D playwright
 npx playwright install chromium
-node tests/run.js
+node tests/v54.js
+node tests/v55.js
+node tests/v56.js
 ```
 
-`node tests/v55.js` runs the v5.5 checks (history baseline, fallback, PR hold-off, template smoke test). `tests/run.js` serves `index.html` locally, fakes the clock (Asia/Tokyo) and the Notion proxy, and checks program integrity, the winter schedule, calibration, dead hangs, bar weights and totals, snapping and plate-stripping back-offs, week layouts, ride cards, the effort nudge, light-squat stop, rest by tier, the Notion table, the bench-e1RM fix, v5.3 warm-ups, the → S1 timer and the any-day bench test, the v5.4 week and blocks, the checkpoint, warehouse closure, Gym Nano off/preview/installed, per-set variants, the DB ceiling, milestones, the weekly review, the check-in, and T's profile. All checks must pass.
+`CHROME=/path/to/chrome` uses an installed browser instead of Playwright's download. Each file serves `index.html` locally, fakes the clock (Asia/Tokyo) and the Notion proxy, and checks behaviour, not pixels. All checks must pass.
+
+- `tests/v54.js` (150 checks): program integrity, the winter schedule, calibration, dead hangs, bar weights and totals, snapping and plate-stripping back-offs, week layouts, ride cards, the effort nudge, light-squat stop, rest by tier, the Notion table, the bench-e1RM fix, v5.3 warm-ups, the → S1 timer and the any-day bench test, the v5.4 week and blocks, the checkpoint, warehouse closure, Gym Nano off/preview/installed, per-set variants, the DB ceiling, milestones, the weekly review, the check-in, and T's profile.
+- `tests/v55.js` (25 checks): history baseline that skips reduced weeks, the missing-set fallback, the PR hold-off, template smoke test.
+- `tests/v56.js` (54 checks): Monday row default, e1RM rules and the one-time repair, A3 RPE 8–9 and the effort nudge, the Thursday rebalance, rest defaults, the Notion outbox, milestone visibility.
 
 ## Changelog
+
+### v5.6 (3 Nov 2026)
+- Monday row slot defaults to the chest-supported DB row (AB-4100): no hand braced flat on the bench. One-arm DB row stays in the dropdown. With no chest-supported history yet, the first suggestion is ~75% of the last one-arm row (`FIRST_FROM`).
+- e1RM in reduced weeks: deload, light and peak weeks (`isReducedWeek`) no longer change e1RM; the session is still logged and Adjustments says what was skipped. Exceptions (`e1CountsSet`): tested sets (the SSB test) and the bench checkpoint top triple. A first estimate (no e1RM yet) still counts.
+- e1RM drop cap: one normal-week session can lower e1RM by at most 2.5% (`E1_DROP_CAP`); the uncapped estimate is kept on the history entry (`est`), shown on the done screen and in Adjustments. Tested sets are never capped.
+- One-off `gym_fix_v56`: e1RM estimates logged in a deload week are taken out of the e1RM history; if the latest entry was one, e1RM goes back to the latest normal value (31 Oct SSB 134.3 → 137.5; bench stays 102.8). Removed entries are kept in `gym_fix_v56`. A saved accessory rest of 75 s (the old default) moves to 90 s.
+- Notion outbox (`gym_outbox`, per profile): every ended session's payload is kept from END until Notion confirms it. SAVE and HOME refresh it with notes and check-in. Sent when the app opens, when the phone comes back online, or from the home card (SEND / DISCARD). The session still open on the done screen is never sent by the outbox.
+- A3 accessories target RPE 8–9 (`rpeLo` 8, `rpe` 9; dead hangs stay timed). The set window shows "@ RPE 8–9"; the effort nudge fires when last time averaged ≤ 7; double progression steps up when every set reaches the top of the range at ≤ 9. Deload weeks cap at 7. The nudge and the progression cap now read the set's target (`rpeT`), not a value logged into it.
+- Rebalance: Thursday chest fly and pushdown are Programme B (Nano) only. Wednesday gains 3 × 10–12 DB incline curls (not in Programme B). Saturday DB laterals are on by default. Weekly targets: triceps 6, side delts 7, biceps 6, chest fly row removed. At home (warehouse closed), Thursday's overhead triceps falls back to the DB overhead extension instead of dips.
+- Rest: Monday light pause squat has its own 2:00 (`SQL`, Settings → Light pause squat); accessories (A3) default 75 → 90 s.
+- Bench milestones: rows read "✓ MET · date" or "not yet"; the header counts met milestones; the done screen announces a milestone the day it is met.
+- Tests: the v5.4 suite moved to `tests/v54.js` (the stale v5.1 `tests/run.js` is removed); version checks in v54/v55 accept later versions, and checks that described v5.4/v5.5 behaviour changed here were updated. New `tests/v56.js`.
 
 ### v5.5 (2 Nov 2026)
 - "Last time" skips reduced weeks: suggestions (reps and weight), double progression, the effort nudge, S2R caps and the lighter-than-last flag look back to the most recent normal session, skipping deload, light and peak weeks (`isReducedWeek`: `wk.deload`, or B3 week 2+). If an exercise only has reduced-week history, that is used.
 - Missing-set fallback for every exercise: when last time had fewer sets (deload, or a session cut short), later sets use the last logged set instead of dropping to the bottom of the rep range (was family exercises only).
 - The "last time" hint in the set popup shows the same session the suggestion uses, labelled "(before deload)" / （ディロード前） when a reduced week was skipped; the suggestion reason says "before deload" too.
 - PR hold-off: a PR is flagged and counted only once the exercise has 2 normal sessions behind it (counts from the 3rd; `PR_MIN_PRIOR`). Reduced-week sessions don't count. Bests are still recorded every session.
-- New check file `tests/v55.js` (25 checks; `CHROME=/path/to/chrome` to use an installed browser). `tests/run.js` is out of date (still checks v5.1) and fails on v5.4 as well; it needs rebuilding.
+- New check file `tests/v55.js` (25 checks; `CHROME=/path/to/chrome` to use an installed browser).
 
 ### v5.4 (25 Oct 2026)
 - Week: Mon heavy BD bench (priority lift + calibration; a ~90% single before the top set in Blocks 2 and 4) → light SSB pause squat 3×4 @ RPE ≤ 6 → one-arm DB row (on) → lean-away lateral → EZ curl 3×8–12 → dead hang. Wed: close-grip BD bench 4×5–6 @ ≤ 8 → dead-hang warm-up → chin-ups → camber row → EZ skull → DB rear fly (dips optional). Thu (warehouse, 11 slots): Smith incline, pulldown, Smith seated OHP, seated row, cable fly, overhead extension, pushdown, cable lateral, face pull, leg curl, leg extension. Sat: SSB wedge as a weekly priority lift (Block 2: top 3 + 3×4 @ 88%), paused bench 3×4 @ 7, trap bar RDL 3×6–8 @ ≤ 7.5, calves, optional laterals. Friday retired (rest / easy ride). The fixed-load Saturday rule and all `defB` block swaps are gone.
