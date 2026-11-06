@@ -121,7 +121,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   ok(!tc.mr.opt && tc.mr.def === 'db_chest_row' && tc.mr.picks.includes('db_row_1arm') && tc.md === 'db_leanaway', 'Mon: chest-supported DB row on by default (v5.6), one-arm row still a pick; lean-away lateral default');
   ok(tc.wc.def === 'bench_bd_cg' && tc.wc.tier === 'S2' && tc.wc.rx.B1.s === 4 && tc.wc.rx.B1.lo === 5 && tc.wc.rx.B1.hi === 6 && tc.wc.rx.B1.rpe === 8, 'Wed: close-grip BD bench 4×5–6 @ RPE ≤ 8');
   ok(tc.wp === 'chinups' && tc.wh.hang && tc.wr === 'fam_camber_row' && tc.wd.opt && tc.wd.on === false, 'Wed: dead-hang warm-up, chin-ups, camber row family, dips optional');
-  ok(JSON.stringify(tc.thu) === '["smith_incline","fam_pulldown","smith_seated_ohp","fam_row","fam_oh_ext","fam_cable_lat","fam_facepull","leg_curl","leg_ext"]', 'Thu (Programme A): the 9 slots in order, fly + pushdown out in v5.6 (' + tc.thu.join(',') + ')');
+  ok(JSON.stringify(tc.thu) === '["smith_seated_ohp","smith_incline","fam_pulldown","fam_row","fam_oh_ext","fam_cable_lat","fam_facepull","leg_curl","leg_ext"]', 'Thu (Programme A): the 9 slots in order — v5.7: Smith OHP first; fly + pushdown out in v5.6 (' + tc.thu.join(',') + ')');
   ok(tc.sq.tier === 'P1' && tc.sq.lift === 'ssb_w' && !tc.sq.testOnly && !tc.vol, 'Sat: SSB wedge is a weekly priority lift; fixed-load volume slot retired');
   ok(tc.satPB.def === 'bench_bd_pause' && tc.satPB.rx.B1.r === 4 && tc.satPB.rx.B1.cap === 7 && tc.hinge.def === 'trap_rdl' && tc.hinge.rx.B1.rpe === 7.5, 'Sat: paused bench 3×4 @ 7, trap bar RDL 3×6–8 @ ≤ 7.5');
   ok(tc.calf.lo === 10 && tc.calf.hi === 15 && !tc.defB, 'Sat calves 3 × 10–15; no automatic block rotations (no defB)');
@@ -165,7 +165,7 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   ok(sqw[0].total === Math.round(sqw[0].total) && sqw[0].total >= 108 && sqw[0].total <= 112, 'top set from SSB e1RM 137.5: ' + sqw[0].total);
   ok(!ex.some(e => e.id === 'ssb_vol_w'), 'no fixed-load SSB volume slot');
   ok(pbw.length === 3 && pbw.every(s => s.r === 4 && s.rpe === 7), 'paused bench 3×4 @ RPE ≤ 7: ' + JSON.stringify(pbw.map(s => s.r + '@' + s.rpe + '=' + s.total)));
-  ok(!ex.find(e => e.id === 'db_lateral').skipped, 'Sat DB laterals on by default (v5.6)');
+  ok(ex.find(e => e.id === 'db_lateral').skipped, 'Sat DB laterals optional, off by default (v5.7)');
   ok(r.errs.length === 0, 'no JS errors ' + r.errs.join(' | '));
 
   console.log('Monday: light pause squat + bench calibration');
@@ -494,11 +494,11 @@ const seedCal = (obj) => `localStorage.setItem('gym_calib', JSON.stringify(${JSO
   console.log('v5.4: warehouse closed → Thursday at home');
   r = await onDay(browser, T.THU03D, 'THU', '', SUMMARY, 'THU');
   const thIds = r.res.ex.filter(e => !e.skipped).map(e => e.id);
-  ok(['db_incline_30', 'pullups', 'db_seated_press', 'db_chest_row', 'db_oh_ext', 'db_lateral', 'db_rear_fly', 'kb_swing'].every(id => thIds.includes(id)) && !thIds.includes('dips') && !thIds.includes('db_flat_fly'), 'Thu 3 Dec (closed 1 Dec – 31 Jan): home version with the AB-4100 + DBs + KB swing, DB overhead extension instead of dips (v5.6): ' + thIds.join(','));
+  ok(['db_incline_30', 'pullups', 'db_seated_press', 'db_chest_row', 'db_oh_ext'].every(id => thIds.includes(id)) && thIds[0] === 'db_seated_press' && !thIds.includes('db_lateral') && !thIds.includes('kb_swing') && !thIds.includes('dips') && !thIds.includes('db_flat_fly'), 'Thu 3 Dec (closed 1 Dec – 31 Jan): home version with the AB-4100 + DBs + KB swing, DB overhead extension instead of dips (v5.6): ' + thIds.join(','));
   ok(r.res.adjust.some(a => /Warehouse closed/.test(a)), 'session says why it is at home');
   p = await newPage(browser, T.THU03D, seedV());
   const cw = await p.evaluate(() => { beginSession('THU'); const w = changeoverWarn(); goHome(); return { w, card: document.getElementById('day-cards').textContent }; });
-  ok(cw.w.length === 1 && /AB-4100 angle: 30° → upright → 30°/.test(cw.w[0]) && /Chest-supported DB row/.test(cw.w[0]), 'setup warning: AB-4100 angle goes back to 30° — group the chest-supported row with the incline (' + cw.w[0] + ')');
+  ok(cw.w.length === 0, 'v5.7: OHP first → AB-4100 goes upright → 30° once, no back-and-forth warning (' + cw.w + ')');
   ok(/warehouse closed/.test(cw.card), 'Thursday card shows HOME · warehouse closed');
   await p.evaluate(() => { SET.whClosed = { from: '', to: '' }; saveSettings(); });
   const open = await p.evaluate(() => { beginSession('THU'); return S.sessLoc; });
