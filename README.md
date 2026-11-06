@@ -21,15 +21,24 @@ npx playwright install chromium
 node tests/v54.js
 node tests/v55.js
 node tests/v56.js
+node tests/v57.js
 ```
 
 `CHROME=/path/to/chrome` uses an installed browser instead of Playwright's download. Each file serves `index.html` locally, fakes the clock (Asia/Tokyo) and the Notion proxy, and checks behaviour, not pixels. All checks must pass.
 
 - `tests/v54.js` (150 checks): program integrity, the winter schedule, calibration, dead hangs, bar weights and totals, snapping and plate-stripping back-offs, week layouts, ride cards, the effort nudge, light-squat stop, rest by tier, the Notion table, the bench-e1RM fix, v5.3 warm-ups, the → S1 timer and the any-day bench test, the v5.4 week and blocks, the checkpoint, warehouse closure, Gym Nano off/preview/installed, per-set variants, the DB ceiling, milestones, the weekly review, the check-in, and T's profile.
 - `tests/v55.js` (25 checks): history baseline that skips reduced weeks, the missing-set fallback, the PR hold-off, template smoke test.
+- `tests/v57.js` (39 checks): the B2 bridge targets (weeks 7–9), Thursday / Saturday layout, the 32 kg adjustable DB, the auto-adjust rules, bench e1RM from Monday only, the target-RPE display, T's badge.
 - `tests/v56.js` (54 checks): Monday row default, e1RM rules and the one-time repair, A3 RPE 8–9 and the effort nudge, the Thursday rebalance, rest defaults, the Notion outbox, milestone visibility.
 
 ## Changelog
+
+### v5.7 (6 Nov 2026)
+- **B2 bridge, weeks 7–9 (Mon 9 – Sat 28 Nov)** — the three weeks before the Gym Nano, from the plan agreed 6 Nov (Notion: Workout Plan — V (Winter 2026)). `BRIDGE_P1` (Monday bench, Saturday SSB: TOP set at a planned total, back-offs at a % of the top you actually log, no opener single, no calibration set) and `BRIDGE` (per template and exercise: sets, reps, RPE and the first-set target `in`; no `in` = normal progression). Bench 91×3 → 94×2 → 97×1 @ ≤ 8; SSB 124×3 → 128×3 → 132×2 @ ≤ 8. Bridge back-offs land on the plan weight (no plate-strip rounding). Week 10 onward is unchanged for now.
+- Auto-adjust rules: Monday top bench set over RPE 8.5 → back-offs −2 kg (`BENCH_BACK_DROP`); Smith seated OHP set at RPE 9 → next set one step lighter (`RPE_DROP`); bench / SSB / trap bar RDL over the hold RPE (8.5 / 8 / 8) → next bridge week repeats that weight instead of the plan step (`HOLD_RPE`). Bench e1RM still only moves from Monday competition-grip sets.
+- Thursday: Smith seated OHP first; side delts, face pull and the leg machines optional (off). Saturday: new neutral-grip camber-bar incline slot (`camber_incline`, AB-4100 in the rack); calves and DB laterals optional (off). Wednesday biceps defaults to the EZ curl in the bridge weeks.
+- One-arm DB row and lean-away lateral use `hexdb1`: the hex DBs plus the 32 kg adjustable (one DB, 1 kg steps). Monday's row stays chest-supported by default; the one-arm row carries a wrist cue.
+- Target RPE made obvious: a large badge with reps-left on the set window and on the rest screen's next-up card, a target chip on every open set, logged over-target RPEs in red. The RPE grid is 2 rows; the target is outlined in gold, values above it are red, and a line under the grid says what happens if you log it (no confirm step). Sets keep their target in `rpeT` after logging. T's simple mode gets a Japanese reps-left badge.
 
 ### v5.6 (3 Nov 2026)
 - Monday row slot defaults to the chest-supported DB row (AB-4100): no hand braced flat on the bench. One-arm DB row stays in the dropdown. With no chest-supported history yet, the first suggestion is ~75% of the last one-arm row (`FIRST_FROM`).
